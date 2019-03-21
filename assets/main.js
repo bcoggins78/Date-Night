@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 //google-ajax
 $.ajax({url:'https://api.ipgeolocation.io/ipgeo?apiKey=c182e885b4554c5fadb3366dbc198f3d&ip=1.1.1.1&fields=city', method: 'GET'}).then(function(resp){
     console.log(resp)
@@ -6,6 +7,9 @@ $.ajax({url:'https://api.ipgeolocation.io/ipgeo?apiKey=c182e885b4554c5fadb3366db
 }).then(function(response){
     
 })
+=======
+
+>>>>>>> 1648216f5fb4d22c86ec2909623c4c3710b5ce63
 
 function runZomato() {
 
