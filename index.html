@@ -5,10 +5,7 @@
 <head>
 
   <meta charset="UTF-8">
-  <title>CoderBay</title>
-google-ajax
-  
-<script src="assets/main.js"></script>  
+  <title>Date Night</title>
 
   <!-- jQuery -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -28,5 +25,18 @@ google-ajax
 </head>
 
 <body>
- <h1>Hello</h1>
+  <div>
+ <h1>Dinner and a Movie? We're here to help!</h1>
+  </div>
+  
+  <form id="location-form">
+      <label for="location-input">What city are you in tonigh?</label>
+      <input type="text" id="location-input"><br>
+
+      <!-- This button will trigger our AJAX call -->
+      <input id="find-theater" type="submit" value="Theater Search">
+    </form>
+
+    <!-- We'll be dumping our JSON contents in here -->
+    <div id="results-view"></div>
  </body>
