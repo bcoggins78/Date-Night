@@ -1,37 +1,29 @@
 <!DOCTYPE html>
 
 <html lang="en-us">
-
-<head>
-
+  <head>
   <meta charset="UTF-8">
   <title>CoderBay</title>
-google-ajax
-  
-<script src="assets/main.js"></script>  
-
-  <!-- jQuery -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-
   <!-- Bootstrap CDN-->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-
+  <link rel="stylesheet" type="text/css" media="screen" href="assets/style.css" />
   <!-- Firebase Reference -->
   <script src="https://www.gstatic.com/firebasejs/4.12.0/firebase.js"></script>
-
-  <link rel="stylesheet" type="text/css" media="screen" href="assets/style.css" />
-  <script src="assets/main.js"></script>  
-
-<link rel="stylesheet" type="text/css" media="screen" href="assets/style.css" />
-
+   <!-- jQuery -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<style>
+#map{
+height: 500px;
+width: 100%;
+}
+</style>
 </head>
 
 <body>
-  <div class="container">
+  <div id="map">
 
-    <h1>Your Location is:</h1>
-    <h2 id="location"></h2>
   </div>
- <h1>Hello</h1>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBWamCxChutaV6n4CleevvN6ka-2pBsXIE&callback=initMap"async defer></script>
+ <script src="assets/main.js"></script>  
  </body>
+ </html>
