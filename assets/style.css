@@ -1,8 +1,21 @@
 body{
     height: 940px;
-    background-image: url('https://c.wallhere.com/photos/a7/74/1920x1080_px_Code_coding_programming_Simple_Background-1291425.jpg!d');
-        background-position: center;
-      background-repeat: no-repeat;
-      background-size: cover;
-      color: white;
+    background-image: url('../assets/light.jpg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    color: white;
     }
+  h1{
+    text-align: center;
+    margin-top: 5%;
+  }
+  #labelText{
+    text-align: center;
+    font-size: 20px;
+  }
+  #map {
+    height: 425px;
+  }
+  
