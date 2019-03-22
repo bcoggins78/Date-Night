@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 
 <html lang="en-us">
-  <head>
-  <meta charset="UTF-8">
-  <title>CoderBay</title>
+
+<head>
+    <meta name="viewport" content="initial-scale=1.0">
+    <meta charset="utf-8">
   <title>Date Night</title>
 
   <!-- jQuery -->
@@ -11,24 +12,60 @@
 
   <!-- Bootstrap CDN-->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-  <link rel="stylesheet" type="text/css" media="screen" href="assets/style.css" />
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
   <!-- Firebase Reference -->
   <script src="https://www.gstatic.com/firebasejs/4.12.0/firebase.js"></script>
-   <!-- jQuery -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<style>
-#map{
-height: 500px;
-width: 100%;
-}
-</style>
+  <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
+  <link rel="stylesheet" type="text/css" media="screen" href="assets/style.css" />
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBWamCxChutaV6n4CleevvN6ka-2pBsXIE&libraries=places&callback=initMap" async defer></script>
+
+  <script src="assets/main.js"></script>  
+
 </head>
 
 <body>
-  <div id="map">
-</div>
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBWamCxChutaV6n4CleevvN6ka-2pBsXIE&&callback=initMap"async defer></script>
- <script src="assets/main.js"></script>  
+  <div class="container">
+ <h1>Dinner and a Movie? We're here to help!</h1>
+  
+  
+  <!-----<form id="location-form">
+      <label for="location-input">What Zip Code are you looking in?</label>
+      <input type="text" id="location-input"><br>
+      <label for="date-input" >When are you going?</label>
+      <input type="text" id="date-input" placeholder="2019-03-22"><br>
+      <label for="distance-input" >How far are you willing to drive?</label>
+      <input type="text" id="distance-input" placeholder="5"><br>
+--->
+      <!-- This button will trigger our AJAX call --
+      <input id="find-theater" type="submit" value="Theater Search">
+    </form>
+
+    <input id="find-restaurant" type="submit" value="Restaurant Search">
+    </form>-->
+    <form id="location-form">
+        <div class="form-group">
+          <label for="location-input" id="labelText">What Zip Code are you looking in?</label>
+          <input type="text" class="form-control" id="location-input" placeholder="zipcode">
+        </div>
+        <div class="form-group">
+          <label for="date-input" id="labelText">When Are You Going?</label>
+          <input type="text" class="form-control" id="date-input" placeholder="2019-03-22">
+        </div>
+        <div class="form-group">
+            <label for="distance-input" id="labelText">How far are you willing to drive?</label>
+            <input type="text" class="form-control" id="distance-input" placeholder="5 miles">
+          </div>
+          <button class="pulse" id="find-theater" type="submit" value="Theater Search">Theater Search</button>
+          <button class="pulse" id="find-restaurant" type="submit" value="Restaurant Search">Restaurant Search</button>
+      </form>
+    <!-- We'll be dumping our JSON contents in here -->
+    <div id="results-view"></div>
+
+    <div id="restaurant-view"></div>
+    <div id="map">
+
+    </div>
+  </div>
  </body>
  </html>
-  
