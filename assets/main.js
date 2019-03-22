@@ -77,6 +77,7 @@ $(document).on("click", "#find-theater", runToday);
 $(document).on("click", "#find-theater", runMovies);
 $(document).on("click", "#find-restaurant", runZomato);
 
+
 ////////////////////////////MAP////////////////////////////////
 var map,infoWindow;
       function initMap() {
@@ -114,4 +115,4 @@ var map,infoWindow;
                               'Error: Your browser doesn\'t support geolocation.');
         infoWindow.open(map);
       }
-      
+
