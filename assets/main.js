@@ -1,5 +1,12 @@
 // var howManyResults = 50;
-
+var inputdate = "";
+var today = moment().format("YYYY-MM-DD");  
+var distance = "";
+function runToday() {
+    inputdate = $("#date-input").val();
+if (inputdate === ""){
+    (inputdate = today);
+}};
 
 function runZomato() {
     event.preventDefault();
@@ -20,10 +27,52 @@ function runZomato() {
     // for (i=0;i<howManyResults;i++){  
         var currentRestaurant = restaurantsArray[randNum].restaurant.name;
         var currentRestaurantLocal = restaurantsArray[randNum].restaurant.location.address;
-        $("#results-view").text("Restaurant Name: " + currentRestaurant);
-        $("#results-view").append("<br>");
-        $("#results-view").append("Address: " + currentRestaurantLocal);
-        $("#results-view").append("<br></br>");
+        $("#restaurant-view").text("Restaurant Name: " + currentRestaurant);
+        $("#restaurant-view").append("<br>");
+        $("#restaurant-view").append("Address: " + currentRestaurantLocal);
+        $("#restaurant-view").append("<br></br>");
 })};
 
-$(document).on("click", "#find-theater", runZomato);
+function runMovies(){
+    event.preventDefault();
+    distance = $("#distance-input").val();
+    if (distance === ""){
+        distance = 5;
+    }
+    $("#results-view").text("");
+        //  var apikey = "7byjtqn68yzm6ecsjfmcy9q3";
+         var apikey = "sdpzqr2egk9fyp2ct7jz879v";
+         var baseUrl = "http://data.tmsapi.com/v1.1";
+         var showtimesUrl = baseUrl + '/movies/showings';
+         var zipCode = $("#location-input").val();
+         $.ajax({
+            url: showtimesUrl,
+                data: { startDate: inputdate,
+                    zip: zipCode,
+                    radius: distance,
+                    jsonp: "dataHandler",
+                    api_key: apikey
+                   },          
+            dataType: "jsonp",
+           });
+         };
+
+         function dataHandler(data) {
+            var zipCode = $("#location-input").val();
+            // var apikey = "7byjtqn68yzm6ecsjfmcy9q3";
+            var apikey = "sdpzqr2egk9fyp2ct7jz879v";
+
+          $("#results-view").append('<h1>Found ' + data.length + ' movies showing within ' + distance + ' miles of ' + zipCode+':</h1>');
+          var movies = data.hits;
+          $.each(data, function(index, movie) {
+            var movieData = '<button>';
+            movieData += movie.title;
+            if (movie.ratings) { movieData += ' (' + movie.ratings[0].code + ') </div>' };
+            $("#results-view").append(movieData);
+            $("#results-view").append('<br><br/>');
+          });
+         };
+
+$(document).on("click", "#find-theater", runToday);
+$(document).on("click", "#find-theater", runMovies);
+$(document).on("click", "#find-restaurant", runZomato);
