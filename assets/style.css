@@ -1,11 +1,11 @@
 body{
     height: 940px;
     background-image: url('../assets/light.jpg');
-        background-position: center;
-      background-repeat: no-repeat;
-      background-size: cover;
-      background-attachment: fixed;
-      color: white;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    color: white;
     }
   h1{
     text-align: center;
