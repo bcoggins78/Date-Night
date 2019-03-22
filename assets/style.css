@@ -1,19 +1,9 @@
 body{
-   
-    background-image: url('../assets/background2.jpg');
-    background-attachment: fixed;
+  height: 940px;
+  background-image: url('https://c.wallhere.com/photos/a7/74/1920x1080_px_Code_coding_programming_Simple_Background-1291425.jpg!d');
+      background-position: center;
     background-repeat: no-repeat;
-    }
-    h1{
-      color: white;
-    }
-    #location{
-      color: white;
-    
-    height: 940px;
-    background-image: url('https://c.wallhere.com/photos/a7/74/1920x1080_px_Code_coding_programming_Simple_Background-1291425.jpg!d');
-        background-position: center;
-      background-repeat: no-repeat;
-      background-size: cover;
-      color: white;
-    }
+    background-size: cover;
+    color: white;
+  }
+  
