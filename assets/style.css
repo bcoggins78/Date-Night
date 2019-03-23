@@ -10,17 +10,11 @@ body {
   background-repeat: no-repeat;
   background-size: cover;
   background-attachment: fixed;
-  color: black; }
-  #location-form{
-    margin-top: 20%;
-  }
+  color: white; }
 
 h1 {
   text-align: center;
-  margin-top: 5%;
-  font-family: 'Pacifico', cursive;
-  font-size: 70px;
-}
+  margin-top: 5%; }
 
 #labelText {
   text-align: center;
@@ -83,9 +77,9 @@ button:hover {
   margin: auto; }
 
 .stage {
-  height: 200px;
+  height: 300px;
   width: 500px;
- 
+  margin: auto;
   position: absolute;
   top: 0;
   right: 0;
@@ -104,14 +98,14 @@ button:hover {
   transform: rotateY(40deg) rotateX(33deg) translateZ(0); }
 
 .layer:after {
-  font: 100px/0.65 'Pacifico', 'Kaushan Script', Futura, 'Roboto', 'Trebuchet MS', Helvetica, sans-serif;
-  content: 'Dinner\A and movie?';
+  font: 150px/0.65 'Pacifico', 'Kaushan Script', Futura, 'Roboto', 'Trebuchet MS', Helvetica, sans-serif;
+  content: 'Pure\A    css!';
   white-space: pre;
   text-align: center;
   height: 100%;
   width: 100%;
   position: absolute;
-  top: 20px;
+  top: 50px;
   color: whitesmoke;
   letter-spacing: -2px;
   text-shadow: 4px 0 10px rgba(0, 0, 0, 0.13); }
@@ -180,11 +174,11 @@ button:hover {
   -webkit-text-stroke: 3px rgba(0, 0, 0, 0.25); }
 
 .layer:nth-child(n+11):after {
-  -webkit-text-stroke: 15px rgb(58, 60, 63);
-  text-shadow: 6px 0 6px #4a4c4e, 5px 5px 5px #444749, 0 6px 6px #606366; }
+  -webkit-text-stroke: 15px dodgerblue;
+  text-shadow: 6px 0 6px #00366b, 5px 5px 5px #002951, 0 6px 6px #00366b; }
 
 .layer:nth-child(n+12):after {
-  -webkit-text-stroke: 15px #55585c; }
+  -webkit-text-stroke: 15px #0077ea; }
 
 .layer:last-child:after {
   -webkit-text-stroke: 17px rgba(0, 0, 0, 0.1); }
