@@ -72,6 +72,7 @@ function runMovies(){
             $("#results-view").append('<br><br/>');
           });
          };
+         
 
 $(document).on("click", "#find-theater", runToday);
 $(document).on("click", "#find-theater", runMovies);
@@ -115,4 +116,11 @@ var map,infoWindow;
                               'Error: Your browser doesn\'t support geolocation.');
         infoWindow.open(map);
       }
-
+      ////////////////IMAGE///////////////////////////////////////////////////////////
+     // this works with or without this javascript	
+$(document).ready(function() {
+    $('.zoom-image').hover(function() {	    
+    $(this).siblings('.zoom-image').css('z-index', 10);
+    $(this).css('z-index', 99);
+    })
+  })

@@ -10,17 +10,16 @@ body {
   background-repeat: no-repeat;
   background-size: cover;
   background-attachment: fixed;
-  color: white; }
-  #location-form{
-    margin-top: 20%;
-  }
+  color: black; }
+
+#location-form {
+  margin-top: 20%; }
 
 h1 {
   text-align: center;
   margin-top: 5%;
   font-family: 'Pacifico', cursive;
-  font-size: 70px;
-}
+  font-size: 70px; }
 
 #labelText {
   text-align: center;
@@ -85,7 +84,6 @@ button:hover {
 .stage {
   height: 200px;
   width: 500px;
- 
   position: absolute;
   top: 0;
   right: 0;
@@ -180,7 +178,7 @@ button:hover {
   -webkit-text-stroke: 3px rgba(0, 0, 0, 0.25); }
 
 .layer:nth-child(n+11):after {
-  -webkit-text-stroke: 15px rgb(58, 60, 63);
+  -webkit-text-stroke: 15px #3a3c3f;
   text-shadow: 6px 0 6px #4a4c4e, 5px 5px 5px #444749, 0 6px 6px #606366; }
 
 .layer:nth-child(n+12):after {
@@ -196,5 +194,27 @@ button:hover {
 @keyframes ಠ_ಠ {
   100% {
     transform: rotateY(-40deg) rotateX(-43deg); } }
+/*CAROUSEL*/
 
-/*# sourceMappingURL=style.css.map */
+figure { 
+  width: 250px;
+}
+
+.zoom-image:hover {
+  transition: all 200ms linear;
+  transform: scale(1.5); 
+  opacity: 1; 
+  z-index: 99;
+}
+
+.zoom-image { 
+  opacity: 1;
+  transform: scale(1.0); 
+  transition: all 500ms linear; 
+  position: relative;
+  width: 250px;
+  float: left;
+  z-index: 1;
+  margin: 10px;
+}
+
