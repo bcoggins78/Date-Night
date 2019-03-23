@@ -42,7 +42,7 @@ function runMovies(){
     $("#results-view").text("");
         //  var apikey = "7byjtqn68yzm6ecsjfmcy9q3";
          var apikey = "sdpzqr2egk9fyp2ct7jz879v";
-         var baseUrl = "http://data.tmsapi.com/v1.1";
+         var baseUrl = "https://data.tmsapi.com/v1.1";
          var showtimesUrl = baseUrl + '/movies/showings';
          var zipCode = $("#location-input").val();
          $.ajax({
