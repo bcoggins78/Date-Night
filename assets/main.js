@@ -1,4 +1,10 @@
 
+   
+})
+$('.message a').click(function(){
+    $('form').animate({height: "toggle", opacity: "toggle"}, "slow");
+ });
+=======
 
 // Initialize Firebase
 var config = {
@@ -10,6 +16,7 @@ var config = {
   messagingSenderId: "934240292130"
 };
 firebase.initializeApp(config);
+
 
 var database = firebase.database();
 
