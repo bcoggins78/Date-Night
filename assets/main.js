@@ -1,6 +1,17 @@
 
 
+// Initialize Firebase
+var config = {
+  apiKey: "AIzaSyBxYu0ZTOj6wX-e7tjlsMFIIQKNDzGQOMw",
+  authDomain: "datenight-1d83d.firebaseapp.com",
+  databaseURL: "https://datenight-1d83d.firebaseio.com",
+  projectId: "datenight-1d83d",
+  storageBucket: "datenight-1d83d.appspot.com",
+  messagingSenderId: "934240292130"
+};
+firebase.initializeApp(config);
 
+var database = firebase.database();
 
 // var howManyResults = 50;
 var inputdate = "";
