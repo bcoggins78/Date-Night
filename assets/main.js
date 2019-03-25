@@ -1,5 +1,14 @@
-
-
+// Initialize Firebase//////////////////////////////////////////////////////////////////////////
+var config = {
+    apiKey: "AIzaSyBCOEcil59Vk5s0JYgBoMr2EZoT4v7QjEc",
+    authDomain: "class-ca05f.firebaseapp.com",
+    databaseURL: "https://class-ca05f.firebaseio.com",
+    projectId: "class-ca05f",
+    storageBucket: "class-ca05f.appspot.com",
+    messagingSenderId: "405893305722"
+  };
+  firebase.initializeApp(config);
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 
 // var howManyResults = 50;
@@ -75,6 +84,7 @@ function runMovies(){
       $.ajax({url: url, method: 'GET'} ).then(function(resp){
         console.log(resp)
         if (resp.Title === movie.title){
+          document.getElementById('movieCard').style.display='block'
           var tile = $('<div>').addClass('col-lg-4 tile').append($('<img>').attr({src: [resp.Poster],class: 'poster'}))
           $("#results-view").append(tile);
         }
