@@ -4,7 +4,7 @@
 
 // var howManyResults = 50;
 var inputdate = "";
-//var today = moment().format("YYYY-MM-DD");  
+var today = moment().format("YYYY-MM-DD");  
 var distance = "";
 function runToday() {
     inputdate = $("#date-input").val();
@@ -44,9 +44,11 @@ function runMovies(){
         distance = 5;
     }
     $("#results-view").text("");
-    var apikey = "7byjtqn68yzm6ecsjfmcy9q3";
+    // var apikey = "7byjtqn68yzm6ecsjfmcy9q3";
     //  var apikey = "7byjtqn68yzm6ecsjfmcy9q3";
-    var apikey = "sdpzqr2egk9fyp2ct7jz879v";
+    // var apikey = "sdpzqr2egk9fyp2ct7jz879v";
+    var apikey = "dxfsm4dzuvd4wxbbwu2f4gze"; //David
+
     var baseUrl = "https://data.tmsapi.com/v1.1";
     var showtimesUrl = baseUrl + '/movies/showings';
     var zipCode = $("#location-input").val();
@@ -75,18 +77,20 @@ function runMovies(){
       $.ajax({url: url, method: 'GET'} ).then(function(resp){
         console.log(resp)
         if (resp.Title === movie.title){
-          var tile = $('<div>').addClass('col-lg-4 tile').append($('<img>').attr({src: [resp.Poster],class: 'poster'}))
+          var tile = $('<div>').addClass('col-lg-2 tile').append($('<img>').attr({src: [resp.Poster], class: 'poster', type: 'button', 'data-toggle': 'modal', 'data-target': '#movieShowtimeModal'}))
           $("#results-view").append(tile);
         }
       })
     });
     };
-    $(document).ready(function() {
-        $('.poster').hover(function() {	    
-        $(this).siblings('.poster').css('z-index', 10);
-        $(this).css('z-index', 99);
-        })
-      })
+
+    
+$(document).ready(function() {
+    $('.poster').hover(function() {	    
+    $(this).siblings('.poster').css('z-index', 10);
+    $(this).css('z-index', 99);
+    })
+  })
 /////// still working on this animation //////////         
 /*$(document).on('mouseover','.poster',function(){
   console.log("animate")
