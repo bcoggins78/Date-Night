@@ -54,6 +54,9 @@ function runZomato() {
 function runMovies(){
     event.preventDefault();
     distance = $("#distance-input").val();
+    var length = 2;
+    var trimmedDistance = distance.substring(0, length);
+    distance = trimmedDistance;
     if (distance === ""){
         distance = 5;
     }
