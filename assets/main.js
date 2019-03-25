@@ -1,5 +1,21 @@
+ // Initialize Firebase
+ var config = {
+    apiKey: "AIzaSyBCOEcil59Vk5s0JYgBoMr2EZoT4v7QjEc",
+    authDomain: "class-ca05f.firebaseapp.com",
+    databaseURL: "https://class-ca05f.firebaseio.com",
+    projectId: "class-ca05f",
+    storageBucket: "class-ca05f.appspot.com",
+    messagingSenderId: "405893305722"
+  };
+  firebase.initializeApp(config);
+$('.top-tab').on('click', function(){
+    $('.container').append('<');
 
-
+   
+})
+$('.message a').click(function(){
+    $('form').animate({height: "toggle", opacity: "toggle"}, "slow");
+ });
 
 
 // var howManyResults = 50;
