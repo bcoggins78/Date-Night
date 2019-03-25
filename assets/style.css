@@ -76,6 +76,21 @@ button:hover {
   background-color: #fff;
   border-color: #fff; }
 
+.poster{
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  box-shadow: 0em 0 4em .1em
+  
+}
+
+.tile{
+ 
+  padding: 0;
+  
+  
+}
+
 .panel {
   max-width: 960px;
   text-align: center;
