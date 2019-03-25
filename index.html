@@ -19,7 +19,6 @@
   <script src="https://www.gstatic.com/firebasejs/4.12.0/firebase.js"></script>
   <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
   <link rel="stylesheet" type="text/css" media="screen" href="assets/style.css" />
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBWamCxChutaV6n4CleevvN6ka-2pBsXIE&libraries=places&callback=initMap" async defer></script>
 
   <script src="assets/main.js"></script>  
 
@@ -71,14 +70,15 @@
           <button class="panel" id="find-restaurant" type="submit" value="Restaurant Search">Restaurant Search</button>
       </form>
     <!-- We'll be dumping our JSON contents in here -->
-    <div id="results-view"></div>
+    <div class="continer">
+      <div class="row" id="results-view"></div>
+    </div>
+   
   
 
     <div id="restaurant-view"></div>
     <br>
-    <div id="map">
-
-    </div>
+    
   </div>
  </body>
  </html>
