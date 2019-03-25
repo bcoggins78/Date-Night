@@ -44,7 +44,7 @@ function runMovies(){
         distance = 5;
     }
     $("#results-view").text("");
-    //  var apikey = "7byjtqn68yzm6ecsjfmcy9q3";
+    var apikey = "7byjtqn68yzm6ecsjfmcy9q3";
     var apikey = "sdpzqr2egk9fyp2ct7jz879v";
     var baseUrl = "https://data.tmsapi.com/v1.1";
     var showtimesUrl = baseUrl + '/movies/showings';
@@ -80,14 +80,22 @@ function runMovies(){
       })
     });
     };
-       
+    $(document).ready(function() {
+        $('.poster').hover(function() {	    
+        $(this).siblings('.poster').css('z-index', 10);
+        $(this).css('z-index', 99);
+        })
+      })
 /////// still working on this animation //////////         
-$(document).on('mouseover','.poster',function(){
+/*$(document).on('mouseover','.poster',function(){
   console.log("animate")
   console.log($(this))
-  $(this).animate({width: 600},2000)
+  $(this).animate({width: 300}, 2000)
 })
-
+$(document).on('mouseleave','.poster', function(){
+    $(this).animate({width: 148 }, 2000)
+})
+*/
 $(document).on("click", "#find-theater", runToday);
 $(document).on("click", "#find-theater", runMovies);
 $(document).on("click", "#find-restaurant", runZomato);
