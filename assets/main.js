@@ -76,8 +76,9 @@ function runMovies(){
       var url =  "https://www.omdbapi.com/?t=" + movie.title + "&y=&plot=short&apikey=trilogy"
       $.ajax({url: url, method: 'GET'} ).then(function(resp){
         console.log(resp)
+        console.log(movie)
         if (resp.Title === movie.title){
-          var tile = $('<div>').addClass('col-lg-2 tile').append($('<img>').attr({src: [resp.Poster], class: 'poster', type: 'button', 'data-toggle': 'modal', 'data-target': '#movieShowtimeModal'}))
+          var tile = $('<div>').addClass('col-lg-2 tile').append($('<img>').attr({src: [resp.Poster], class: 'poster', type: 'button', 'data-toggle': 'modal', 'data-target': '#movieShowtimeModal','data-movie': movie}))
           $("#results-view").append(tile);
         }
       })
@@ -91,6 +92,12 @@ $(document).ready(function() {
     $(this).css('z-index', 99);
     })
   })
+
+function fillModal(){
+
+  console.log($(this))
+  console.log($(this).attr('data-movie'))
+}
 /////// still working on this animation //////////         
 /*$(document).on('mouseover','.poster',function(){
   console.log("animate")
@@ -101,6 +108,8 @@ $(document).on('mouseleave','.poster', function(){
     $(this).animate({width: 148 }, 2000)
 })
 */
+
+$(document).on("click", ".poster", fillModal);
 $(document).on("click", "#find-theater", runToday);
 $(document).on("click", "#find-theater", runMovies);
 $(document).on("click", "#find-restaurant", runZomato);
