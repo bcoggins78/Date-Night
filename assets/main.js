@@ -40,38 +40,49 @@ function runMovies(){
         distance = 5;
     }
     $("#results-view").text("");
-        //  var apikey = "7byjtqn68yzm6ecsjfmcy9q3";
-         var apikey = "sdpzqr2egk9fyp2ct7jz879v";
-         var baseUrl = "https://data.tmsapi.com/v1.1";
-         var showtimesUrl = baseUrl + '/movies/showings';
-         var zipCode = $("#location-input").val();
-         $.ajax({
-            url: showtimesUrl,
-                data: { startDate: inputdate,
-                    zip: zipCode,
-                    radius: distance,
-                    jsonp: "dataHandler",
-                    api_key: apikey
-                   },          
-            dataType: "jsonp",
-           });
-         };
+    //  var apikey = "7byjtqn68yzm6ecsjfmcy9q3";
+    var apikey = "sdpzqr2egk9fyp2ct7jz879v";
+    var baseUrl = "https://data.tmsapi.com/v1.1";
+    var showtimesUrl = baseUrl + '/movies/showings';
+    var zipCode = $("#location-input").val();
+    $.ajax({
+      url: showtimesUrl,
+          data: { startDate: inputdate,
+              zip: zipCode,
+              radius: distance,
+              jsonp: "dataHandler",
+              api_key: apikey
+              },          
+      dataType: "jsonp",
+      });
+    };
 
-         function dataHandler(data) {
-            var zipCode = $("#location-input").val();
-            // var apikey = "7byjtqn68yzm6ecsjfmcy9q3";
-            var apikey = "sdpzqr2egk9fyp2ct7jz879v";
+    function dataHandler(data) {
+      var zipCode = $("#location-input").val();
+      // var apikey = "7byjtqn68yzm6ecsjfmcy9q3";
+      var apikey = "sdpzqr2egk9fyp2ct7jz879v";
 
-          $("#results-view").append('<h1>Found ' + data.length + ' movies showing within ' + distance + ' miles of ' + zipCode+':</h1>');
-          var movies = data.hits;
-          $.each(data, function(index, movie) {
-            var movieData = '<button>';
-            movieData += movie.title;
-            if (movie.ratings) { movieData += ' (' + movie.ratings[0].code + ') </div>' };
-            $("#results-view").append(movieData);
-            $("#results-view").append('<br><br/>');
-          });
-         };
+    $("#results-view").append('<h1>Found ' + data.length + ' movies showing within ' + distance + ' miles of ' + zipCode+':</h1>');
+    var movies = data.hits;
+    $.each(data, function(index, movie) {
+      console.log(movie)
+      var url =  "https://www.omdbapi.com/?t=" + movie.title + "&y=&plot=short&apikey=trilogy"
+      $.ajax({url: url, method: 'GET'} ).then(function(resp){
+        console.log(resp)
+        if (resp.Title === movie.title){
+          var tile = $('<div>').addClass('col-lg-2 tile').append($('<img>').attr({src: [resp.Poster],class: 'poster'}))
+          $("#results-view").append(tile);
+        }
+      })
+    });
+    };
+       
+/////// still working on this animation //////////         
+$(document).on('mouseover','.poster',function(){
+  console.log("animate")
+  console.log($(this))
+  $(this).animate({width: 600},2000)
+})
 
 $(document).on("click", "#find-theater", runToday);
 $(document).on("click", "#find-theater", runMovies);
