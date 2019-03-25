@@ -1,22 +1,24 @@
- // Initialize Firebase
- var config = {
-    apiKey: "AIzaSyBCOEcil59Vk5s0JYgBoMr2EZoT4v7QjEc",
-    authDomain: "class-ca05f.firebaseapp.com",
-    databaseURL: "https://class-ca05f.firebaseio.com",
-    projectId: "class-ca05f",
-    storageBucket: "class-ca05f.appspot.com",
-    messagingSenderId: "405893305722"
-  };
-  firebase.initializeApp(config);
-$('.top-tab').on('click', function(){
-    $('.container').append('<');
 
    
 })
 $('.message a').click(function(){
     $('form').animate({height: "toggle", opacity: "toggle"}, "slow");
  });
+=======
 
+// Initialize Firebase
+var config = {
+  apiKey: "AIzaSyBxYu0ZTOj6wX-e7tjlsMFIIQKNDzGQOMw",
+  authDomain: "datenight-1d83d.firebaseapp.com",
+  databaseURL: "https://datenight-1d83d.firebaseio.com",
+  projectId: "datenight-1d83d",
+  storageBucket: "datenight-1d83d.appspot.com",
+  messagingSenderId: "934240292130"
+};
+firebase.initializeApp(config);
+
+
+var database = firebase.database();
 
 // var howManyResults = 50;
 var inputdate = "";
