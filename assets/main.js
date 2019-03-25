@@ -83,7 +83,7 @@ function runMovies(){
       // var apikey = "7byjtqn68yzm6ecsjfmcy9q3";
       var apikey = "sdpzqr2egk9fyp2ct7jz879v";
 
-    $(".card-header").append('<h1>Found ' + data.length + ' movies showing within ' + distance + ' miles of ' + zipCode+':</h1>');
+    $(".card-header").text('<h1>Found ' + data.length + ' movies showing within ' + distance + ' miles of ' + zipCode+':</h1>');
     var movies = data.hits;
     $.each(data, function(index, movie) {
       console.log(movie)
