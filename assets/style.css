@@ -14,8 +14,7 @@ body {
   #location-form{
     margin-top: 20%;
   }
-
-h1 {
+#header {
   text-align: center;
   margin-top: 5%;
   font-family: 'Pacifico', cursive;
@@ -234,5 +233,13 @@ figure {
   z-index: 1;
   margin: 10px;
 }
-
+.card-body{
+  display: flex;
+}
+h1{
+  font-size: 40px;
+  text-align: center;
+  margin-top: 5%;
+  font-family: 'Pacifico', cursive;
+}
 

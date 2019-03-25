@@ -45,6 +45,7 @@ function runMovies(){
     }
     $("#results-view").text("");
     var apikey = "7byjtqn68yzm6ecsjfmcy9q3";
+    //  var apikey = "7byjtqn68yzm6ecsjfmcy9q3";
     var apikey = "sdpzqr2egk9fyp2ct7jz879v";
     var baseUrl = "https://data.tmsapi.com/v1.1";
     var showtimesUrl = baseUrl + '/movies/showings';
@@ -66,7 +67,7 @@ function runMovies(){
       // var apikey = "7byjtqn68yzm6ecsjfmcy9q3";
       var apikey = "sdpzqr2egk9fyp2ct7jz879v";
 
-    $("#results-view").append('<h1>Found ' + data.length + ' movies showing within ' + distance + ' miles of ' + zipCode+':</h1>');
+    $(".card-header").append('<h1>Found ' + data.length + ' movies showing within ' + distance + ' miles of ' + zipCode+':</h1>');
     var movies = data.hits;
     $.each(data, function(index, movie) {
       console.log(movie)
@@ -74,7 +75,7 @@ function runMovies(){
       $.ajax({url: url, method: 'GET'} ).then(function(resp){
         console.log(resp)
         if (resp.Title === movie.title){
-          var tile = $('<div>').addClass('col-lg-2 tile').append($('<img>').attr({src: [resp.Poster],class: 'poster'}))
+          var tile = $('<div>').addClass('col-lg-4 tile').append($('<img>').attr({src: [resp.Poster],class: 'poster'}))
           $("#results-view").append(tile);
         }
       })
