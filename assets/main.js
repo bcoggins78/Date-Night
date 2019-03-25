@@ -1,10 +1,6 @@
-
-   
-})
 $('.message a').click(function(){
     $('form').animate({height: "toggle", opacity: "toggle"}, "slow");
  });
-=======
 
 // Initialize Firebase
 var config = {
