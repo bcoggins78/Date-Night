@@ -61,10 +61,9 @@ function runMovies(){
         distance = 5;
     }
     $("#results-view").text("");
-    // var apikey = "7byjtqn68yzm6ecsjfmcy9q3";
-    //  var apikey = "7byjtqn68yzm6ecsjfmcy9q3";
+    var apikey = "7byjtqn68yzm6ecsjfmcy9q3";
     // var apikey = "sdpzqr2egk9fyp2ct7jz879v";
-    var apikey = "dxfsm4dzuvd4wxbbwu2f4gze"; //David
+    // var apikey = "dxfsm4dzuvd4wxbbwu2f4gze"; //David
 
     var baseUrl = "https://data.tmsapi.com/v1.1";
     var showtimesUrl = baseUrl + '/movies/showings';
