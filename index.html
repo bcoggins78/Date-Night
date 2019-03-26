@@ -35,8 +35,8 @@
         <div class="top-tab top-tab-3 tab">
           <div class="top-tab-content">Create Account</div>
         </div>
-        <div class="top-tab top-tab-4 tab">
-          <div class="top-tab-content">LogIn</div>
+        <div class="top-tab top-tab-4 tab"  id="loginBtn">
+          <div class="top-tab-content" id="loginBtn">LogIn</div>
         </div>
       <div class="stage">
           <div class="layer"></div>
@@ -62,7 +62,23 @@
         </div>
   <br>
   
-
+  <div class="login-page" id="loginPg" style="display: none;">
+    <div class="form">
+      <form class="register-form">
+        <input type="text" placeholder="name"/>
+        <input type="password" placeholder="password"/>
+        <input type="text" placeholder="email address"/>
+        <button>create</button>
+        <p class="message">Already registered? <a href="#">Sign In</a></p>
+      </form>
+      <form class="login-form">
+        <input type="text" placeholder="username"/>
+        <input type="password" placeholder="password"/>
+        <button>login</button>
+        <p class="message">Not registered? <a href="#">Create an account</a></p>
+      </form>
+    </div>
+  </div>
     <form id="location-form">
         <h1 id="header">We are here to help</h1>
         <div class="form-group">
@@ -121,7 +137,7 @@
 
     <div id="restaurant-view"></div>
     <br>
-    <div class="login-page">
+    <div class="login-page" id="loginPg" style="display: none;">
         <div class="form">
           <form class="register-form">
             <input type="text" placeholder="name"/>

@@ -1,6 +1,6 @@
-
-   
-
+$('.message a').click(function(){
+  $('form').animate({height: "toggle", opacity: "toggle"}, "slow");
+});
 
 
 // Initialize Firebase
@@ -55,6 +55,9 @@ function runZomato() {
 function runMovies(){
     event.preventDefault();
     distance = $("#distance-input").val();
+    var length = 2;
+    var trimmedDistance = distance.substring(0, length);
+    distance = trimmedDistance;
     if (distance === ""){
         distance = 5;
     }
@@ -84,7 +87,7 @@ function runMovies(){
       // var apikey = "7byjtqn68yzm6ecsjfmcy9q3";
       //var apikey = "sdpzqr2egk9fyp2ct7jz879v";
 
-    $(".card-header").append('<h1>Found ' + data.length + ' movies showing within ' + distance + ' miles of ' + zipCode+':</h1>');
+    $(".card-header").text('Found ' + data.length + ' movies showing within ' + distance + ' miles of ' + zipCode+':');
     var movies = data.hits;
     $.each(data, function(index, movie) {
       console.log(movie)
@@ -133,6 +136,22 @@ function fillModal(){
 }
 
 
+
+  
+function displayLogIn(){
+  document.getElementById('loginPg').style.display = "block";
+}
+/////// still working on this animation //////////         
+/*$(document).on('mouseover','.poster',function(){
+  console.log("animate")
+  console.log($(this))
+  $(this).animate({width: 300}, 2000)
+})
+$(document).on('mouseleave','.poster', function(){
+    $(this).animate({width: 148 }, 2000)
+})
+*/
+$(document).on('click', '#loginBtn', displayLogIn )
 $(document).on("click", ".poster", fillModal);
 $(document).on("click", "#find-theater", runToday);
 $(document).on("click", "#find-theater", runMovies);

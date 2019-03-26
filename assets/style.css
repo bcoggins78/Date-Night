@@ -5,7 +5,7 @@
 @import "https://fonts.googleapis.com/css?family=Comfortaa:300,400,700&subset=cyrillic,cyrillic-ext,latin-ext";
 body {
   height: 940px;
-  background-image: url("../assets/dirty-grunge-canvas-texture-vector.jpg");
+  background-image: url("https://images.wallpaperscraft.com/image/texture_gradient_spots_130030_1920x1080.jpg");
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -53,11 +53,11 @@ h1 {
   height: 425px; }
 
 button {
-  color: #454545;
+  color: white;
   background: transparent;
   border-width: 2px;
   border-style: solid;
-  border-color: #454545;
+  border-color: white;
   position: relative;
   margin: 1em;
   display: inline-block;
@@ -241,7 +241,10 @@ button:hover {
     z-index: 1;
     margin: 10px;
     width: 100%;
+<<<<<<< HEAD
 
+=======
+>>>>>>> master
   }
   .card-body{
     display: flex;
@@ -293,7 +296,8 @@ button:hover {
 .login-page {
   width: 360px;
   padding: 8% 0 0;
-  margin: auto;
+  position: absolute;
+  margin-left: 30%;
 }
 .form {
   position: relative;
@@ -372,4 +376,7 @@ button:hover {
 }
  .info span .fa {
   color: #EF3B3A;
+}
+.card-header {
+  color: black;
 }
