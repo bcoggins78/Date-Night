@@ -1,10 +1,7 @@
 
    
-})
-$('.message a').click(function(){
-    $('form').animate({height: "toggle", opacity: "toggle"}, "slow");
- });
-=======
+
+
 
 // Initialize Firebase
 var config = {
@@ -64,8 +61,8 @@ function runMovies(){
     $("#results-view").text("");
     // var apikey = "7byjtqn68yzm6ecsjfmcy9q3";
     //  var apikey = "7byjtqn68yzm6ecsjfmcy9q3";
-    // var apikey = "sdpzqr2egk9fyp2ct7jz879v";
-    var apikey = "dxfsm4dzuvd4wxbbwu2f4gze"; //David
+    var apikey = "sdpzqr2egk9fyp2ct7jz879v";
+    // var apikey = "dxfsm4dzuvd4wxbbwu2f4gze"; //David
 
     var baseUrl = "https://data.tmsapi.com/v1.1";
     var showtimesUrl = baseUrl + '/movies/showings';
@@ -85,18 +82,18 @@ function runMovies(){
     function dataHandler(data) {
       var zipCode = $("#location-input").val();
       // var apikey = "7byjtqn68yzm6ecsjfmcy9q3";
-      var apikey = "sdpzqr2egk9fyp2ct7jz879v";
+      //var apikey = "sdpzqr2egk9fyp2ct7jz879v";
 
     $(".card-header").append('<h1>Found ' + data.length + ' movies showing within ' + distance + ' miles of ' + zipCode+':</h1>');
     var movies = data.hits;
     $.each(data, function(index, movie) {
       console.log(movie)
+      
       var url =  "https://www.omdbapi.com/?t=" + movie.title + "&y=&plot=short&apikey=trilogy"
       $.ajax({url: url, method: 'GET'} ).then(function(resp){
-        console.log(resp)
-        console.log(movie)
+        // console.log(resp)
         if (resp.Title === movie.title){
-          var tile = $('<div>').addClass('col-lg-2 tile').append($('<img>').attr({src: [resp.Poster], class: 'poster', type: 'button', 'data-toggle': 'modal', 'data-target': '#movieShowtimeModal','data-movie': movie}))
+          var tile = $('<div>').addClass('col-lg-2 tile').append($('<img>').attr({src: [resp.Poster], class: 'poster', type: 'button', 'data-toggle': 'modal', 'data-target': '#movieShowtimeModal','data-movie': JSON.stringify(movie)}))
           $("#results-view").append(tile);
         }
       })
@@ -112,20 +109,29 @@ $(document).ready(function() {
   })
 
 function fillModal(){
-
-  console.log($(this))
-  console.log($(this).attr('data-movie'))
+  var theaters = []
+  var data = JSON.parse($(this).attr('data-movie'));
+  console.log(data);
+  var resultsSearchDay = moment(data.showtimes[0].dateTime, 'YYYY-MM-DDThh:mm').format('dddd, MMMM Do YYYY')
+  $('#movieTable').empty()
+  $('#movieDescrip').empty().append($('<h3>').text(data.title),$('<p>').text(data.longDescription))
+  var row1 = $('<div>').addClass('row text-center').append($('<h6>').text(resultsSearchDay),$('<br><br>'));
+  var row2 = $('<div>').addClass('row')
+  for (var i=0;i<data.showtimes.length;i++){
+    if (theaters.indexOf(data.showtimes[i].theatre.name) == -1)
+      theaters.push(data.showtimes[i].theatre.name)
+  }
+  for (var i=0;i<theaters.length;i++){
+    $('<table>').attr({'id':'id'+i, class: 'tableFloat table table-striped'}).append($('<tr>').append($('<th>').text(theaters[i]))).appendTo(row2);
+  }
+  $('#movieTable').append(row1,row2);
+  for (var i=0;i<data.showtimes.length;i++) {
+    var displayDate = moment(data.showtimes[i].dateTime, 'YYYY-MM-DDThh:mm').format('h:mm a')
+    var id = "#id"+theaters.indexOf(data.showtimes[i].theatre.name)
+    $(id).append($('<tr>').append($('<td>').text(displayDate)))
+  }
 }
-/////// still working on this animation //////////         
-/*$(document).on('mouseover','.poster',function(){
-  console.log("animate")
-  console.log($(this))
-  $(this).animate({width: 300}, 2000)
-})
-$(document).on('mouseleave','.poster', function(){
-    $(this).animate({width: 148 }, 2000)
-})
-*/
+
 
 $(document).on("click", ".poster", fillModal);
 $(document).on("click", "#find-theater", runToday);

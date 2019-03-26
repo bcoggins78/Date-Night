@@ -10,9 +10,36 @@ body {
   background-repeat: no-repeat;
   background-size: cover;
   background-attachment: fixed;
-  color: white; }
+/*   color: white;  */
+}
 #header{
   margin-top: 15%;
+}
+table{
+  display: inline;
+  text-align: center;
+
+}
+.modal-body{
+  padding: 0 1em;
+}
+.modal{
+  text-align: center;
+}
+.modal-dialog{
+  max-width:80vw;
+  width: fit-content;
+}
+.modal-dialog h6{
+  margin: auto;
+}
+.tableFloat{
+  float: left;
+  margin: auto;
+  display: flex;
+/*   width: fit-content; */
+  width: 100%;
+  flex-wrap: wrap;
 }
 h1 {
   text-align: center;
@@ -213,6 +240,8 @@ button:hover {
     float: left;
     z-index: 1;
     margin: 10px;
+    width: 100%;
+
   }
   .card-body{
     display: flex;
@@ -318,7 +347,7 @@ button:hover {
 }
 
 .container:before, .container:after {
-  content: "";
+  /* content: ""; */
   display: block;
   clear: both;
 }
