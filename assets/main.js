@@ -63,8 +63,8 @@ function runMovies(){
     }
     $("#results-view").text("");
     // var apikey = "7byjtqn68yzm6ecsjfmcy9q3";
-    //  var apikey = "7byjtqn68yzm6ecsjfmcy9q3";
-    var apikey = "sdpzqr2egk9fyp2ct7jz879v";
+     var apikey = "7byjtqn68yzm6ecsjfmcy9q3";
+    // var apikey = "sdpzqr2egk9fyp2ct7jz879v";
     // var apikey = "dxfsm4dzuvd4wxbbwu2f4gze"; //David
 
     var baseUrl = "https://data.tmsapi.com/v1.1";
@@ -141,6 +141,28 @@ function fillModal(){
 function displayLogIn(){
   document.getElementById('loginPg').style.display = "block";
 }
+function displayRegisterForm(){
+  document.getElementById('registerPg').style.display =  "block";
+}
+function displayMovieTable(){
+  document.getElementById('movieCard').style.display = 'block';
+}
+function loginRegisterVisibility(){
+  if (('loginPg').display = 'block'){
+    ('registerPg').display = 'none'
+  }
+}
+function loginRegisterClose(){
+  document.getElementById('loginPg').style.display = "none";
+  document.getElementById('registerPg').style.display =  "none";
+}
+function registerLoginVisibility(){
+  if (('registerPg').display='block'){
+    ('loginPg').display = 'none';
+  }
+}
+loginRegisterVisibility()
+
 /////// still working on this animation //////////         
 /*$(document).on('mouseover','.poster',function(){
   console.log("animate")
@@ -151,6 +173,9 @@ $(document).on('mouseleave','.poster', function(){
     $(this).animate({width: 148 }, 2000)
 })
 */
+$(document).on('click', '.close', loginRegisterClose)
+$(document).on('click', '#registerBtn', displayRegisterForm)
+$(document).on("click", "#find-theater", displayMovieTable);
 $(document).on('click', '#loginBtn', displayLogIn )
 $(document).on("click", ".poster", fillModal);
 $(document).on("click", "#find-theater", runToday);
