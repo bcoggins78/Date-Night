@@ -213,6 +213,7 @@ button:hover {
     float: left;
     z-index: 1;
     margin: 10px;
+    width: 100%;
   }
   .card-body{
     display: flex;
