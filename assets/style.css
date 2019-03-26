@@ -26,11 +26,11 @@ h1 {
   height: 425px; }
 
 button {
-  color: #454545;
+  color: white;
   background: transparent;
   border-width: 2px;
   border-style: solid;
-  border-color: #454545;
+  border-color: white;
   position: relative;
   margin: 1em;
   display: inline-block;
@@ -343,4 +343,7 @@ button:hover {
 }
  .info span .fa {
   color: #EF3B3A;
+}
+.card-header {
+  color: black;
 }
