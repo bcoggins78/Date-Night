@@ -56,7 +56,7 @@ function runZomato() {
         for (var i=0; i<restaurantsArray.length; i++){
           $('<div>').attr({class:'restaurant', type: 'button', 'data-toggle': 'modal', 'data-target': '#movieShowtimeModal', 'data-restaurant':JSON.stringify(restaurantsArray[i])}).append(
             $('<h3>').text(restaurantsArray[i].restaurant.name),
-            $('<p>').text("Address: " + restaurantsArray[i].restaurant.location.address)
+            $('<p>').text(restaurantsArray[i].restaurant.location.address)
           ).appendTo($('#restaurant-view'));
         }
 })};
@@ -177,8 +177,7 @@ function selectRestaurant(){
     $('<div>').append(
       $('<a>').attr({'href':data.menu_url, target: '_blank', class: 'select-button'}).text('Menu'),
       $('<a>').attr({'href':data.photos_url, target: '_blank', class: 'select-button'}).text('Photos'),
-      $('<a>').attr({'href':data.events_url, target: '_blank', class: 'select-button'}).text('Events'),
-      $('<a>').attr({'href':data.deeplink, target: '_blank', class: 'select-button'}).text('Zomato')
+      $('<a>').attr({'href':data.events_url, target: '_blank', class: 'select-button'}).text('Events')
     )
       
   );
