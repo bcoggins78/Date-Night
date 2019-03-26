@@ -1,6 +1,7 @@
 $('.message a').click(function(){
-    $('form').animate({height: "toggle", opacity: "toggle"}, "slow");
- });
+  $('form').animate({height: "toggle", opacity: "toggle"}, "slow");
+});
+
 
 // Initialize Firebase
 var config = {
@@ -113,6 +114,10 @@ function fillModal(){
 
   console.log($(this))
   console.log($(this).attr('data-movie'))
+
+}
+function displayLogIn(){
+  document.getElementById('loginPg').style.display = "block";
 }
 /////// still working on this animation //////////         
 /*$(document).on('mouseover','.poster',function(){
@@ -124,7 +129,7 @@ $(document).on('mouseleave','.poster', function(){
     $(this).animate({width: 148 }, 2000)
 })
 */
-
+$(document).on('click', '#loginBtn', displayLogIn )
 $(document).on("click", ".poster", fillModal);
 $(document).on("click", "#find-theater", runToday);
 $(document).on("click", "#find-theater", runMovies);
