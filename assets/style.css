@@ -10,7 +10,7 @@ body {
   background-repeat: no-repeat;
   background-size: cover;
   background-attachment: fixed;
-/*   color: white;  */
+  color: white; 
 }
 #header{
   color: white;
@@ -22,15 +22,18 @@ table{
   text-align: center;
 
 }
+
 .modal-body{
-  padding: 0 1em;
+  padding: 1em 1em;
 }
 .modal{
   text-align: center;
+  color: black;
 }
 .modal-dialog{
   max-width:80vw;
   width: fit-content;
+  
 }
 .modal-dialog h6{
   margin: auto;
@@ -230,12 +233,12 @@ button:hover {
   }
   
   .poster:hover {
-    transition: all 200ms linear;
+    transition: all 500ms linear;
     transform: scale(1.5); 
     opacity: 1; 
     z-index: 99;
   }
-  
+ 
   .poster { 
     opacity: 1;
     transform: scale(1.0); 
@@ -243,9 +246,9 @@ button:hover {
     position: relative;
     float: left;
     z-index: 1;
-    margin: 10px;
+    margin: 1em 0;
     width: 100%;
-
+    box-shadow: aliceblue .5em .5em 10em .01em
   }
   .card-body{
     display: flex;
@@ -272,6 +275,7 @@ button:hover {
   top: -20px;
   border-radius: 5px;
   transition: .2s; }
+
   .top-tab-3 {
     background: linear-gradient(to top right, #26C6DA, #006064);
     left: 46%; }
@@ -282,7 +286,8 @@ button:hover {
     color: white;
     padding-top: 30px;
     padding-left: 5px;
-    transition: .2s; }
+    transition: .2s;
+    }
   .top-tab:hover {
     transform: translateY(10px) scale(1.05); }
   .top-tab:hover .top-tab-content {
@@ -381,6 +386,44 @@ button:hover {
 }
 .card-header {
   color: black;
+}
+.card{
+  background: transparent;
+}
+.login-form button{
+  width: 100%;
+  margin: 0;
+}
+.container-fluid{
+  padding: 0;
+}
+#header{
+}
+
+#location-form{
+  padding: 2em 6em;
+}
+.showtime, .select-button{
+  border: solid 1px;
+  border-radius: .5em;
+  padding: .2em;
+  display: inline-block;
+  margin: 0 1em;
+  color: black;
+}
+.showtime:hover, .select-button:hover{
+  background: blanchedalmond;
+  text-decoration: none;
+  color: black;
+}
+#movieDescrip a{
+  color: black;
+}
+.restaurant{
+  background: aliceblue;
+  color: black;
+  margin: 1em 6em;
+  text-align: center;
 }
 
 #movieCard{
