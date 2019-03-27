@@ -1,3 +1,5 @@
+$(document).ready(function () {
+
 $('.message a').click(function(){
   $('form').animate({height: "toggle", opacity: "toggle"}, "slow");
 });
@@ -14,6 +16,54 @@ var config = {
 };
 firebase.initializeApp(config);
 
+    // ------------ Firebase Authentication ----------------------
+    var txtEmail = document.getElementById('txtEmail');
+    var txtPassword = document.getElementById('txtPassword');
+    var btnLogin = document.getElementById('btnLogin');
+    var btnSignUp = document.getElementById('btnSignUp');
+    var btnLogout = document.getElementById('btnLogout');
+
+    // Add login event
+    btnLogin.addEventListener('click', e=> {
+        // Get email and pass
+        var email = txtEmail.value;
+        var pass = txtPassword.value;
+        var auth = firebase.auth();
+        // Sign In
+        var promise = auth.signInWithEmailAndPassword(email, pass);
+        promise.catch(e => console.log(e.message));
+        
+    });
+
+    // Add signup Event
+    btnSignUp.addEventListener('click', e=> {
+        // Get email and pass
+        var email = txtEmail.value;
+        var pass = txtPassword.value;
+        var auth = firebase.auth();
+        // Sign In
+        var promise = auth.createUserWithEmailAndPassword(email, pass);
+        promise.catch(e => console.log(e.message));
+
+    });
+
+    // Add logout Event
+    btnLogout.addEventListener('click', e=> {
+        firebase.auth().signOut();
+    });
+
+    // Add a realtime Listener
+    firebase.auth().onAuthStateChanged(firebaseUser => {
+        if(firebaseUser) {
+            console.log(firebaseUser);
+            console.log(firebaseUser.email + " is signed in");
+            btnLogout.classList.remove('hide');
+        } else {
+            console.log('not logged in');
+            btnLogout.classList.add('hide');
+        }
+    });
+    // ------------ Firebase Authentication ----------------------
 
 var database = firebase.database();
 
@@ -234,3 +284,4 @@ $(document).on("click", "#find-theater", runMovies);
 $(document).on("click", "#find-restaurant", runZomato);
 
 
+});
