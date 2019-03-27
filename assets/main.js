@@ -150,15 +150,15 @@ function runMovies(){
     $.each(data, function(index, movie) {
       console.log(movie)
       
-      var url =  "https://www.omdbapi.com/?t=" + movie.title + "&y=&plot=short&apikey=trilogy"
-      $.ajax({url: url, method: 'GET'} ).then(function(resp){
+      // var url =  "https://www.omdbapi.com/?t=" + movie.title + "&y=&plot=short&apikey=trilogy"
+      // $.ajax({url: url, method: 'GET'} ).then(function(resp){
         // console.log(resp)
-        if (resp.Title === movie.title){
-          var tile = $('<div>').addClass('col-lg-2 tile').append($('<img>').attr({src: [resp.Poster],alt: movie.title, class: 'poster', type: 'button', 'data-toggle': 'modal', 'data-target': '#movieShowtimeModal','data-movie': JSON.stringify(movie)}))
+        // if (resp.Title === movie.title){
+          var tile = $('<div>').addClass('col-lg-2 tile').append($('<img>').attr({src: "http://developer.tmsimg.com/" + movie.preferredImage.uri + '?api_key='+apikey, alt: movie.title, class: 'poster', type: 'button', 'data-toggle': 'modal', 'data-target': '#movieShowtimeModal','data-movie': JSON.stringify(movie)}))
           $("#results-view").append(tile);
-        }
+        // }
       })
-    });
+    // });
     };
 
     
