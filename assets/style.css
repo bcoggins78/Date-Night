@@ -428,11 +428,18 @@ button:hover {
 #movieDescrip a{
   color: black;
 }
-.restaurant{
-  background: aliceblue;
+.restaurant {
+  background: #f0f8ffd4;
   color: black;
   margin: 1em 6em;
   text-align: center;
+  height: 80px;
+  border: 1px black solid;
+}
+.restaurant h3{
+  margin-top: 5px;
+  font-family: 'Lobster', cursive;
+  cursor: pointer;
 }
 
 #movieCard{
