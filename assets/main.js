@@ -13,6 +13,49 @@ var config = {
 };
 firebase.initializeApp(config);
 
+// ---------------- Firebase authentication ----------------------------
+
+var txtEmail
+var txtPassword
+var btnLogin
+var btnSignUp
+
+
+// Create New Account
+firebase.auth().createUserWithEmailAndPassword(email, password).catch(function(error) {
+  
+  // Handle Errors here.
+  var errorCode = error.code;
+  var errorMessage = error.message;
+  // ...
+});
+
+// Signin with existing account
+firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
+  // Handle Errors here.
+  var errorCode = error.code;
+  var errorMessage = error.message;
+  // ...
+});
+
+// Logout
+firebase.auth().signOut().then(function() {
+  // Sign-out successful.
+}).catch(function(error) {
+  // An error happened.
+});
+
+// Authentication State
+firebase.auth().onAuthStateChanged(function(user) {
+  if (user) {
+    // User is signed in.
+  } else {
+    // No user is signed in.
+  }
+});
+
+// ---------------- Firebase authentication ----------------------------
+
 
 var database = firebase.database();
 

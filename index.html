@@ -17,6 +17,7 @@
   <link href="https://fonts.googleapis.com/css?family=Carter+One|Fugaz+One|Lobster|Pacifico" rel="stylesheet">
   <!-- Firebase Reference -->
   <script src="https://www.gstatic.com/firebasejs/4.12.0/firebase.js"></script>
+  <link type="text/css" rel="stylesheet" href="bower_components/firebaseui/dist/firebaseui.css" />
   <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
   <link rel="stylesheet" type="text/css" media="screen" href="assets/style.css" />
 
@@ -124,17 +125,18 @@
     <div class="login-page">
         <div class="form">
           <form class="register-form">
-            <input type="text" placeholder="name"/>
-            <input type="password" placeholder="password"/>
-            <input type="text" placeholder="email address"/>
+            
+            <input id="txtEmail" type="email" placeholder="Email"/>
+            <input id="txtPassword" type="password" placeholder="password"/>
+            
             <button>create</button>
             <p class="message">Already registered? <a href="#">Sign In</a></p>
           </form>
           <form class="login-form">
-            <input type="text" placeholder="username"/>
+            <input type="email" placeholder="Email"/>
             <input type="password" placeholder="password"/>
-            <button>login</button>
-            <p class="message">Not registered? <a href="#">Create an account</a></p>
+            <button id="btnLogin">login</button>
+            <p class="message">Not registered? <button id="btnSignUp">Create an account</button></p>
           </form>
         </div>
       </div>
