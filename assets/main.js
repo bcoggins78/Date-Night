@@ -1,5 +1,4 @@
 
-
 $('.message a').click(function(){
   $('form').animate({height: "toggle", opacity: "toggle"}, "slow");
 });
@@ -258,6 +257,9 @@ function registerLoginVisibility(){
     ('loginPg').display = 'none';
   }
 }
+function signIna(){
+  document.getElementById('loginPg').style.display = 'block';
+}
 loginRegisterVisibility()
 
 /////// still working on this animation //////////         
@@ -271,7 +273,7 @@ $(document).on('mouseleave','.poster', function(){
 })
 */
 
-
+$(document).on('click', '#signInA', signIna);
 $(document).on('click','.restaurant', selectRestaurant);
 $(document).on('click','.showtime', selectShowtime);
 $(document).on('click', '.close', loginRegisterClose)
@@ -282,5 +284,3 @@ $(document).on("click", ".poster", fillModal);
 $(document).on("click", "#find-theater", runToday);
 $(document).on("click", "#find-theater", runMovies);
 $(document).on("click", "#find-restaurant", runZomato);
-
-

@@ -17,7 +17,7 @@
   <link href="https://fonts.googleapis.com/css?family=Carter+One|Fugaz+One|Lobster|Pacifico" rel="stylesheet">
   <link async href="https://fonts.googleapis.com/css?family=Cabin%20Condensed" rel="stylesheet" type="text/css"/>
   <!-- Firebase Reference -->
-  <script src="https://www.gstatic.com/firebasejs/4.12.0/firebase.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.9.1/firebase.js"></script>  
   <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
   <link rel="stylesheet" type="text/css" media="screen" href="assets/style.css" />
 
@@ -56,41 +56,47 @@
         <div class="layer"></div>
       </div>
       <br>
+      <!--Let me save it just in case
+      <div class="login-page" id="loginPg" style="display: block;">
+          <div class="form">
+            <form class="register-form">
+              <input id="txtEmail" type="email" placeholder="Email"/>
+              <input id="txtPassword" type="password" placeholder="password"/>
+              <button>create</button>
+              <p class="message">Already registered? <a href="#">Sign In</a></p>
+            </form>
+            <form class="login-form">
+              <input type="email" placeholder="Email"/>
+              <input type="password" placeholder="password"/>
+              <button id="btnLogin">login</button>
+              <button id="btnLogout">logout</button>
+              <p class="message">Not registered? <button id="btnSignUp">Create an account</button></p>
+            </form>
+          </div>
+        </div>-->
   <!--REGISTER FORM-->
 
       <div class="register-page" id="registerPg" style="display: none;">
-        <div class="form">
+        <form class="form">
           <div class="close"></div>
           <form class="register-form">
-            <input type="text" placeholder="name"/>
-            <input type="password" placeholder="password"/>
-            <input type="text" placeholder="email address"/>
-            <button>create</button>
-            <p class="message">Already registered? <a href="#">Sign In</a></p>
-          </form>
-          <form class="login-form">
-            <input type="text" placeholder="username"/>
-            <input type="password" placeholder="password"/>
-            <button style="margin-left: 2px;">Create an Account</button>
-          </form>
-        </div>
+              <input id="txtEmail" type="email" placeholder="Email"/>
+              <input id="txtPassword" type="password" placeholder="password"/>
+            <button id="btnSignUp">create</button>
+           </form>
+        </form>
       </div>
   <!--LOGIN FORM-->
   
       <div class="login-page" id="loginPg" style="display: none;">
         <form class="form">
           <div class="close"></div>      
-          <form class="register-form">
-          <input type="text" placeholder="name"/>
-          <input type="password" placeholder="password"/>
-          <input type="text" placeholder="email address"/>
-          <button>create</button>
-          <p class="message">Already registered? <a href="#">Sign In</a></p>
-        </form>
-        <form class="login-form">
-          <input type="text" placeholder="username"/>
-          <input type="password" placeholder="password"/>
-          <button style="margin-left: 2px;">login</button>
+          <form class="login-form">
+              <input type="email" placeholder="Email"/>
+              <input type="password" placeholder="password"/>
+              <button id="btnLogin">login</button>
+              <button id="btnLogout">logout</button>
+          </form>
         </form>
       </div>
     </div>
@@ -137,25 +143,7 @@
         </div>
       <div id="restaurant-view"></div>
       <br>
-      <div class="login-page" id="loginPg" style="display: none;">
-        <div class="form">
-          <form class="register-form">
-            
-            <input id="txtEmail" type="email" placeholder="Email"/>
-            <input id="txtPassword" type="password" placeholder="password"/>
-            
-            <button>create</button>
-            <p class="message">Already registered? <a href="#">Sign In</a></p>
-          </form>
-          <form class="login-form">
-            <input type="email" placeholder="Email"/>
-            <input type="password" placeholder="password"/>
-            <button id="btnLogin">login</button>
-            <button id="btnLogout">logout</button>
-            <p class="message">Not registered? <button id="btnSignUp">Create an account</button></p>
-          </form>
-        </div>
-      </div>
+      
     </div>
     <script src="assets/main.js"></script>
   </body>

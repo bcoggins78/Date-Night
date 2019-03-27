@@ -252,6 +252,10 @@ button:hover {
   }
   .card-body{
     display: flex;
+    background-color: #ffffff94;
+    border-left: 1px black solid;
+    border-right: 1px black solid;
+    border-bottom: 1px black solid;
   }
   h1{
     font-size: 40px;
@@ -307,9 +311,10 @@ button:hover {
   margin-left: 30%;
 }
 .form {
+  border: 1px black solid;
   position: relative;
   z-index: 1;
-  background: #FFFFFF;
+  background: #030511bd;
   max-width: 360px;
   margin: 0 auto 100px;
   padding: 45px;
@@ -328,10 +333,11 @@ button:hover {
   font-size: 14px;
 }
 .form button {
+  margin-left: 0px;
   font-family: "Roboto", sans-serif;
   text-transform: uppercase;
   outline: 0;
-  background: #4CAF50;
+  background: #7a2588;
   width: 100%;
   border: 0;
   padding: 15px;
@@ -385,7 +391,10 @@ button:hover {
   color: #EF3B3A;
 }
 .card-header {
-  color: black;
+  padding: .75rem 1.25rem;
+  margin-bottom: 0;
+  background-color: rgba(243, 235, 235, 0.97);
+  border-bottom: 1px solid rgba(0, 0, 0, 0);
 }
 .card{
   background: transparent;
@@ -397,8 +406,7 @@ button:hover {
 .container-fluid{
   padding: 0;
 }
-#header{
-}
+
 
 #location-form{
   padding: 2em 6em;
@@ -419,11 +427,18 @@ button:hover {
 #movieDescrip a{
   color: black;
 }
-.restaurant{
-  background: aliceblue;
+.restaurant {
+  background: #f0f8ffd4;
   color: black;
   margin: 1em 6em;
   text-align: center;
+  height: 80px;
+  border: 1px black solid;
+}
+.restaurant h3{
+  margin-top: 5px;
+  font-family: 'Lobster', cursive;
+  cursor: pointer;
 }
 
 #movieCard{
