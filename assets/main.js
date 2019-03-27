@@ -1,7 +1,8 @@
-$('.message a').click(function(){
-  $('form').animate({height: "toggle", opacity: "toggle"}, "slow");
-});
-
+//IM NOT SURE WHAT THIS DOES, BUT DO NOT TOUCH IT/////////////////////////
+$('.message a').click(function(){                                      ///
+  $('form').animate({height: "toggle", opacity: "toggle"}, "slow");    ///
+});                                                                    ///
+//////////////////////////////////////////////////////////////////////////
 
 // Initialize Firebase
 var config = {
@@ -184,42 +185,32 @@ function selectRestaurant(){
   
 }
 
-  
-function displayLogIn(){
-  document.getElementById('loginPg').style.display = "block";
-}
-function displayRegisterForm(){
-  document.getElementById('registerPg').style.display =  "block";
-}
-function displayMovieTable(){
+//DISPLAY MOVIE TABLE FUNCTION 
+ function displayMovieTable(){
   document.getElementById('movieCard').style.display = 'block';
 }
-function loginRegisterVisibility(){
+//LOGIN NAVBAR FUNCTIONS 
+ function displayLogIn(){
+  document.getElementById('loginPg').style.display = "block";
+}
+ function displayRegisterForm(){
+  document.getElementById('registerPg').style.display =  "block";
+}
+ function loginRegisterVisibility(){
   if (('loginPg').display = 'block'){
     ('registerPg').display = 'none'
   }
 }
-function loginRegisterClose(){
+ function loginRegisterClose(){
   document.getElementById('loginPg').style.display = "none";
   document.getElementById('registerPg').style.display =  "none";
 }
-function registerLoginVisibility(){
+ function registerLoginVisibility(){
   if (('registerPg').display='block'){
     ('loginPg').display = 'none';
   }
 }
 loginRegisterVisibility()
-
-/////// still working on this animation //////////         
-/*$(document).on('mouseover','.poster',function(){
-  console.log("animate")
-  console.log($(this))
-  $(this).animate({width: 300}, 2000)
-})
-$(document).on('mouseleave','.poster', function(){
-    $(this).animate({width: 148 }, 2000)
-})
-*/
 
 
 $(document).on('click','.restaurant', selectRestaurant);

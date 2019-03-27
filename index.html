@@ -5,34 +5,35 @@
 <head>
     <meta name="viewport" content="initial-scale=1.0">
     <meta charset="utf-8">
-  <title>Date Night</title>
-
-  <!-- jQuery -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-
-  <!-- Bootstrap CDN-->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-  <link href='https://fonts.googleapis.com/css?family=Cookie' rel='stylesheet' type='text/css'>
-  <link href="https://fonts.googleapis.com/css?family=Carter+One|Fugaz+One|Lobster|Pacifico" rel="stylesheet">
-  <link async href="https://fonts.googleapis.com/css?family=Cabin%20Condensed" rel="stylesheet" type="text/css"/>
-  <!-- Firebase Reference -->
-  <script src="https://www.gstatic.com/firebasejs/4.12.0/firebase.js"></script>
-  <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
-  <link rel="stylesheet" type="text/css" media="screen" href="assets/style.css" />
-
-  <script src="assets/main.js"></script>  
-
+    <title>Date Night</title>
+    <!-- jQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!-- Bootstrap CDN-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <!--GOOGLE FONTS-->
+    <link href='https://fonts.googleapis.com/css?family=Cookie' rel='stylesheet' type='text/css'>
+    <link href="https://fonts.googleapis.com/css?family=Carter+One|Fugaz+One|Lobster|Pacifico" rel="stylesheet">
+    <link async href="https://fonts.googleapis.com/css?family=Cabin%20Condensed" rel="stylesheet" type="text/css"/>
+    <!-- Firebase Reference -->
+    <script src="https://www.gstatic.com/firebasejs/4.12.0/firebase.js"></script>
+    <!--MOMENT JS-->
+    <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
+    <!--CSS-->
+    <link rel="stylesheet" type="text/css" media="screen" href="assets/style.css" />
+    <!--JS-->
+    <script src="assets/main.js"></script>  
 </head>
-
 <body>
   <div class="container">
+    <!--LogIn NavBar-->
     <div class="top-tab top-tab-3 tab" id="registerBtn">
       <div class="top-tab-content" id="registerBtn">Create Account</div>
     </div>
     <div class="top-tab top-tab-4 tab"  id="loginBtn">
       <div class="top-tab-content" id="loginBtn">LogIn</div>
     </div>
+    <!--Animation-->
     <div class="stage">
         <div class="layer"></div>
         <div class="layer"></div>
@@ -57,21 +58,18 @@
       </div>
       <br>
   <!--REGISTER FORM-->
-
-      <div class="register-page" id="registerPg" style="display: none;">
-        <div class="form">
-          <div class="close"></div>
+    <div class="register-page" id="registerPg" style="display: none;">
+      <div class="form">
+        <div class="close"></div>
           <form class="register1-form">
             <input type="text" placeholder="email address"/>
             <input type="password" placeholder="password"/>
             <button id="logCreateFormBtn">Create an Account</button>
           </form>
-         
         </div>
       </div>
   <!--LOGIN FORM-->
-  
-      <div class="login-page" id="loginPg" style="display: none;">
+    <div class="login-page" id="loginPg" style="display: none;">
         <form class="form">
           <div class="close"></div>      
           <form class="login-form">
@@ -79,26 +77,25 @@
           <input type="password" placeholder="password"/>
           <button id="logCreateFormBtn">LogIn</button>
         </form>
-       
-      </div>
+       </div>
     </div>
+    <!---->
     <form id="location-form">
       <h1 id="header">We are here to help</h1>
+        <div class="form-group">
+           <label for="location-input" id="labelText">What Zip Code are you looking in?</label>
+           <input type="text" class="form-control" id="location-input" placeholder="zipcode">
+        </div>
       <div class="form-group">
-        <label for="location-input" id="labelText">What Zip Code are you looking in?</label>
-        <input type="text" class="form-control" id="location-input" placeholder="zipcode">
-        
+           <label for="date-input" id="labelText">When Are You Going?</label>
+           <input type="text" class="form-control" id="date-input" placeholder="2019-03-22">
       </div>
       <div class="form-group">
-        <label for="date-input" id="labelText">When Are You Going?</label>
-        <input type="text" class="form-control" id="date-input" placeholder="2019-03-22">
+           <label for="distance-input" id="labelText">How far are you willing to drive?</label>
+           <input type="text" class="form-control" id="distance-input" placeholder="5 miles">
       </div>
-      <div class="form-group">
-        <label for="distance-input" id="labelText">How far are you willing to drive?</label>
-        <input type="text" class="form-control" id="distance-input" placeholder="5 miles">
-      </div>
-      <button class="panel" id="find-theater" type="submit" value="Movie Search">Movie Search</button>
-      <button class="panel" id="find-restaurant" type="submit" value="Restaurant Search">Restaurant Search</button>
+           <button class="panel" id="find-theater" type="submit" value="Movie Search">Movie Search</button>
+           <button class="panel" id="find-restaurant" type="submit" value="Restaurant Search">Restaurant Search</button>
     </form>
     <!-- The Modal -->
     <div class="modal" id="movieShowtimeModal">
@@ -124,24 +121,6 @@
           </div>
         </div>
       <div id="restaurant-view"></div>
-      <br>
-      <div class="login-page" id="loginPg" style="display: none;">
-        <div class="form">
-          <form class="register-form">
-            <input type="text" placeholder="name"/>
-            <input type="password" placeholder="password"/>
-            <input type="text" placeholder="email address"/>
-            <button>create</button>
-            <p class="message">Already registered? <a href="#">Sign In</a></p>
-          </form>
-          <form class="login-form">
-            <input type="text" placeholder="username"/>
-            <input type="password" placeholder="password"/>
-            <button>login</button>
-            <p class="message">Not registered? <a href="#">Create an account</a></p>
-          </form>
-        </div>
-      </div>
     </div>
   </body>
  </html>
