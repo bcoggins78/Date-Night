@@ -17,7 +17,6 @@ var config = {
 firebase.initializeApp(config);
 
     // ------------ Firebase Authentication ----------------------
-    
     var txtEmail = document.getElementById('txtEmail');
     var txtPassword = document.getElementById('txtPassword');
     var btnLogin = document.getElementById('btnLogin');
@@ -64,7 +63,6 @@ firebase.initializeApp(config);
             btnLogout.classList.add('hide');
         }
     });
-    
     // ------------ Firebase Authentication ----------------------
 
 var database = firebase.database();
