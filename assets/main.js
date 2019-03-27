@@ -265,7 +265,7 @@ function selectRestaurant(){
   }
 }
 loginRegisterVisibility()
-
+registerLoginVisibility()
 
 $(document).on('click','.restaurant', selectRestaurant);
 $(document).on('click','.showtime', selectShowtime);
