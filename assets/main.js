@@ -142,23 +142,25 @@ function runMovies(){
 
     function dataHandler(data) {
       var zipCode = $("#location-input").val();
-      // var apikey = "7byjtqn68yzm6ecsjfmcy9q3";
-      //var apikey = "sdpzqr2egk9fyp2ct7jz879v";
+      var apikey = "7byjtqn68yzm6ecsjfmcy9q3";
+      // var apikey = "sdpzqr2egk9fyp2ct7jz879v";
 
     // $(".card-header").text('Found ' + data.length + ' movies showing within ' + distance + ' miles of ' + zipCode+':');
     var movies = data.hits;
     $.each(data, function(index, movie) {
       console.log(movie)
       
-      var url =  "https://www.omdbapi.com/?t=" + movie.title + "&y=&plot=short&apikey=trilogy"
-      $.ajax({url: url, method: 'GET'} ).then(function(resp){
+      // var url =  "https://www.omdbapi.com/?t=" + movie.title + "&y=&plot=short&apikey=trilogy"
+      // $.ajax({url: url, method: 'GET'} ).then(function(resp){
         // console.log(resp)
-        if (resp.Title === movie.title){
-          var tile = $('<div>').addClass('col-lg-2 tile').append($('<img>').attr({src: [resp.Poster],alt: movie.title, class: 'poster', type: 'button', 'data-toggle': 'modal', 'data-target': '#movieShowtimeModal','data-movie': JSON.stringify(movie)}))
+        // if (resp.Title === movie.title){
+          var tile = $('<div>').addClass('col-lg-2 tile').append($('<img>').attr({src: "http://developer.tmsimg.com/" + movie.preferredImage.uri + '?api_key='+apikey, alt: movie.title, class: 'poster', type: 'button', 'data-toggle': 'modal', 'data-target': '#movieShowtimeModal','data-movie': JSON.stringify(movie)}))
+          if(movie.preferredImage.uri.includes('generic'))
+            tile.append($('<h6>').attr({class:'movie-title'}).text(movie.title))
           $("#results-view").append(tile);
-        }
+        // }
       })
-    });
+    // });
     };
 
     
@@ -185,7 +187,7 @@ function fillModal(){
   for (var i=0;i<theaters.length;i++){
     $('<table>').attr({'id':'id'+i, class: 'tableFloat table table-striped'}).append($('<tr>').append($('<th>').text(theaters[i]))).appendTo(row2);
   }
-  $('#movieTable').append(row1,row2);
+  $('#movieTable').append(row1,row2,$('<div>').attr({id:'map'}));
   for (var i=0;i<data.showtimes.length;i++) {
     var displayDate = moment(data.showtimes[i].dateTime, 'YYYY-MM-DDThh:mm').format('h:mm a')
     var id = "#id"+theaters.indexOf(data.showtimes[i].theatre.name)
@@ -261,6 +263,43 @@ function signIna(){
   document.getElementById('loginPg').style.display = 'block';
 }
 loginRegisterVisibility()
+
+var map,infoWindow;
+      function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+          center: {lat: -34.397, lng: 150.644},
+          zoom: 8
+        });
+        infoWindow = new google.maps.InfoWindow;
+
+        // Try HTML5 geolocation.
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function(position) {
+            var pos = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude
+            };
+
+            infoWindow.setPosition(pos);
+            infoWindow.setContent('Location found.');
+            infoWindow.open(map);
+            map.setCenter(pos);
+          }, function() {
+            handleLocationError(true, infoWindow, map.getCenter());
+          });
+        } else {
+          // Browser doesn't support Geolocation
+          handleLocationError(false, infoWindow, map.getCenter());
+        }
+      }
+
+      function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+        infoWindow.setPosition(pos);
+        infoWindow.setContent(browserHasGeolocation ?
+                              'Error: The Geolocation service failed.' :
+                              'Error: Your browser doesn\'t support geolocation.');
+        infoWindow.open(map);
+      }
 
 /////// still working on this animation //////////         
 /*$(document).on('mouseover','.poster',function(){
