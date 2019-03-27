@@ -5,36 +5,34 @@
 <head>
     <meta name="viewport" content="initial-scale=1.0">
     <meta charset="utf-8">
-    <title>Date Night</title>
-    <!-- jQuery -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <!-- Bootstrap CDN-->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-    <!--GOOGLE FONTS-->
-    <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
-    <link href='https://fonts.googleapis.com/css?family=Cookie' rel='stylesheet' type='text/css'>
-    <link href="https://fonts.googleapis.com/css?family=Carter+One|Fugaz+One|Lobster|Pacifico" rel="stylesheet">
-    <link async href="https://fonts.googleapis.com/css?family=Cabin%20Condensed" rel="stylesheet" type="text/css"/>
-    <!-- Firebase Reference -->
-    <script src="https://www.gstatic.com/firebasejs/4.12.0/firebase.js"></script>
-    <!--MOMENT JS-->
-    <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
-    <!--CSS-->
-    <link rel="stylesheet" type="text/css" media="screen" href="assets/style.css" />
-    <!--JS-->
-    <script src="assets/main.js"></script>  
+  <title>Date Night</title>
+
+  <!-- jQuery -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+  <!-- Bootstrap CDN-->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  <link href='https://fonts.googleapis.com/css?family=Cookie' rel='stylesheet' type='text/css'>
+  <link href="https://fonts.googleapis.com/css?family=Carter+One|Fugaz+One|Lobster|Pacifico" rel="stylesheet">
+  <link async href="https://fonts.googleapis.com/css?family=Cabin%20Condensed" rel="stylesheet" type="text/css"/>
+  <!-- Firebase Reference -->
+  <script src="https://www.gstatic.com/firebasejs/5.9.1/firebase.js"></script>  
+  <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
+  <link rel="stylesheet" type="text/css" media="screen" href="assets/style.css" />
+
+  
+
 </head>
+
 <body>
   <div class="container">
-    <!--LogIn NavBar-->
     <div class="top-tab top-tab-3 tab" id="registerBtn">
       <div class="top-tab-content" id="registerBtn">Create Account</div>
     </div>
     <div class="top-tab top-tab-4 tab"  id="loginBtn">
       <div class="top-tab-content" id="loginBtn">LogIn</div>
     </div>
-    <!--Animation-->
     <div class="stage">
         <div class="layer"></div>
         <div class="layer"></div>
@@ -58,45 +56,67 @@
         <div class="layer"></div>
       </div>
       <br>
+      <!--Let me save it just in case
+      <div class="login-page" id="loginPg" style="display: block;">
+          <div class="form">
+            <form class="register-form">
+              <input id="txtEmail" type="email" placeholder="Email"/>
+              <input id="txtPassword" type="password" placeholder="password"/>
+              <button>create</button>
+              <p class="message">Already registered? <a href="#">Sign In</a></p>
+            </form>
+            <form class="login-form">
+              <input type="email" placeholder="Email"/>
+              <input type="password" placeholder="password"/>
+              <button id="btnLogin">login</button>
+              <button id="btnLogout">logout</button>
+              <p class="message">Not registered? <button id="btnSignUp">Create an account</button></p>
+            </form>
+          </div>
+        </div>-->
   <!--REGISTER FORM-->
-    <div class="register-page" id="registerPg" style="display: none;">
-      <div class="form">
-        <div class="close"></div>
-          <form class="register1-form">
-            <input type="text" placeholder="email address"/>
-            <input type="password" placeholder="password"/>
-            <button id="logCreateFormBtn">Create an Account</button>
-          </form>
-        </div>
+
+      <div class="register-page" id="registerPg" style="display: none;">
+        <form class="form">
+          <div class="close"></div>
+          <form class="register-form">
+              <input id="txtEmail" type="email" placeholder="Email"/>
+              <input id="txtPassword" type="password" placeholder="password"/>
+            <button id="btnSignUp">create</button>
+           </form>
+        </form>
       </div>
   <!--LOGIN FORM-->
-    <div class="login-page" id="loginPg" style="display: none;">
+  
+      <div class="login-page" id="loginPg" style="display: none;">
         <form class="form">
           <div class="close"></div>      
           <form class="login-form">
-          <input type="text" placeholder="email address"/>
-          <input type="password" placeholder="password"/>
-          <button id="logCreateFormBtn">LogIn</button>
+              <input type="email" placeholder="Email"/>
+              <input type="password" placeholder="password"/>
+              <button id="btnLogin">login</button>
+              <button id="btnLogout">logout</button>
+          </form>
         </form>
-       </div>
+      </div>
     </div>
-    <!---->
     <form id="location-form">
       <h1 id="header">We are here to help</h1>
-        <div class="form-group">
-           <label for="location-input" id="labelText">What Zip Code are you looking in?</label>
-           <input type="text" class="form-control" id="location-input" placeholder="zipcode">
-        </div>
       <div class="form-group">
-           <label for="date-input" id="labelText">When Are You Going?</label>
-           <input type="text" class="form-control" id="date-input" placeholder="2019-03-22">
+        <label for="location-input" id="labelText">What Zip Code are you looking in?</label>
+        <input type="text" class="form-control" id="location-input" placeholder="zipcode">
+        
       </div>
       <div class="form-group">
-           <label for="distance-input" id="labelText">How far are you willing to drive?</label>
-           <input type="text" class="form-control" id="distance-input" placeholder="5 miles">
+        <label for="date-input" id="labelText">When Are You Going?</label>
+        <input type="text" class="form-control" id="date-input" placeholder="2019-03-22">
       </div>
-           <button class="panel" id="find-theater" type="submit" value="Movie Search">Movie Search</button>
-           <button class="panel" id="find-restaurant" type="submit" value="Restaurant Search">Restaurant Search</button>
+      <div class="form-group">
+        <label for="distance-input" id="labelText">How far are you willing to drive?</label>
+        <input type="text" class="form-control" id="distance-input" placeholder="5 miles">
+      </div>
+      <button class="panel" id="find-theater" type="submit" value="Movie Search">Movie Search</button>
+      <button class="panel" id="find-restaurant" type="submit" value="Restaurant Search">Restaurant Search</button>
     </form>
     <!-- The Modal -->
     <div class="modal" id="movieShowtimeModal">
@@ -123,25 +143,7 @@
         </div>
       <div id="restaurant-view"></div>
       <br>
-      <div class="login-page" id="loginPg" style="display: none;">
-        <div class="form">
-          <form class="register-form">
-            
-            <input id="txtEmail" type="email" placeholder="Email"/>
-            <input id="txtPassword" type="password" placeholder="password"/>
-            
-            <button>create</button>
-            <p class="message">Already registered? <a href="#">Sign In</a></p>
-          </form>
-          <form class="login-form">
-            <input type="email" placeholder="Email"/>
-            <input type="password" placeholder="password"/>
-            <button id="btnLogin">login</button>
-            <button id="btnLogout">logout</button>
-            <p class="message">Not registered? <button id="btnSignUp">Create an account</button></p>
-          </form>
-        </div>
-      </div>
+      
     </div>
     <script src="assets/main.js"></script>
   </body>

@@ -1,14 +1,8 @@
 
-
 $('.message a').click(function(){
   $('form').animate({height: "toggle", opacity: "toggle"}, "slow");
 });
 
-//IM NOT SURE WHAT THIS DOES, BUT DO NOT TOUCH IT/////////////////////////
-$('.message a').click(function(){                                      ///
-  $('form').animate({height: "toggle", opacity: "toggle"}, "slow");    ///
-});                                                                    ///
-//////////////////////////////////////////////////////////////////////////
 
 // Initialize Firebase
 var config = {
@@ -239,34 +233,47 @@ function selectRestaurant(){
   
 }
 
-//DISPLAY MOVIE TABLE FUNCTION 
- function displayMovieTable(){
-  document.getElementById('movieCard').style.display = 'block';
-}
-//LOGIN NAVBAR FUNCTIONS 
- function displayLogIn(){
+  
+function displayLogIn(){
   document.getElementById('loginPg').style.display = "block";
 }
- function displayRegisterForm(){
+function displayRegisterForm(){
   document.getElementById('registerPg').style.display =  "block";
 }
- function loginRegisterVisibility(){
+function displayMovieTable(){
+  document.getElementById('movieCard').style.display = 'block';
+}
+function loginRegisterVisibility(){
   if (('loginPg').display = 'block'){
     ('registerPg').display = 'none'
   }
 }
- function loginRegisterClose(){
+function loginRegisterClose(){
   document.getElementById('loginPg').style.display = "none";
   document.getElementById('registerPg').style.display =  "none";
 }
- function registerLoginVisibility(){
+function registerLoginVisibility(){
   if (('registerPg').display='block'){
     ('loginPg').display = 'none';
   }
 }
+function signIna(){
+  document.getElementById('loginPg').style.display = 'block';
+}
 loginRegisterVisibility()
-registerLoginVisibility()
 
+/////// still working on this animation //////////         
+/*$(document).on('mouseover','.poster',function(){
+  console.log("animate")
+  console.log($(this))
+  $(this).animate({width: 300}, 2000)
+})
+$(document).on('mouseleave','.poster', function(){
+    $(this).animate({width: 148 }, 2000)
+})
+*/
+
+$(document).on('click', '#signInA', signIna);
 $(document).on('click','.restaurant', selectRestaurant);
 $(document).on('click','.showtime', selectShowtime);
 $(document).on('click', '.close', loginRegisterClose)
@@ -277,5 +284,3 @@ $(document).on("click", ".poster", fillModal);
 $(document).on("click", "#find-theater", runToday);
 $(document).on("click", "#find-theater", runMovies);
 $(document).on("click", "#find-restaurant", runZomato);
-
-
