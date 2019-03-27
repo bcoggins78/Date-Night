@@ -5,14 +5,46 @@
 @import "https://fonts.googleapis.com/css?family=Comfortaa:300,400,700&subset=cyrillic,cyrillic-ext,latin-ext";
 body {
   height: 940px;
-  background-image: url("https://images.wallpaperscraft.com/image/texture_gradient_spots_130030_1920x1080.jpg");
+  background-image: url("../Super-Abstract-Wallpaper.jpg");
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
   background-attachment: fixed;
-  color: white; }
+  color: white; 
+}
 #header{
+  color: white;
   margin-top: 15%;
+  font-size: 50px;
+}
+table{
+  display: inline;
+  text-align: center;
+
+}
+
+.modal-body{
+  padding: 1em 1em;
+}
+.modal{
+  text-align: center;
+  color: black;
+}
+.modal-dialog{
+  max-width:80vw;
+  width: fit-content;
+  
+}
+.modal-dialog h6{
+  margin: auto;
+}
+.tableFloat{
+  float: left;
+  margin: auto;
+  display: flex;
+/*   width: fit-content; */
+  width: 100%;
+  flex-wrap: wrap;
 }
 h1 {
   text-align: center;
@@ -20,7 +52,9 @@ h1 {
 
 #labelText {
   text-align: center;
-  font-size: 20px; }
+  font-size: 20px;
+color: white;
+}
 
 #map {
   height: 425px; }
@@ -199,12 +233,12 @@ button:hover {
   }
   
   .poster:hover {
-    transition: all 200ms linear;
+    transition: all 500ms linear;
     transform: scale(1.5); 
     opacity: 1; 
     z-index: 99;
   }
-  
+ 
   .poster { 
     opacity: 1;
     transform: scale(1.0); 
@@ -212,8 +246,9 @@ button:hover {
     position: relative;
     float: left;
     z-index: 1;
-    margin: 10px;
+    margin: 1em 0;
     width: 100%;
+    box-shadow: aliceblue .5em .5em 10em .01em
   }
   .card-body{
     display: flex;
@@ -232,6 +267,7 @@ button:hover {
   z-index: 1; }
 
 .top-tab {
+  margin-left: 30%;
   width: 150px;
   height: 60px;
   box-shadow: 3px 3px 15px rgba(0, 0, 0, 0.4);
@@ -239,12 +275,7 @@ button:hover {
   top: -20px;
   border-radius: 5px;
   transition: .2s; }
-  .top-tab-1 {
-    background: linear-gradient(to top right, #80D8FF, #304FFE);
-    left: 30%; }
-  .top-tab-2 {
-    background: linear-gradient(to top right, #00E5FF, blue);
-    left: 38%; }
+
   .top-tab-3 {
     background: linear-gradient(to top right, #26C6DA, #006064);
     left: 46%; }
@@ -255,7 +286,8 @@ button:hover {
     color: white;
     padding-top: 30px;
     padding-left: 5px;
-    transition: .2s; }
+    transition: .2s;
+    }
   .top-tab:hover {
     transform: translateY(10px) scale(1.05); }
   .top-tab:hover .top-tab-content {
@@ -265,7 +297,14 @@ button:hover {
 .login-page {
   width: 360px;
   padding: 8% 0 0;
-  margin: auto;
+  position: fixed;
+  margin-left: 30%;
+}
+.register-page {
+  width: 360px;
+  padding: 8% 0 0;
+  position: fixed;
+  margin-left: 30%;
 }
 .form {
   position: relative;
@@ -319,7 +358,7 @@ button:hover {
 }
 
 .container:before, .container:after {
-  content: "";
+  /* content: ""; */
   display: block;
   clear: both;
 }
@@ -347,4 +386,156 @@ button:hover {
 }
 .card-header {
   color: black;
+}
+.card{
+  background: transparent;
+}
+.login-form button{
+  width: 100%;
+  margin: 0;
+}
+.container-fluid{
+  padding: 0;
+}
+#header{
+}
+
+#location-form{
+  padding: 2em 6em;
+}
+.showtime, .select-button{
+  border: solid 1px;
+  border-radius: .5em;
+  padding: .2em;
+  display: inline-block;
+  margin: 0 1em;
+  color: black;
+}
+.showtime:hover, .select-button:hover{
+  background: blanchedalmond;
+  text-decoration: none;
+  color: black;
+}
+#movieDescrip a{
+  color: black;
+}
+.restaurant{
+  background: aliceblue;
+  color: black;
+  margin: 1em 6em;
+  text-align: center;
+}
+
+#movieCard{
+  margin-top: 20px;
+}
+.form-control {
+  display: block;
+  width: 100%;
+  padding: .375rem .75rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #495057;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 3px solid #30567b;
+  transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+/*CLOSE BUTTON*/
+.close {
+  display: inline-block;
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+  width: 0.75em;
+  height: 0.75em;
+  position: relative;
+  border: none;
+  -webkit-border-radius: 1em;
+  border-radius: 1em;
+  font: normal 8em/normal Arial, Helvetica, sans-serif;
+  color: rgba(0,0,0,1);
+  -o-text-overflow: clip;
+  text-overflow: clip;
+  background: #1abc9c;
+  -webkit-transform: rotateZ(471.54426539266757deg)   ;
+  transform: rotateZ(471.54426539266757deg)   ;
+  font-size: 40px;
+}
+
+.close:hover {
+  background: rgba(247,0,0,1);
+  -webkit-transition: background 350ms cubic-bezier(0.42, 0, 0.58, 1) 10ms, all 200ms cubic-bezier(0.42, 0, 0.58, 1) 10ms;
+  -moz-transition: background 350ms cubic-bezier(0.42, 0, 0.58, 1) 10ms, all 200ms cubic-bezier(0.42, 0, 0.58, 1) 10ms;
+  -o-transition: background 350ms cubic-bezier(0.42, 0, 0.58, 1) 10ms, all 200ms cubic-bezier(0.42, 0, 0.58, 1) 10ms;
+  transition: background 350ms cubic-bezier(0.42, 0, 0.58, 1) 10ms, all 200ms cubic-bezier(0.42, 0, 0.58, 1) 10ms;
+  -webkit-transform: rotateX(-1.7188733853924696deg) rotateZ(19.48056503444799deg)   ;
+  transform: rotateX(-1.7188733853924696deg) rotateZ(19.48056503444799deg)   ;
+}
+
+.close:active {
+  background: #1abc9c;
+  -webkit-box-shadow: 2px 2px 9px 1px rgba(0,0,0,0.5) inset;
+  box-shadow: 2px 2px 9px 1px rgba(0,0,0,0.5) inset;
+  -webkit-transition: none;
+  -moz-transition: none;
+  -o-transition: none;
+  transition: none;
+  -webkit-transform: rotateZ(471.54426539266757deg)   ;
+  transform: rotateZ(471.54426539266757deg)   ;
+}
+
+.close::before {
+  display: inline-block;
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+  width: 0.45em;
+  height: 0.1em;
+  position: absolute;
+  content: "";
+  top: 0.33em;
+  left: 0.155em;
+  border: none;
+  font: normal 100%/normal Arial, Helvetica, sans-serif;
+  color: rgba(0,0,0,1);
+  -o-text-overflow: clip;
+  text-overflow: clip;
+  background: #ffffff;
+  text-shadow: none;
+  -webkit-transform: rotateZ(24.064227395494576deg)   ;
+  transform: rotateZ(24.064227395494576deg)   ;
+}
+
+.close::after {
+  display: inline-block;
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+  width: 0.45em;
+  height: 0.1em;
+  position: absolute;
+  content: "";
+  top: 0.33em;
+  left: 0.155em;
+  border: none;
+  font: normal 100%/normal Arial, Helvetica, sans-serif;
+  color: rgba(0,0,0,1);
+  -o-text-overflow: clip;
+  text-overflow: clip;
+  background: #ffffff;
+  text-shadow: none;
+  -webkit-transform: rotateZ(-66.46310423517549deg)   ;
+  transform: rotateZ(-66.46310423517549deg)   ;
+}
+.text {
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+  border: none;
+  font: normal 36px/1 "Cabin Condensed", Helvetica, sans-serif;
+  color: #ffffff;
+  text-align: center;
+  -o-text-overflow: ellipsis;
+  text-overflow: ellipsis;
 }
