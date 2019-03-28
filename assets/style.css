@@ -12,6 +12,7 @@ body {
   background-attachment: fixed;
   color: white; 
 }
+
 #header{
   color: white;
   margin-top: 15%;
@@ -428,6 +429,21 @@ button:hover {
   margin: 0 1em;
   color: black;
 }
+#selectRestaurantBtn{
+  color: black;
+  width: 230px;
+  font-size: 20px;
+  border-width: 2px;
+  border-style: solid;
+  border-color: white;
+  position: relative;
+  margin: 1em;
+  display: flex;
+  padding: 0.5em 1em;
+  transition: all 0.3s ease-in-out;
+  font-family: comfortaa;
+  font-weight: bold;
+}
 .showtime:hover, .select-button:hover{
   background: blanchedalmond;
   text-decoration: none;
@@ -437,6 +453,7 @@ button:hover {
   color: black;
 }
 .restaurant {
+  margin-left: 20%;
   background: #f0f8ffd4;
   color: black;
   margin: 1em 6em;

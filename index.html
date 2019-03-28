@@ -116,7 +116,6 @@
         <input type="text" class="form-control" id="distance-input" placeholder="5 miles">
       </div>
       <button class="panel" id="find-theater" type="submit" value="Movie Search">Movie Search</button>
-      <button class="panel" id="find-restaurant" type="submit" value="Restaurant Search">Restaurant Search</button>
     </form>
     <!-- The Modal -->
     <div class="modal" id="movieShowtimeModal">
@@ -129,20 +128,18 @@
           </div>
           <!-- Modal body -->
           <div class="modal-body container text-center" id="movieTable"> 
+              <button id="save">Select Restaurant</button>
           </div>
         </div>
       </div>
     </div>
     <div class="container">
       <div class="card" id="movieCard" style="display: none;">
-        <div class="card-header">
-          </div>
-          <!-- We'll be dumping our JSON contents in here -->
+        <!-- We'll be dumping our JSON contents in here -->
           <div class="card-body row" id="results-view"> 
           </div>
         </div>
-      <div id="restaurant-view"></div>
-      <br>
+      
       
     </div>
     <script src="assets/main.js"></script>
