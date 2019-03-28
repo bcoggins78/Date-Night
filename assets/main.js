@@ -234,8 +234,9 @@ function selectRestaurant(){
     $('<div>').append(
       $('<a>').attr({'href':data.menu_url, target: '_blank', class: 'select-button'}).text('Menu'),
       $('<a>').attr({'href':data.photos_url, target: '_blank', class: 'select-button'}).text('Photos'),
-      $('<a>').attr({'href':data.events_url, target: '_blank', class: 'select-button'}).text('Events')
-    )
+      $('<a>').attr({'href':data.events_url, target: '_blank', class: 'select-button'}).text('Events'),
+      $('<button>').attr({id:'selectRestaurantBtn'}).text('Select Restaurant')
+      )
       
   );
   
@@ -268,6 +269,16 @@ function registerLoginVisibility(){
 function signIna(){
   document.getElementById('loginPg').style.display = 'block';
 }
+function userResult(){
+  var $movieTable = $('#movieTable');
+  $('#movieTable').empty()
+  $('#save').hide();
+  $movieTable.append(
+   $('<h1>').text('Your Choice:'),
+    
+
+    
+    );}
 loginRegisterVisibility()
 
 var map,infoWindow;
@@ -318,7 +329,7 @@ $(document).on('mouseleave','.poster', function(){
 })
 */
 
-
+$(document).on('click', '#selectRestaurantBtn',userResult  )
 $(document).on('click', '#signInA', signIna);
 $(document).on('click','.restaurant', selectRestaurant);
 $(document).on('click','.showtime', selectShowtime);
