@@ -12,6 +12,7 @@ body {
   background-attachment: fixed;
   color: white; 
 }
+
 #header{
   color: white;
   margin-top: 15%;
@@ -437,6 +438,7 @@ button:hover {
   color: black;
 }
 .restaurant {
+  margin-left: 20%;
   background: #f0f8ffd4;
   color: black;
   margin: 1em 6em;

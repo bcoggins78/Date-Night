@@ -64,8 +64,7 @@ firebase.initializeApp(config);
     });
     // ------------ Firebase Authentication ----------------------
 
-var database = firebase.database();
-
+ 
 // var howManyResults = 50;
 var inputdate = "";
 var today = moment().format("YYYY-MM-DD");  
@@ -103,10 +102,10 @@ function runZomato() {
         // $("#restaurant-view").append("<br></br>");
          // for (i=0;i<howManyResults;i++){  
         for (var i=0; i<restaurantsArray.length; i++){
-          $('<div>').attr({class:'restaurant', type: 'button', 'data-toggle': 'modal', 'data-target': '#movieShowtimeModal', 'data-restaurant':JSON.stringify(restaurantsArray[i])}).append(
+          $('<div>').attr({class:'col col-md-8 restaurant', type: 'button', 'data-toggle': 'modal', 'data-target': '#movieShowtimeModal', 'data-restaurant':JSON.stringify(restaurantsArray[i])}).append(
             $('<h3>').text(restaurantsArray[i].restaurant.name),
             $('<p>').text(restaurantsArray[i].restaurant.location.address)
-          ).appendTo($('#restaurant-view'));
+          ).appendTo($('#results-view'));
         }
 })};
 
@@ -139,7 +138,7 @@ function runMovies(){
       dataType: "jsonp",
       });
     };
-
+    
     function dataHandler(data) {
       var zipCode = $("#location-input").val();
       var apikey = "7byjtqn68yzm6ecsjfmcy9q3";
@@ -205,7 +204,8 @@ function selectShowtime(){
     $('<h4>').text('Would you like to find a restaurant near the movie theater you selected?'),
     $('<div>').attr({class:'select-button',id:'find-restaurant','data-dismiss':'modal'}).text('Search Restaurants'),
     $('<a>').attr({href:$this.attr('data-link'),target:'_blank'}).append($('<div>').addClass('select-button').text('Get Movie Ticket Now'))
-  );
+    
+    );
   $movieTable.empty().append($('<small>').text('* We will also make the link available for you to get movie tickets after you search restaurants *'))
     
 
@@ -311,6 +311,7 @@ $(document).on('mouseleave','.poster', function(){
     $(this).animate({width: 148 }, 2000)
 })
 */
+
 
 $(document).on('click', '#signInA', signIna);
 $(document).on('click','.restaurant', selectRestaurant);
