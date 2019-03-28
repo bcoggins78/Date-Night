@@ -148,19 +148,25 @@ function runMovies(){
     var movies = data.hits;
     $.each(data, function(index, movie) {
       console.log(movie)
-      
-      // var url =  "https://www.omdbapi.com/?t=" + movie.title + "&y=&plot=short&apikey=trilogy"
-      // $.ajax({url: url, method: 'GET'} ).then(function(resp){
+      console.log(movie)
+      var releaseYear = movie.releaseYear
+      var url =  "https://www.omdbapi.com/?t=" + movie.title + "&y=" + releaseYear + "&plot=short&type=movie&apikey=trilogy";
+      $.ajax({url: url, method: 'GET'} ).then(function(resp){
         // console.log(resp)
-        // if (resp.Title === movie.title){
-          var tile = $('<div>').addClass('col-lg-2 tile').append($('<img>').attr({src: "http://developer.tmsimg.com/" + movie.preferredImage.uri + '?api_key='+apikey, alt: movie.title, class: 'poster', type: 'button', 'data-toggle': 'modal', 'data-target': '#movieShowtimeModal','data-movie': JSON.stringify(movie)}))
-          if(movie.preferredImage.uri.includes('generic'))
-            tile.append($('<h6>').attr({class:'movie-title'}).text(movie.title))
+        if (resp.Title === movie.title){
+          var tile = $('<div>').addClass('col-lg-2 tile').append($('<img>').attr({src: [resp.Poster],alt: movie.title, class: 'poster', type: 'button', 'data-toggle': 'modal', 'data-target': '#movieShowtimeModal','data-movie': JSON.stringify(movie)}))
           $("#results-view").append(tile);
-        // }
+        }
       })
-    // });
+    });
     };
+      
+    //      var tile = $('<div>').addClass('col-lg-2 tile').append($('<img>').attr({src: "http://developer.tmsimg.com/" + movie.preferredImage.uri + '?api_key='+apikey, alt: movie.title, class: 'poster', type: 'button', 'data-toggle': 'modal', 'data-target': '#movieShowtimeModal','data-movie': JSON.stringify(movie)}))
+    //      if(movie.preferredImage.uri.includes('generic'))
+    //        tile.append($('<h6>').attr({class:'movie-title'}).text(movie.title))
+    //      $("#results-view").append(tile);
+    // })
+    // };
 
     
 $(document).ready(function() {
