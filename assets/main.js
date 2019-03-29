@@ -1,4 +1,6 @@
 
+
+var pos,radius;
 $('.message a').click(function(){
   $('form').animate({height: "toggle", opacity: "toggle"}, "slow");
 });
@@ -82,13 +84,16 @@ if (inputdate === ""){
 }};
 
 function runZomato() {
+    $this = $(this)
     event.preventDefault();
-    $('#results-view').empty();
-    var randNum = Math.floor(Math.random() * 20);
-    var latitude = "35.791470"
-    var longitude = "-78.781143";
-    var radius = "5000M"
-    var queryURL = "https://developers.zomato.com/api/v2.1/search?" + "lat=" + latitude + "&lon=" + longitude + "&radius=" + radius;
+    // var randNum = Math.floor(Math.random() * 20);
+
+    var latitude = JSON.parse($(this).attr('data-loc')).lat;
+    var longitude = JSON.parse($(this).attr('data-loc')).lng;
+    console.log(latitude)
+    console.log(longitude)
+    var radius = Math.round(radius*1609.34)
+    var queryURL = "https://developers.zomato.com/api/v2.1/search?" + "lat=" + latitude + "&lon=" + longitude + "&radius="+radius+"&sort=real_distance&order=asc";
     
 
     $.ajax({
@@ -96,31 +101,34 @@ function runZomato() {
     method: "GET",
     headers: {'user-key' : '930bc5c593df51586e7bff08f89be982'}
     }).then(function(response) {
-        console.log(response);
-        console.log(JSON.stringify(response))
-        var restaurantsArray = response.restaurants
-   
-        // var currentRestaurant = restaurantsArray[randNum].restaurant.name;
-        // var currentRestaurantLocal = restaurantsArray[randNum].restaurant.location.address;
-        // $("#restaurant-view").text("Restaurant Name: " + currentRestaurant);
-        // $("#restaurant-view").append("<br>");
-        // $("#restaurant-view").append("Address: " + currentRestaurantLocal);
-        // $("#restaurant-view").append("<br></br>");
-         // for (i=0;i<howManyResults;i++){  
-        for (var i=0; i<restaurantsArray.length; i++){
-          $('<div>').attr({class:'col col-md-8 restaurant', type: 'button', 'data-toggle': 'modal', 'data-target': '#movieShowtimeModal', 'data-restaurant':JSON.stringify(restaurantsArray[i])}).append(
-            $('<h3>').text(restaurantsArray[i].restaurant.name),
-            $('<p>').text(restaurantsArray[i].restaurant.location.address)
-          ).appendTo($('#results-view'));
-        }
+      $('#results-view').empty();
+
+      console.log(response);
+      console.log(JSON.stringify(response))
+      var restaurantsArray = response.restaurants
+  
+      // var currentRestaurant = restaurantsArray[randNum].restaurant.name;
+      // var currentRestaurantLocal = restaurantsArray[randNum].restaurant.location.address;
+      // $("#restaurant-view").text("Restaurant Name: " + currentRestaurant);
+      // $("#restaurant-view").append("<br>");
+      // $("#restaurant-view").append("Address: " + currentRestaurantLocal);
+      // $("#restaurant-view").append("<br></br>");
+        // for (i=0;i<howManyResults;i++){  
+      for (var i=0; i<restaurantsArray.length; i++){
+        $('<div>').attr({class:'col col-md-8 restaurant', type: 'button', 'data-toggle': 'modal', 'data-target': '#movieShowtimeModal', 'data-restaurant':JSON.stringify(restaurantsArray[i])}).append(
+          $('<h3>').text(restaurantsArray[i].restaurant.name),
+          $('<p>').text(restaurantsArray[i].restaurant.location.address)
+        ).appendTo($('#results-view'));
+      }
 })};
 
 function runMovies(){
+    
     event.preventDefault();
-    distance = $("#distance-input").val();
+    radius = $("#distance-input").val().substring(0, length);
     var length = 2;
-    var trimmedDistance = distance.substring(0, length);
-    distance = trimmedDistance;
+   
+    
     if (distance === ""){
         distance = 5;
     }
@@ -133,11 +141,13 @@ function runMovies(){
     var baseUrl = "https://data.tmsapi.com/v1.1";
     var showtimesUrl = baseUrl + '/movies/showings';
     var zipCode = $("#location-input").val();
+    if (zipCode == '')
+      getNavigatorLocation();
     $.ajax({
       url: showtimesUrl,
           data: { startDate: inputdate,
               zip: zipCode,
-              radius: distance,
+              radius: radius,
               jsonp: "dataHandler",
               api_key: apikey
               },          
@@ -160,7 +170,7 @@ function dataHandler(data) {
       $.ajax({url: url, method: 'GET'} ).then(function(resp){
         console.log(resp)
         if (resp.Response){
-          if (resp.Poster && resp.Poster != "N/A"){
+          if (resp.Poster && resp.Poster != "N/A" && resp.Title === movie.title){
             var tile = $('<div>').addClass('col-lg-2 tile').append($('<img>').attr({src: resp.Poster, alt: movie.title, class: 'poster', type: 'button', 'data-toggle': 'modal', 'data-target': '#movieShowtimeModal','data-movie': JSON.stringify(movie)}))
             $("#results-view").append(tile);
             array2.push(movie.title)
@@ -196,13 +206,17 @@ function dataHandler(data) {
     
     
 $(document).ready(function() {
+    
     $('.poster').hover(function() {	    
-    $(this).siblings('.poster').css('z-index', 10);
+    $(this).siblings('.poster').css({'z-index':10, transform: scale(1.5)});
     $(this).css('z-index', 99);
     })
   })
 
 function fillModal(){
+  var letters = ['A','B','C','D','E','F','G','H']
+  var lettersU = ['&#9398;','&#9399;','&#9400;','&#9401;','&#9402;','&#9403;','&#9404;','&#9405;']
+  var labelIndex = 0
   var theaters = [];
   var data = JSON.parse($(this).attr('data-movie'));
   console.log(data);
@@ -211,30 +225,92 @@ function fillModal(){
   $('#movieDescrip').empty().append($('<h3>').text(data.title),$('<p>').text(data.longDescription));
   var row1 = $('<div>').addClass('row text-center').append($('<h6>').text('Showtimes for ' + resultsSearchDay),$('<br><br>'));
   var row2 = $('<div>').addClass('row');
+  //create list of theaters showing the selected movie
   for (var i=0;i<data.showtimes.length;i++){
     if (theaters.indexOf(data.showtimes[i].theatre.name) == -1)
       theaters.push(data.showtimes[i].theatre.name);
   }
-  for (var i=0;i<theaters.length;i++){
-    $('<table>').attr({'id':'id'+i, class: 'tableFloat table table-striped'}).append($('<tr>').append($('<th>').text(theaters[i]))).appendTo(row2);
-  }
+  
+  
   $('#movieTable').append(row1,row2,$('<div>').attr({id:'map'}));
-  for (var i=0;i<data.showtimes.length;i++) {
-    var displayDate = moment(data.showtimes[i].dateTime, 'YYYY-MM-DDThh:mm').format('h:mm a')
-    var id = "#id"+theaters.indexOf(data.showtimes[i].theatre.name)
-    $(id).append($('<tr>').append($('<td>').append($('<div>').text(displayDate).attr({class:'showtime', 'data-link':data.showtimes[i].ticketURI, 'data-time':displayDate, 'data-title':data.title, 'data-theater':data.showtimes[i].theatre.name}))))
+  
+  initMap();
+  //use google places to get lat/long of each theater and pin on map
+  var i=0; 
+  pinAddress()
+  function  pinAddress(){
+    console.log(theaters[i])
+    var request = {
+      query: theaters[i],
+      fields: ['name', 'geometry'],
+    };
+    var service = new google.maps.places.PlacesService(map);
+    service.findPlaceFromQuery(request, function(results, status) {
+      if (status === google.maps.places.PlacesServiceStatus.OK) {
+        console.log(status)
+        console.log(results[0].geometry.location)
+        createMarker(results[0]);
+      }
+      function createMarker(place) {
+        
+
+        
+        infoWindow = new google.maps.InfoWindow;
+        var marker = new google.maps.Marker({
+          map: map,
+          position: place.geometry.location,
+          // title: place.name,
+          label: letters[labelIndex++ % letters.length]
+        });
+
+        google.maps.event.addListener(marker, 'click', function() {
+          infoWindow.setContent(place.name)
+          infoWindow.setZIndex(2);
+
+          console.log(this)
+          infoWindow.open(map, this);
+
+        });
+      }
+      var center = map.getCenter();
+      var distanceMeters = google.maps.geometry.spherical.computeDistanceBetween(center, results[0].geometry.location);
+      var distance = Math.round(distanceMeters*0.000621371)
+      console.log(results[0].geometry.location.lat())
+      var loc = {lat: results[0].geometry.location.lat(),lng: results[0].geometry.location.lng()};
+      $('<table>').attr({'id':'id'+i, class: 'tableFloat table table-striped','data-loc': JSON.stringify(loc)}).append($('<tr>').append($('<th>').html(lettersU[i]+' <small>('+distance+'mi)</small> '+theaters[i]))).appendTo(row2); 
+      if (i< theaters.length-1){
+        i++;
+        pinAddress();
+      }
+      else{
+        for (var x=0;x<data.showtimes.length;x++) {
+          var displayDate = moment(data.showtimes[x].dateTime, 'YYYY-MM-DDThh:mm').format('h:mm a')
+          var id = "#id"+theaters.indexOf(data.showtimes[x].theatre.name)
+          $(id).append($('<tr>').append($('<td>').append($('<div>').text(displayDate).attr({class:'showtime', 'data-link':data.showtimes[x].ticketURI, 'data-loc': $(id).attr('data-loc'), 'data-time':displayDate, 'data-title':data.title, 'data-theater':data.showtimes[x].theatre.name}))))
+        }
+      }
+      
+
+    });
   }
+    
+    
+   
+  
+  
+  
 }
 
 function selectShowtime(){
   var $movieTable = $('#movieTable');
-  $this = $(this)
+  var $this = $(this)
+  console.log($this.attr('data-loc'))
   var $movieDescrip = $('#movieDescrip');
   $movieDescrip.empty().append(
-    $('<h4>').text($this.attr('data-title')+" playing at "+$this.attr('data-time')+" "+$this.attr('data-theater')),
+    $('<h4>').html('<strong>"'+$this.attr('data-title')+'"</strong> playing at <strong>'+$this.attr('data-time')+"</strong> "+$this.attr('data-theater')),
     $('<br>'),
     $('<h4>').text('Would you like to find a restaurant near the movie theater you selected?'),
-    $('<div>').attr({class:'select-button',id:'find-restaurant','data-dismiss':'modal'}).text('Search Restaurants'),
+    $('<div>').attr({class:'select-button',id:'find-restaurant','data-dismiss':'modal','data-loc': $this.attr('data-loc')}).text('Search Restaurants'),
     $('<a>').attr({href:$this.attr('data-link'),target:'_blank'}).append($('<div>').addClass('select-button').text('Get Movie Ticket Now'))
     
     );
@@ -309,44 +385,50 @@ function userResult(){
   $('#movieTable').val($(this).attr("value"))
   
   }
+
+function getNavigatorLocation(){
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function(position) {
+      pos = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude
+      };
+    })
+  }
+
+}
+
 loginRegisterVisibility()
 
 var map,infoWindow;
-      function initMap() {
-        map = new google.maps.Map(document.getElementById('map'), {
-          center: {lat: -34.397, lng: 150.644},
-          zoom: 8
-        });
-        infoWindow = new google.maps.InfoWindow;
+function initMap() {
+  var lat = (pos) ? pos.lat : '';
+  var long = (pos) ? pos.lng: '';
+  map = new google.maps.Map(document.getElementById('map'), {
+    center: {lat: lat, lng: long},
+    zoom: 11
+  });
+ 
+  var pinColor = "568cfd";
+  var pinImage = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + pinColor,
+      new google.maps.Size(21, 34),
+      new google.maps.Point(0,0),
+      new google.maps.Point(10, 34));
+  var marker = new google.maps.Marker({
+    position: {lat: lat, lng: long}, 
+    map: map,
+    icon: pinImage,
+   
+  });
+  // infoWindow = new google.maps.InfoWindow;
+  // infoWindow.setPosition(pos);
+  // infoWindow.setContent('You are Here');
+  // infoWindow.open(map);
+  // map.setCenter(pos);
+  
 
-        // Try HTML5 geolocation.
-        if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(function(position) {
-            var pos = {
-              lat: position.coords.latitude,
-              lng: position.coords.longitude
-            };
 
-            infoWindow.setPosition(pos);
-            infoWindow.setContent('Location found.');
-            infoWindow.open(map);
-            map.setCenter(pos);
-          }, function() {
-            handleLocationError(true, infoWindow, map.getCenter());
-          });
-        } else {
-          // Browser doesn't support Geolocation
-          handleLocationError(false, infoWindow, map.getCenter());
-        }
-      }
-
-      function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-        infoWindow.setPosition(pos);
-        infoWindow.setContent(browserHasGeolocation ?
-                              'Error: The Geolocation service failed.' :
-                              'Error: Your browser doesn\'t support geolocation.');
-        infoWindow.open(map);
-      }
+}
 
 /////// still working on this animation //////////         
 /*$(document).on('mouseover','.poster',function(){
