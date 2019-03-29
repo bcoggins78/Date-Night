@@ -139,7 +139,6 @@ function runMovies(){
       });
     };
     
-<<<<<<< HEAD
 function dataHandler(data) {
     var zipCode = $("#location-input").val();
     var apikey = "7byjtqn68yzm6ecsjfmcy9q3";
@@ -189,37 +188,6 @@ function dataHandler(data) {
     },750)
 };
     
-=======
-    function dataHandler(data) {
-      var zipCode = $("#location-input").val();
-      var apikey = "7byjtqn68yzm6ecsjfmcy9q3";
-      // var apikey = "sdpzqr2egk9fyp2ct7jz879v";
-
-    // $(".card-header").text('Found ' + data.length + ' movies showing within ' + distance + ' miles of ' + zipCode+':');
-    var movies = data.hits;
-    $.each(data, function(index, movie) {
-      console.log(movie)
-      console.log(movie)
-      var releaseYear = movie.releaseYear
-      var url =  "https://www.omdbapi.com/?t=" + movie.title + "&y=" + releaseYear + "&plot=short&type=movie&apikey=trilogy";
-      $.ajax({url: url, method: 'GET'} ).then(function(resp){
-        // console.log(resp)
-        if (resp.Title === movie.title){
-          var tile = $('<div>').addClass('col-lg-2 tile').append($('<img>').attr({src: [resp.Poster],alt: movie.title, class: 'poster', type: 'button', 'data-toggle': 'modal', 'data-target': '#movieShowtimeModal','data-movie': JSON.stringify(movie)}))
-          $("#results-view").append(tile);
-        }
-      })
-    });
-    };
-      
-    //      var tile = $('<div>').addClass('col-lg-2 tile').append($('<img>').attr({src: "http://developer.tmsimg.com/" + movie.preferredImage.uri + '?api_key='+apikey, alt: movie.title, class: 'poster', type: 'button', 'data-toggle': 'modal', 'data-target': '#movieShowtimeModal','data-movie': JSON.stringify(movie)}))
-    //      if(movie.preferredImage.uri.includes('generic'))
-    //        tile.append($('<h6>').attr({class:'movie-title'}).text(movie.title))
-    //      $("#results-view").append(tile);
-    // })
-    // };
-
->>>>>>> master
     
 $(document).ready(function() {
     $('.poster').hover(function() {	    
