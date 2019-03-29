@@ -21,7 +21,7 @@ firebase.initializeApp(config);
     var btnLogin = document.getElementById('btnLogin');
     var btnSignUp = document.getElementById('btnSignUp');
     var btnLogout = document.getElementById('btnLogout');
-
+    var loginBtn = document.getElementById('loginBtn');
     // Add login event
     btnLogin.addEventListener('click', e=> {
         // Get email and pass
@@ -56,7 +56,13 @@ firebase.initializeApp(config);
         if(firebaseUser) {
             console.log(firebaseUser);
             console.log(firebaseUser.email + " is signed in");
+            $('#loginBtn').hide()
+            $('#registerBtn').hide()
+            $('#firstContainer').append('<div id="user">');
+            $('#user').append('<p>Hi'+' ' + firebaseUser.email+'</p>')
+            $('#user').append('<button id="btnLogout">LogOut</button>')
             btnLogout.classList.remove('hide');
+            
         } else {
             console.log('not logged in');
             btnLogout.classList.add('hide');
@@ -224,6 +230,8 @@ function selectRestaurant(){
   $this = $(this)
   var data = JSON.parse($this.attr('data-restaurant')).restaurant
   console.log(data)
+  //$('#selectRestaurantBtn').attr('class', data.name)
+  
   $movieDescrip.empty().append($('<h3>').text(data.name))
   var tableBooking = (data.has_table_booking) ? 'Yes' : 'No';
   $movieTable.empty().append(
@@ -235,7 +243,7 @@ function selectRestaurant(){
       $('<a>').attr({'href':data.menu_url, target: '_blank', class: 'select-button'}).text('Menu'),
       $('<a>').attr({'href':data.photos_url, target: '_blank', class: 'select-button'}).text('Photos'),
       $('<a>').attr({'href':data.events_url, target: '_blank', class: 'select-button'}).text('Events'),
-      $('<button>').attr({id:'selectRestaurantBtn'}).text('Select Restaurant')
+      $('<button>').attr({id:'selectRestaurantBtn', value: data.name}).text('Select Restaurant')
       )
       
   );
@@ -269,16 +277,18 @@ function registerLoginVisibility(){
 function signIna(){
   document.getElementById('loginPg').style.display = 'block';
 }
+
+//var nameR = $('#selectRestaurantBtn').val()
+//var nameRs = $('#movieDescrip').val()
 function userResult(){
   var $movieTable = $('#movieTable');
   $('#movieTable').empty()
   $('#save').hide();
-  $movieTable.append(
-   $('<h1>').text('Your Choice:'),
-    
-
-    
-    );}
+ 
+  $movieTable.append($('<h1>').text('Your Choice:'))
+  $('#movieTable').val($(this).attr("value"))
+  
+  }
 loginRegisterVisibility()
 
 var map,infoWindow;
@@ -329,7 +339,7 @@ $(document).on('mouseleave','.poster', function(){
 })
 */
 
-$(document).on('click', '#selectRestaurantBtn',userResult  )
+$(document).on('click', '#selectRestaurantBtn',userResult);
 $(document).on('click', '#signInA', signIna);
 $(document).on('click','.restaurant', selectRestaurant);
 $(document).on('click','.showtime', selectShowtime);
