@@ -68,6 +68,15 @@ firebase.initializeApp(config);
             btnLogout.classList.add('hide');
         }
     });
+    
+    firebase.auth().signOut()
+  .then(function() {
+    // Sign-out successful.
+    console.log(sssss)
+  })
+  .catch(function(error) {
+    // An error happened
+  });
     // ------------ Firebase Authentication ----------------------
 
  
