@@ -64,8 +64,7 @@ firebase.initializeApp(config);
     });
     // ------------ Firebase Authentication ----------------------
 
-var database = firebase.database();
-
+ 
 // var howManyResults = 50;
 var inputdate = "";
 var today = moment().format("YYYY-MM-DD");  
@@ -103,10 +102,10 @@ function runZomato() {
         // $("#restaurant-view").append("<br></br>");
          // for (i=0;i<howManyResults;i++){  
         for (var i=0; i<restaurantsArray.length; i++){
-          $('<div>').attr({class:'restaurant', type: 'button', 'data-toggle': 'modal', 'data-target': '#movieShowtimeModal', 'data-restaurant':JSON.stringify(restaurantsArray[i])}).append(
+          $('<div>').attr({class:'col col-md-8 restaurant', type: 'button', 'data-toggle': 'modal', 'data-target': '#movieShowtimeModal', 'data-restaurant':JSON.stringify(restaurantsArray[i])}).append(
             $('<h3>').text(restaurantsArray[i].restaurant.name),
             $('<p>').text(restaurantsArray[i].restaurant.location.address)
-          ).appendTo($('#restaurant-view'));
+          ).appendTo($('#results-view'));
         }
 })};
 
@@ -140,6 +139,7 @@ function runMovies(){
       });
     };
     
+<<<<<<< HEAD
 function dataHandler(data) {
     var zipCode = $("#location-input").val();
     var apikey = "7byjtqn68yzm6ecsjfmcy9q3";
@@ -189,6 +189,37 @@ function dataHandler(data) {
     },750)
 };
     
+=======
+    function dataHandler(data) {
+      var zipCode = $("#location-input").val();
+      var apikey = "7byjtqn68yzm6ecsjfmcy9q3";
+      // var apikey = "sdpzqr2egk9fyp2ct7jz879v";
+
+    // $(".card-header").text('Found ' + data.length + ' movies showing within ' + distance + ' miles of ' + zipCode+':');
+    var movies = data.hits;
+    $.each(data, function(index, movie) {
+      console.log(movie)
+      console.log(movie)
+      var releaseYear = movie.releaseYear
+      var url =  "https://www.omdbapi.com/?t=" + movie.title + "&y=" + releaseYear + "&plot=short&type=movie&apikey=trilogy";
+      $.ajax({url: url, method: 'GET'} ).then(function(resp){
+        // console.log(resp)
+        if (resp.Title === movie.title){
+          var tile = $('<div>').addClass('col-lg-2 tile').append($('<img>').attr({src: [resp.Poster],alt: movie.title, class: 'poster', type: 'button', 'data-toggle': 'modal', 'data-target': '#movieShowtimeModal','data-movie': JSON.stringify(movie)}))
+          $("#results-view").append(tile);
+        }
+      })
+    });
+    };
+      
+    //      var tile = $('<div>').addClass('col-lg-2 tile').append($('<img>').attr({src: "http://developer.tmsimg.com/" + movie.preferredImage.uri + '?api_key='+apikey, alt: movie.title, class: 'poster', type: 'button', 'data-toggle': 'modal', 'data-target': '#movieShowtimeModal','data-movie': JSON.stringify(movie)}))
+    //      if(movie.preferredImage.uri.includes('generic'))
+    //        tile.append($('<h6>').attr({class:'movie-title'}).text(movie.title))
+    //      $("#results-view").append(tile);
+    // })
+    // };
+
+>>>>>>> master
     
 $(document).ready(function() {
     $('.poster').hover(function() {	    
@@ -231,7 +262,8 @@ function selectShowtime(){
     $('<h4>').text('Would you like to find a restaurant near the movie theater you selected?'),
     $('<div>').attr({class:'select-button',id:'find-restaurant','data-dismiss':'modal'}).text('Search Restaurants'),
     $('<a>').attr({href:$this.attr('data-link'),target:'_blank'}).append($('<div>').addClass('select-button').text('Get Movie Ticket Now'))
-  );
+    
+    );
   $movieTable.empty().append($('<small>').text('* We will also make the link available for you to get movie tickets after you search restaurants *'))
     
 
@@ -254,8 +286,9 @@ function selectRestaurant(){
     $('<div>').append(
       $('<a>').attr({'href':data.menu_url, target: '_blank', class: 'select-button'}).text('Menu'),
       $('<a>').attr({'href':data.photos_url, target: '_blank', class: 'select-button'}).text('Photos'),
-      $('<a>').attr({'href':data.events_url, target: '_blank', class: 'select-button'}).text('Events')
-    )
+      $('<a>').attr({'href':data.events_url, target: '_blank', class: 'select-button'}).text('Events'),
+      $('<button>').attr({id:'selectRestaurantBtn'}).text('Select Restaurant')
+      )
       
   );
   
@@ -288,6 +321,16 @@ function registerLoginVisibility(){
 function signIna(){
   document.getElementById('loginPg').style.display = 'block';
 }
+function userResult(){
+  var $movieTable = $('#movieTable');
+  $('#movieTable').empty()
+  $('#save').hide();
+  $movieTable.append(
+   $('<h1>').text('Your Choice:'),
+    
+
+    
+    );}
 loginRegisterVisibility()
 
 var map,infoWindow;
@@ -338,6 +381,7 @@ $(document).on('mouseleave','.poster', function(){
 })
 */
 
+$(document).on('click', '#selectRestaurantBtn',userResult  )
 $(document).on('click', '#signInA', signIna);
 $(document).on('click','.restaurant', selectRestaurant);
 $(document).on('click','.showtime', selectShowtime);
