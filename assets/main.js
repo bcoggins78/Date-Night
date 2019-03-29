@@ -154,35 +154,55 @@ function runMovies(){
       });
     };
     
-    function dataHandler(data) {
-      var zipCode = $("#location-input").val();
-      var apikey = "7byjtqn68yzm6ecsjfmcy9q3";
-      // var apikey = "sdpzqr2egk9fyp2ct7jz879v";
-
-    // $(".card-header").text('Found ' + data.length + ' movies showing within ' + distance + ' miles of ' + zipCode+':');
+function dataHandler(data) {
+    var zipCode = $("#location-input").val();
+    var apikey = "7byjtqn68yzm6ecsjfmcy9q3";
+    // var apikey = "sdpzqr2egk9fyp2ct7jz879v";
+    var resultsArr = []
+    var array2 = []
+    var resultsObj = {}
+    $(".card-header").text('Found ' + data.length + ' movies showing within ' + distance + ' miles of ' + zipCode+':');
     var movies = data.hits;
     $.each(data, function(index, movie) {
       console.log(movie)
-      console.log(movie)
-      var releaseYear = movie.releaseYear
-      var url =  "https://www.omdbapi.com/?t=" + movie.title + "&y=" + releaseYear + "&plot=short&type=movie&apikey=trilogy";
+      var url =  "https://www.omdbapi.com/?t=" + movie.title + "&y=&plot=short&apikey=trilogy"
       $.ajax({url: url, method: 'GET'} ).then(function(resp){
-        // console.log(resp)
-        if (resp.Title === movie.title){
-          var tile = $('<div>').addClass('col-lg-2 tile').append($('<img>').attr({src: [resp.Poster],alt: movie.title, class: 'poster', type: 'button', 'data-toggle': 'modal', 'data-target': '#movieShowtimeModal','data-movie': JSON.stringify(movie)}))
-          $("#results-view").append(tile);
+        console.log(resp)
+        if (resp.Response){
+          if (resp.Poster && resp.Poster != "N/A"){
+            var tile = $('<div>').addClass('col-lg-2 tile').append($('<img>').attr({src: resp.Poster, alt: movie.title, class: 'poster', type: 'button', 'data-toggle': 'modal', 'data-target': '#movieShowtimeModal','data-movie': JSON.stringify(movie)}))
+            $("#results-view").append(tile);
+            array2.push(movie.title)
+          }
+          else{
+            resultsObj[movie.title] = movie;
+            resultsArr.push(movie.title)
+          }
+        }
+        else{
+          resultsObj[movie.title] = movie;
+          resultsArr.push(movie.title)
         }
       })
     });
-    };
-      
-    //      var tile = $('<div>').addClass('col-lg-2 tile').append($('<img>').attr({src: "http://developer.tmsimg.com/" + movie.preferredImage.uri + '?api_key='+apikey, alt: movie.title, class: 'poster', type: 'button', 'data-toggle': 'modal', 'data-target': '#movieShowtimeModal','data-movie': JSON.stringify(movie)}))
-    //      if(movie.preferredImage.uri.includes('generic'))
-    //        tile.append($('<h6>').attr({class:'movie-title'}).text(movie.title))
-    //      $("#results-view").append(tile);
-    // })
-    // };
-
+    setTimeout(function(){
+      i=0
+      loopObj();
+      function loopObj(){
+        setTimeout(function(){
+          var key = resultsArr[i]
+          var tile = $('<div>').addClass('col-lg-2 tile').append($('<img>').attr({src: "http://developer.tmsimg.com/" + resultsObj[key].preferredImage.uri + '?api_key='+apikey, alt: resultsObj[key].title, class: 'poster', type: 'button', 'data-toggle': 'modal', 'data-target': '#movieShowtimeModal','data-movie': JSON.stringify(resultsObj[key])}))
+          if(resultsObj[key].preferredImage.uri.includes('generic'))
+            tile.append($('<h6>').attr({class:'movie-title'}).text(resultsObj[key].title))
+          $("#results-view").append(tile);
+          i++;
+          if (i <Object.keys(resultsObj).length)
+            loopObj();
+        },750)
+      } 
+    },750)
+};
+    
     
 $(document).ready(function() {
     $('.poster').hover(function() {	    
