@@ -14,7 +14,7 @@ body {
 }
 #btnLogout{
   margin-top: -5px;
-    margin-left: 60%;
+    /* margin-left: 60%; */
 }
 #user{
   float: right;
@@ -92,13 +92,14 @@ button {
   border-style: solid;
   border-color: white;
   position: relative;
-  margin: 1em;
+  margin: 1em auto;
   display: inline-block;
   padding: 0.5em 1em;
   transition: all 0.3s ease-in-out;
   text-align: center;
   font-family: comfortaa;
-  font-weight: bold; }
+  font-weight: bold;
+  }
 
 button:before, button:after {
   content: '';
@@ -392,7 +393,7 @@ button:hover {
   display: none;
 }
 
-.container:before, .container:after {
+.container:before, .container:after, #find-restaurant {
   /* content: ""; */
   display: block;
   clear: both;
@@ -435,18 +436,32 @@ button:hover {
 .container-fluid{
   padding: 0;
 }
+.focus{
+  background: blanchedalmond;
+}
 
 
 #location-form{
-  padding: 2em 6em;
+  padding: 0;
 }
-.showtime, .select-button{
+.showtime, .select-button, .cuisine-btn{
   border: solid 1px;
   border-radius: .5em;
   padding: .2em;
   display: inline-block;
   margin: 0 1em;
   color: black;
+}
+.cuisine-btn{
+  margin: 1em;
+}
+#movieTabl{
+  width: fit-content;
+}
+.width{
+  width: 8em;
+  min-width: 60vw;
+  
 }
 #selectRestaurantBtn{
   color: black;
@@ -456,26 +471,48 @@ button:hover {
   border-style: solid;
   border-color: white;
   position: relative;
-  margin: 1em;
+  margin: 1em auto;
   display: flex;
   padding: 0.5em 1em;
   transition: all 0.3s ease-in-out;
   font-family: comfortaa;
   font-weight: bold;
 }
-.showtime:hover, .select-button:hover{
+.showtime:hover, .select-button:hover, .cuisine-btn:hover{
   background: blanchedalmond;
   text-decoration: none;
   color: black;
 }
+#find-restaurant{
+  color: black;
+  
+  
+}
+#find-restaurant:hover{
+  color: white;
+  background: green;
+  width: + 18px;
+  height: + 18px;
+  border: double .9em  white ;
+  
+}
 #movieDescrip a{
   color: black;
 }
+#movieDescrip{
+  width: 100%
+}
+#movieDescrip h3{
+  margin: auto;
+}
+#movieDescrip button{
+  color: blue;
+}
 .restaurant {
-  margin-left: 20%;
+  /* margin-left: 20%; */
   background: #f0f8ffd4;
   color: black;
-  margin: 1em 6em;
+  margin: 1em auto;
   text-align: center;
   height: 80px;
   border: 1px black solid;
