@@ -19,71 +19,84 @@ var config = {
 };
 firebase.initializeApp(config);
 
-    // ------------ Firebase Authentication ----------------------
-    var txtEmail = document.getElementById('txtEmail');
-    var txtPassword = document.getElementById('txtPassword');
-    var btnLogin = document.getElementById('btnLogin');
-    var btnSignUp = document.getElementById('btnSignUp');
-    var btnLogout = document.getElementById('btnLogout');
-    var loginBtn = document.getElementById('loginBtn');
-    // Add login event
-    btnLogin.addEventListener('click', e=> {
-        // Get email and pass
-        var email = txtEmail.value;
-        var pass = txtPassword.value;
-        var auth = firebase.auth();
-        // Sign In
-        var promise = auth.signInWithEmailAndPassword(email, pass);
-        promise.catch(e => console.log(e.message));
-        
-    });
+// ------------ Firebase Authentication ----------------------
+var txtEmail = document.getElementById('txtEmail');
+var txtPassword = document.getElementById('txtPassword');
+var btnLogin = document.getElementById('btnLogin');
+var btnSignUp = document.getElementById('btnSignUp');
+var btnLogout = document.getElementById('btnLogout');
+var loginBtn = document.getElementById('loginBtn');
 
-    // Add signup Event
-    btnSignUp.addEventListener('click', e=> {
-        // Get email and pass
-        var email = txtEmail.value;
-        var pass = txtPassword.value;
-        var auth = firebase.auth();
-        // Sign In
-        var promise = auth.createUserWithEmailAndPassword(email, pass);
-        promise.catch(e => console.log(e.message));
+// Add login event
+btnLogin.addEventListener('click', e => {
+  // Get email and pass
+  event.preventDefault();
+  var email = txtEmail.value;
+  var pass = txtPassword.value;
+  var auth = firebase.auth();
+  // Sign In
+  var promise = auth.signInWithEmailAndPassword(email, pass);
+  promise.catch(e => console.log(e.message));
 
-    });
+});
 
-    // Add logout Event
-    btnLogout.addEventListener('click', e=> {
-        firebase.auth().signOut();
-    });
+// Add signup Event
+btnSignUp.addEventListener('click', e => {
+  // Get email and pass
+  event.preventDefault();
+  var email = txtEmail.value;
+  var cleanEmail = email.replace(/\./g, ','); // Convert email so it can be used in Firebase path
+  var pass = txtPassword.value;
+  var auth = firebase.auth();
+  // Sign In
+  var promise = auth.createUserWithEmailAndPassword(email, pass);
+  promise.catch(e => console.log(e.message));
 
-    // Add a realtime Listener
-    firebase.auth().onAuthStateChanged(firebaseUser => {
-        if(firebaseUser) {
-            console.log(firebaseUser);
-            console.log(firebaseUser.email + " is signed in");
-            $('#loginBtn').hide()
-            $('#registerBtn').hide()
-            $('#firstContainer').append('<div id="user">');
-            $('#user').append('<p>Hi'+' ' + firebaseUser.email+'</p>')
-            $('#user').append('<button id="btnLogout">LogOut</button>')
-            btnLogout.classList.remove('hide');
-            
-        } else {
-            console.log('not logged in');
-            btnLogout.classList.add('hide');
-        }
-    });
-    // ------------ Firebase Authentication ----------------------
+  firebase.database().ref('users/' + cleanEmail).set({
+    movie: "",
+    restaurant: ""
 
- 
+  });
+
+
+});
+
+// Add logout Event
+btnLogout.addEventListener('click', e => {
+  event.preventDefault();
+  firebase.auth().signOut();
+});
+
+// Add a realtime Listener
+firebase.auth().onAuthStateChanged(firebaseUser => {
+  if (firebaseUser) {
+    console.log(firebaseUser);
+    console.log(firebaseUser.email + " is signed in");
+    $('#loginBtn').hide()
+    $('#registerBtn').hide()
+    $('#firstContainer').append('<div id="user">');
+    $('#user').append('<p>Hi' + ' ' + firebaseUser.email + '</p>')
+    $('#user').append('<button id="btnLogout">LogOut</button>')
+    btnLogout.classList.remove('hide');
+
+  } else {
+    console.log('not logged in');
+    btnLogout.classList.add('hide');
+  }
+});
+// ------------ Firebase Authentication ----------------------
+
+
 // var howManyResults = 50;
 var inputdate = "";
-var today = moment().format("YYYY-MM-DD");  
+var today = moment().format("YYYY-MM-DD");
 var distance = "";
 function runToday() {
-    inputdate = $("#date-input").val();
-if (inputdate === ""){
+  inputdate = $("#date-input").val();
+  if (inputdate === "") {
     (inputdate = today);
-}};
+  }
+};
 
 function runZomato(count,start,locObj) {
     $this = $(this)
@@ -209,7 +222,7 @@ function dataHandler(data) {
             resultsArr.push(movie.title)
           }
         }
-        else{
+        else {
           resultsObj[movie.title] = movie;
           resultsArr.push(movie.title)
         }
@@ -239,8 +252,8 @@ $(document).ready(function() {
     $('.poster').hover(function() {	    
     $(this).siblings('.poster').css({'z-index':10, transform: scale(1.5)});
     $(this).css('z-index', 99);
-    })
   })
+})
 
 function fillModal(){
   $("body").css("cursor", "progress")
@@ -252,8 +265,8 @@ function fillModal(){
   console.log(data);
   var resultsSearchDay = moment(data.showtimes[0].dateTime, 'YYYY-MM-DDThh:mm').format('dddd, MMMM Do YYYY');
   $('#movieTable').empty();
-  $('#movieDescrip').empty().append($('<h3>').text(data.title),$('<p>').text(data.longDescription));
-  var row1 = $('<div>').addClass('row text-center').append($('<h6>').text('Showtimes for ' + resultsSearchDay),$('<br><br>'));
+  $('#movieDescrip').empty().append($('<h3>').text(data.title), $('<p>').text(data.longDescription));
+  var row1 = $('<div>').addClass('row text-center').append($('<h6>').text('Showtimes for ' + resultsSearchDay), $('<br><br>'));
   var row2 = $('<div>').addClass('row');
   //create list of theaters showing the selected movie
   for (var i=0;i<data.showtimes.length;i++){
@@ -332,7 +345,7 @@ function fillModal(){
   
 }
 
-function selectShowtime(){
+function selectShowtime() {
   var $movieTable = $('#movieTable');
   var $this = $(this)
   console.log($this.attr('data-loc'))
@@ -346,72 +359,72 @@ function selectShowtime(){
     
     );
   $movieTable.empty().append($('<small>').text('* We will also make the link available for you to get movie tickets after you search restaurants *'))
-    
+
 
 
 }
 
-function selectRestaurant(){
+function selectRestaurant() {
   var $movieTable = $('#movieTable');
   var $movieDescrip = $('#movieDescrip');
   $this = $(this)
   var data = JSON.parse($this.attr('data-restaurant')).restaurant
   console.log(data)
   //$('#selectRestaurantBtn').attr('class', data.name)
-  
+
   $movieDescrip.empty().append($('<h3>').text(data.name))
   var tableBooking = (data.has_table_booking) ? 'Yes' : 'No';
   $movieTable.empty().append(
     $('<p>').html('<strong>Cuisines: </strong>' + data.cuisines),
     $('<p>').html('<strong>Average Cost for two: </strong>$' + data.average_cost_for_two),
     $('<p>').html('<strong>Has Table Booking: </strong>' + tableBooking),
-    $('<p>').html('<strong>User Rating: </strong>' + data.user_rating.aggregate_rating + " ").append($('<span>').text(data.user_rating.rating_text).attr('style','color:#'+data.user_rating.rating_color)),
+    $('<p>').html('<strong>User Rating: </strong>' + data.user_rating.aggregate_rating + " ").append($('<span>').text(data.user_rating.rating_text).attr('style', 'color:#' + data.user_rating.rating_color)),
     $('<div>').append(
-      $('<a>').attr({'href':data.menu_url, target: '_blank', class: 'select-button'}).text('Menu'),
-      $('<a>').attr({'href':data.photos_url, target: '_blank', class: 'select-button'}).text('Photos'),
-      $('<a>').attr({'href':data.events_url, target: '_blank', class: 'select-button'}).text('Events'),
-      $('<button>').attr({id:'selectRestaurantBtn', value: data.name}).text('Select Restaurant')
-      )
-      
+      $('<a>').attr({ 'href': data.menu_url, target: '_blank', class: 'select-button' }).text('Menu'),
+      $('<a>').attr({ 'href': data.photos_url, target: '_blank', class: 'select-button' }).text('Photos'),
+      $('<a>').attr({ 'href': data.events_url, target: '_blank', class: 'select-button' }).text('Events'),
+      $('<button>').attr({ id: 'selectRestaurantBtn', value: data.name }).text('Select Restaurant')
+    )
+
   );
-  
+
 }
 
-  
-function displayLogIn(){
+
+function displayLogIn() {
   document.getElementById('loginPg').style.display = "block";
 }
-function displayRegisterForm(){
-  document.getElementById('registerPg').style.display =  "block";
+function displayRegisterForm() {
+  document.getElementById('registerPg').style.display = "block";
 }
-function displayMovieTable(){
+function displayMovieTable() {
   document.getElementById('movieCard').style.display = 'block';
 }
-function loginRegisterVisibility(){
-  if (('loginPg').display = 'block'){
+function loginRegisterVisibility() {
+  if (('loginPg').display = 'block') {
     ('registerPg').display = 'none'
   }
 }
-function loginRegisterClose(){
+function loginRegisterClose() {
   document.getElementById('loginPg').style.display = "none";
-  document.getElementById('registerPg').style.display =  "none";
+  document.getElementById('registerPg').style.display = "none";
 }
-function registerLoginVisibility(){
-  if (('registerPg').display='block'){
+function registerLoginVisibility() {
+  if (('registerPg').display = 'block') {
     ('loginPg').display = 'none';
   }
 }
-function signIna(){
+function signIna() {
   document.getElementById('loginPg').style.display = 'block';
 }
 
 //var nameR = $('#selectRestaurantBtn').val()
 //var nameRs = $('#movieDescrip').val()
-function userResult(){
+function userResult() {
   var $movieTable = $('#movieTable');
   $('#movieTable').empty()
   $('#save').hide();
- 
+
   $movieTable.append($('<h1>').text('Your Choice:'))
   $('#movieTable').val($(this).attr("value"))
   
@@ -487,8 +500,8 @@ $(document).on('click', '#moreRestaurants',function(){
   offsetZomato(start,$this)});
 $(document).on('click', '#selectRestaurantBtn',userResult);
 $(document).on('click', '#signInA', signIna);
-$(document).on('click','.restaurant', selectRestaurant);
-$(document).on('click','.showtime', selectShowtime);
+$(document).on('click', '.restaurant', selectRestaurant);
+$(document).on('click', '.showtime', selectShowtime);
 $(document).on('click', '.close', loginRegisterClose)
 $(document).on('click', '#registerBtn', displayRegisterForm)
 $(document).on("click", "#find-theater", displayMovieTable);
