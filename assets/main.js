@@ -1,6 +1,8 @@
 
 
-var pos,radius;
+
+
+var pos,radius,addMovies;
 $('.message a').click(function(){
   $('form').animate({height: "toggle", opacity: "toggle"}, "slow");
 });
@@ -83,17 +85,17 @@ if (inputdate === ""){
     (inputdate = today);
 }};
 
-function runZomato() {
+function runZomato(count,start,locObj) {
     $this = $(this)
     event.preventDefault();
     // var randNum = Math.floor(Math.random() * 20);
 
-    var latitude = JSON.parse($(this).attr('data-loc')).lat;
-    var longitude = JSON.parse($(this).attr('data-loc')).lng;
+    var latitude = locObj.lat;
+    var longitude = locObj.lng;
     console.log(latitude)
     console.log(longitude)
     var radius = Math.round(radius*1609.34)
-    var queryURL = "https://developers.zomato.com/api/v2.1/search?" + "lat=" + latitude + "&lon=" + longitude + "&radius="+radius+"&sort=real_distance&order=asc";
+    var queryURL = "https://developers.zomato.com/api/v2.1/search?" + "count="+count+"&start="+start+"&lat=" + latitude + "&lon=" + longitude + "&radius="+radius+"&sort=real_distance&order=asc";
     
 
     $.ajax({
@@ -101,7 +103,7 @@ function runZomato() {
     method: "GET",
     headers: {'user-key' : '930bc5c593df51586e7bff08f89be982'}
     }).then(function(response) {
-      $('#results-view').empty();
+      
 
       console.log(response);
       console.log(JSON.stringify(response))
@@ -120,15 +122,24 @@ function runZomato() {
           $('<p>').text(restaurantsArray[i].restaurant.location.address)
         ).appendTo($('#results-view'));
       }
+      $('#results-view').append($('<button>').attr({id: 'moreRestaurants',class:'col-md-8 text-center','href':'#results-view','data-loc':JSON.stringify(locObj),'data-start':JSON.stringify(start)}).text('More Restaurants'))
 })};
 
+function offsetZomato(start,$this){
+  console.log($this)
+  var locObj = JSON.parse($this.attr('data-loc'));
+  console.log('locationObject')
+  console.log(locObj);
+  var count = 20;
+  start += count;
+  $this.remove()
+  runZomato(count,start,locObj);
+}
 function runMovies(){
     
     event.preventDefault();
     radius = $("#distance-input").val().substring(0, length);
     var length = 2;
-   
-    
     if (distance === ""){
         distance = 5;
     }
@@ -141,19 +152,37 @@ function runMovies(){
     var baseUrl = "https://data.tmsapi.com/v1.1";
     var showtimesUrl = baseUrl + '/movies/showings';
     var zipCode = $("#location-input").val();
-    if (zipCode == '')
-      getNavigatorLocation();
-    $.ajax({
-      url: showtimesUrl,
-          data: { startDate: inputdate,
-              zip: zipCode,
-              radius: radius,
-              jsonp: "dataHandler",
-              api_key: apikey
-              },          
-      dataType: "jsonp",
+    var zipTest = /^\b\d{5}(-\d{4})?\b$/.test(zipCode)
+    if (!pos&&!zipTest){
+      $("#location-input").addClass('input').attr('placeholder','zipcode (required)').one('focus',function(){
+        $(this).removeClass('input').attr('placeholder','zipcode');
       });
-    };
+      return;
+    }
+    
+    $.ajax({
+      url: 'https://maps.googleapis.com/maps/api/geocode/json?components=postal_code:'+zipCode+'&key=AIzaSyArGspblnhF4-hiENSFuiTXDuoRoxS-by8',
+      method:"GET"
+    }).then(function(resp){
+        console.log(resp)
+        if(resp.status === 'OK'){
+          pos = {lat: resp.results[0].geometry.location.lat, lng: resp.results[0].geometry.location.lng}
+        }
+      $.ajax({
+        url: showtimesUrl,
+        data: { 
+          startDate: inputdate,
+          // zip: zipCode,
+          radius: radius,
+          lat: pos.lat,
+          lng: pos.lng,
+          jsonp: "dataHandler",
+          api_key: apikey
+        },          
+        dataType: "jsonp",
+      });
+    })
+};
     
 function dataHandler(data) {
     var zipCode = $("#location-input").val();
@@ -190,7 +219,7 @@ function dataHandler(data) {
       i=0
       loopObj();
       function loopObj(){
-        setTimeout(function(){
+        addMovies = setTimeout(function(){
           var key = resultsArr[i]
           var tile = $('<div>').addClass('col-lg-2 tile').append($('<img>').attr({src: "http://developer.tmsimg.com/" + resultsObj[key].preferredImage.uri + '?api_key='+apikey, alt: resultsObj[key].title, class: 'poster', type: 'button', 'data-toggle': 'modal', 'data-target': '#movieShowtimeModal','data-movie': JSON.stringify(resultsObj[key])}))
           if(resultsObj[key].preferredImage.uri.includes('generic'))
@@ -206,7 +235,7 @@ function dataHandler(data) {
     
     
 $(document).ready(function() {
-    
+    getNavigatorLocation();
     $('.poster').hover(function() {	    
     $(this).siblings('.poster').css({'z-index':10, transform: scale(1.5)});
     $(this).css('z-index', 99);
@@ -214,6 +243,7 @@ $(document).ready(function() {
   })
 
 function fillModal(){
+  $("body").css("cursor", "progress")
   var letters = ['A','B','C','D','E','F','G','H']
   var lettersU = ['&#9398;','&#9399;','&#9400;','&#9401;','&#9402;','&#9403;','&#9404;','&#9405;']
   var labelIndex = 0
@@ -288,12 +318,13 @@ function fillModal(){
           var id = "#id"+theaters.indexOf(data.showtimes[x].theatre.name)
           $(id).append($('<tr>').append($('<td>').append($('<div>').text(displayDate).attr({class:'showtime', 'data-link':data.showtimes[x].ticketURI, 'data-loc': $(id).attr('data-loc'), 'data-time':displayDate, 'data-title':data.title, 'data-theater':data.showtimes[x].theatre.name}))))
         }
+        $("body").css("cursor", "default") 
       }
       
-
+       
     });
   }
-    
+ 
     
    
   
@@ -332,7 +363,7 @@ function selectRestaurant(){
   var tableBooking = (data.has_table_booking) ? 'Yes' : 'No';
   $movieTable.empty().append(
     $('<p>').html('<strong>Cuisines: </strong>' + data.cuisines),
-    $('<p>').html('<strong>Average Cost for two: </strong>' + data.average_cost_for_two),
+    $('<p>').html('<strong>Average Cost for two: </strong>$' + data.average_cost_for_two),
     $('<p>').html('<strong>Has Table Booking: </strong>' + tableBooking),
     $('<p>').html('<strong>User Rating: </strong>' + data.user_rating.aggregate_rating + " ").append($('<span>').text(data.user_rating.rating_text).attr('style','color:#'+data.user_rating.rating_color)),
     $('<div>').append(
@@ -393,7 +424,14 @@ function getNavigatorLocation(){
         lat: position.coords.latitude,
         lng: position.coords.longitude
       };
+    },function(){
+      if (!pos)
+      $("#location-input").attr('placeholder','zipcode (required)')
     })
+   
+  }
+  else{
+    $("#location-input").attr('placeholder','zipcode (required)')
   }
 
 }
@@ -441,6 +479,12 @@ $(document).on('mouseleave','.poster', function(){
 })
 */
 
+$(document).on('click', '#moreRestaurants',function(){
+  $this = $(this)
+  var start = JSON.parse($(this).attr('data-start'));
+  console.log('START')
+  console.log(start)
+  offsetZomato(start,$this)});
 $(document).on('click', '#selectRestaurantBtn',userResult);
 $(document).on('click', '#signInA', signIna);
 $(document).on('click','.restaurant', selectRestaurant);
@@ -448,8 +492,12 @@ $(document).on('click','.showtime', selectShowtime);
 $(document).on('click', '.close', loginRegisterClose)
 $(document).on('click', '#registerBtn', displayRegisterForm)
 $(document).on("click", "#find-theater", displayMovieTable);
-$(document).on('click', '#loginBtn', displayLogIn )
+$(document).on('click', '#loginBtn', displayLogIn)
 $(document).on("click", ".poster", fillModal);
 $(document).on("click", "#find-theater", runToday);
 $(document).on("click", "#find-theater", runMovies);
-$(document).on("click", "#find-restaurant", runZomato);
+$(document).on("click", "#find-restaurant", function(){
+  $('#results-view').empty();
+  clearTimeout(addMovies);
+  var locObj = JSON.parse($(this).attr('data-loc'))
+  runZomato(20,0,locObj) });
