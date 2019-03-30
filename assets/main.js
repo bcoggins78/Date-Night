@@ -136,8 +136,8 @@ function userResult(){
   })
 }
 
-function runZomato(count,start,locObj,cuisines) {
-    $this = $(this)
+function runZomato(count,start,locObj,cuisines,$this) {
+    
     event.preventDefault();
     // var randNum = Math.floor(Math.random() * 20);
 
@@ -178,13 +178,14 @@ function runZomato(count,start,locObj,cuisines) {
           'data-restaurant':JSON.stringify(restaurantsArray[i]),
           'data-title': $this.attr('data-title'),
           'data-time' : $this.attr('data-time'),
-          'data-theater' : $this.attr('data-theater')
+          'data-theater' : $this.attr('data-theater'),
+          'data-link': $this.attr('data-link')
         }).append(
           $('<h3>').text(restaurantsArray[i].restaurant.name),
           $('<p>').text(restaurantsArray[i].restaurant.location.address)
         ).appendTo($('#results-view'));
       }
-      $('#results-view').append($('<button>').attr({id: 'moreRestaurants',class:'col-md-8 text-center','href':'#results-view','data-loc':JSON.stringify(locObj),'data-cuisines': cuisines,'data-start':JSON.stringify(start)}).text('More Restaurants'))
+      $('#results-view').append($('<button>').attr({id: 'moreRestaurants','data-title': $this.attr('data-title'),'data-time' : $this.attr('data-time'),'data-theater' : $this.attr('data-theater'),class:'col-md-8 text-center','data-loc':JSON.stringify(locObj),'data-cuisines': cuisines,'data-start':JSON.stringify(start)}).text('More Restaurants'))
 })};
 
 function offsetZomato(start,$this){
@@ -410,7 +411,8 @@ function selectShowtime() {
       'data-loc': $this.attr('data-loc'),
       'data-title': $this.attr('data-title'),
       'data-time' : $this.attr('data-time'),
-      'data-theater' : $this.attr('data-theater')
+      'data-theater' : $this.attr('data-theater'),
+      'data-link': $this.attr('data-link')
     }).text('Search Restaurants'),
     $('<a>').attr({href:$this.attr('data-link'),target:'_blank'}).append($('<div>').addClass('select-button').text('Get Movie Ticket Now'))
     
@@ -450,7 +452,8 @@ function findRestaurantcuisines(){
         'data-dismiss':'modal',
         'data-title': $this.attr('data-title'),
         'data-time' : $this.attr('data-time'),
-        'data-theater' : $this.attr('data-theater')
+        'data-theater' : $this.attr('data-theater'),
+        'data-link' : $this.attr('data-link')
       }).text('Find Restaurants').appendTo($('#movieTable'))
       console.log(cuisinesArray)
     })
@@ -498,6 +501,7 @@ function selectRestaurant() {
   var $movieTable = $('#movieTable');
   var $movieDescrip = $('#movieDescrip');
   $this = $(this)
+  console.log($this)
   var data = JSON.parse($this.attr('data-restaurant')).restaurant
   console.log(data)
   //$('#selectRestaurantBtn').attr('class', data.name)
@@ -515,12 +519,14 @@ function selectRestaurant() {
       $('<a>').attr({ 'href': data.events_url, target: '_blank', class: 'select-button' }).text('Events'),
       $('<button>').attr({ 
         id: 'selectRestaurantBtn', 
-        value: data.name,
+       
+        'data-theater' : $this.attr('data-theater'),
         'data-restaurant':JSON.stringify(data),
         'data-loc': $this.attr('data-loc'),
         'data-title': $this.attr('data-title'),
         'data-time' : $this.attr('data-time'),
-        'data-theater' : $this.attr('data-theater')
+        'data-link' : $this.attr('data-link')
+        
       }).text('Select Restaurant')
     ),
     $('<div>').attr({id:'map'}).addClass('width')
@@ -538,13 +544,14 @@ function selectRestaurant() {
   var theater = new google.maps.Marker({
     position: {lat: lat, lng: lng}, 
     map: map,
-    label: 'T',
+    label: 'T'
    
   });
   var restaurant = new google.maps.Marker({
     position: {lat: restlat, lng: restlng}, 
     map: map,
     label: 'R',
+    zIndex: 3
    
   });
   google.maps.event.addListener(theater, 'click', function() {
@@ -595,6 +602,9 @@ function signIna() {
 //var nameRs = $('#movieDescrip').val()
 function userResult() {
   var $this = $(this)
+  console.log($this)
+  console.log($this.attr('data-title'))
+
   var $movieTable = $('#movieTable');
   var $movieDesc = $('#movieDescrip').empty().append($('<h1>').text('Your Choice:'));
   $movieTable.empty()
@@ -605,6 +615,11 @@ function userResult() {
   $('<div>').html('The showtime is : <strong>' + $this.attr('data-time')+'</strong>'),
   $('<div>').html('Playing at : <strong>' + $this.attr('data-theater')+'</strong>'),
   $('<div>').html('Your restaurant is : <strong>' + restData.name+'</strong>'),
+  $('<div>').html('Located at : <strong>' + restData.location.address+'</strong>'),
+  $('<button>').attr({href: $this.attr('data-link')}).text('Get Reservations'),
+  $('<button>').attr({id: "saveResult"}).text('Save my Date Info')
+
+
   )
 
   
@@ -701,4 +716,4 @@ $(document).on("click", "#find-restaurant", function(){
   clearTimeout(addMovies);
   var locObj = JSON.parse($(this).attr('data-loc'))
   var cuisines = JSON.parse($(this).attr('data')).toString()
-  runZomato(20,0,locObj,cuisines) });
+  runZomato(20,0,locObj,cuisines,$(this)) });
