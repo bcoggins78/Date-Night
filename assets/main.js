@@ -20,8 +20,10 @@ var config = {
 firebase.initializeApp(config);
 
 // ------------ Firebase Authentication ----------------------
-var txtEmail = document.getElementById('txtEmail');
-var txtPassword = document.getElementById('txtPassword');
+var txtEmailLogin = document.getElementById('txtEmail-login');
+var txtPasswordLogin = document.getElementById('txtPassword-login');
+var txtEmailReg = document.getElementById('txtEmail-reg');
+var txtPasswordReg = document.getElementById('txtPassword-reg');
 var btnLogin = document.getElementById('btnLogin');
 var btnSignUp = document.getElementById('btnSignUp');
 var btnLogout = document.getElementById('btnLogout');
@@ -31,8 +33,8 @@ var loginBtn = document.getElementById('loginBtn');
 btnLogin.addEventListener('click', e => {
   // Get email and pass
   event.preventDefault();
-  var email = txtEmail.value;
-  var pass = txtPassword.value;
+  var email = txtEmailLogin.value;
+  var pass = txtPasswordLogin.value;
   var auth = firebase.auth();
   // Sign In
   var promise = auth.signInWithEmailAndPassword(email, pass);
@@ -44,9 +46,9 @@ btnLogin.addEventListener('click', e => {
 btnSignUp.addEventListener('click', e => {
   // Get email and pass
   event.preventDefault();
-  var email = txtEmail.value;
+  var email = txtEmailReg.value;
   var cleanEmail = email.replace(/\./g, ','); // Convert email so it can be used in Firebase path
-  var pass = txtPassword.value;
+  var pass = txtPasswordReg.value;
   var auth = firebase.auth();
   // Sign In
   var promise = auth.createUserWithEmailAndPassword(email, pass);
@@ -60,12 +62,26 @@ btnSignUp.addEventListener('click', e => {
 
 
 });
-
+function logOut(){
+  firebase.auth().signOut().then(function() {
+    // Sign-out successful.
+    $('#loginBtn').show()
+    $('#registerBtn').show()
+    $('#user').hide()
+    $('#userText').remove()
+    $('#btnLogout').remove()
+    
+    console.log("user out")
+  }).catch(function(error) {
+    // An error happened.
+    console.log('something wrong')
+  });
+}
 // Add logout Event
-btnLogout.addEventListener('click', e => {
+/*btnLogout.addEventListener('click', e => {
   event.preventDefault();
   firebase.auth().signOut();
-});
+});*/
 
 // Add a realtime Listener
 firebase.auth().onAuthStateChanged(firebaseUser => {
@@ -74,10 +90,12 @@ firebase.auth().onAuthStateChanged(firebaseUser => {
     console.log(firebaseUser.email + " is signed in");
     $('#loginBtn').hide()
     $('#registerBtn').hide()
-    $('#firstContainer').append('<div id="user">');
-    $('#user').append('<p>Hi' + ' ' + firebaseUser.email + '</p>')
-    $('#user').append('<button id="btnLogout">LogOut</button>')
-    btnLogout.classList.remove('hide');
+    //$('#firstContainer').append('<div id="user">');
+    $('#user').show()
+    $('#user').append('<p id="userText">Hi' + ' ' + firebaseUser.email + '</p>')
+    $('#user').append('<button onclick="logOut()" id="btnLogout">LogOut</button>')
+   
+    //btnLogout.classList.remove('hide');
 
   } else {
     console.log('not logged in');
@@ -97,6 +115,26 @@ function runToday() {
     (inputdate = today);
   }
 };
+function userResult(){
+  var queryURL = "https://developers.zomato.com/api/v2.1/search?";
+  var $movieTable = $('#movieTable');
+  $('#movieTable').empty()
+  $('#save').hide();
+  
+  $.ajax({
+    url: queryURL,
+    method: "GET",
+    headers: { 'user-key': '930bc5c593df51586e7bff08f89be982' }
+  }).then(function (response) {
+    console.log(response);
+    console.log(JSON.stringify(response))
+    var selectRestaurant = document.getElementById('selectRestaurantBtn')
+  var resVal = selectRestaurant.value
+  $movieTable.append($('<h1>').text('Your Choice:'))
+  //$('#movieTable').append('<p>'+ selectRestaurant + '</p>')
+  $('#movieTable').append($('<p>'+ resVal+ '</p>'))
+  })
+}
 
 function runZomato(count,start,locObj,cuisines) {
     $this = $(this)
