@@ -30,7 +30,9 @@ var btnLogout = document.getElementById('btnLogout');
 var loginBtn = document.getElementById('loginBtn');
 function userlogingDis(){
 $('#registerPg').hide()
+$(".modal-backdrop").remove();
 $('#loginPg').hide()
+$(".modal-backdrop").remove();
 }
 // Add login event
 btnLogin.addEventListener('click', e => {
@@ -560,10 +562,12 @@ function selectRestaurant() {
 
 
 function displayLogIn() {
-  document.getElementById('loginPg').style.display = "block";
+  document.getElementById('loginPg').style.display = "block"
+  $('<div class="modal-backdrop"></div>').appendTo(document.body);;
 }
 function displayRegisterForm() {
   document.getElementById('registerPg').style.display = "block";
+  $('<div class="modal-backdrop"></div>').appendTo(document.body);
 }
 function displayMovieTable() {
   document.getElementById('movieCard').style.display = 'block';
