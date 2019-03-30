@@ -16,8 +16,10 @@ var config = {
 firebase.initializeApp(config);
 
 // ------------ Firebase Authentication ----------------------
-var txtEmail = document.getElementById('txtEmail');
-var txtPassword = document.getElementById('txtPassword');
+var txtEmailLogin = document.getElementById('txtEmail-login');
+var txtPasswordLogin = document.getElementById('txtPassword-login');
+var txtEmailReg = document.getElementById('txtEmail-reg');
+var txtPasswordReg = document.getElementById('txtPassword-reg');
 var btnLogin = document.getElementById('btnLogin');
 var btnSignUp = document.getElementById('btnSignUp');
 var btnLogout = document.getElementById('btnLogout');
@@ -27,8 +29,8 @@ var loginBtn = document.getElementById('loginBtn');
 btnLogin.addEventListener('click', e => {
   // Get email and pass
   event.preventDefault();
-  var email = txtEmail.value;
-  var pass = txtPassword.value;
+  var email = txtEmailLogin.value;
+  var pass = txtPasswordLogin.value;
   var auth = firebase.auth();
   // Sign In
   var promise = auth.signInWithEmailAndPassword(email, pass);
@@ -40,9 +42,9 @@ btnLogin.addEventListener('click', e => {
 btnSignUp.addEventListener('click', e => {
   // Get email and pass
   event.preventDefault();
-  var email = txtEmail.value;
+  var email = txtEmailReg.value;
   var cleanEmail = email.replace(/\./g, ','); // Convert email so it can be used in Firebase path
-  var pass = txtPassword.value;
+  var pass = txtPasswordReg.value;
   var auth = firebase.auth();
   // Sign In
   var promise = auth.createUserWithEmailAndPassword(email, pass);
@@ -72,7 +74,7 @@ firebase.auth().onAuthStateChanged(firebaseUser => {
     $('#registerBtn').hide()
     $('#firstContainer').append('<div id="user">');
     $('#user').append('<p>Hi' + ' ' + firebaseUser.email + '</p>')
-    $('#user').append('<button id="btnLogout">LogOut</button>')
+    $('#user').append('<button class="btnLogout">LogOut</button>')
     btnLogout.classList.remove('hide');
 
   } else {
