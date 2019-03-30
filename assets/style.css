@@ -306,7 +306,8 @@ button:hover {
   z-index: 1; }
 
 .top-tab {
-  margin-left: 30%;
+  margin-right: 15%;
+  margin-left: 15%;
   width: 150px;
   height: 60px;
   box-shadow: 3px 3px 15px rgba(0, 0, 0, 0.4);
@@ -657,5 +658,67 @@ button:hover {
     width: 4em;
     margin-top: 20px;
     font-family: 'Pacifico', cursive;
+  }
+  #location-input {
+    width: 95%;
+  }
+  #date-input {
+    width: 95%;
+  }
+  #distance-input {
+    width: 95%;
+  }
+  #loginBtn {
+    margin-left: 20%;
+  }
+}
+
+@media only screen and (max-width: 770px) {
+  .hiddenTitle{
+    width: 8em;
+    margin-top: 20px;
+    font-size: 7vw;
+  }
+  #header {
+    float: left;
+    font-size: 6vw;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    text-align: center;
+    width: 100%;
+  }
+  .zipText {
+    margin-top: 10px;
+    padding-top: 10px;
+  }
+  #location-input {
+    width: 82%;
+  }
+  #date-input {
+    width: 82%;
+  }
+  #distance-input {
+    width: 82%;
+  }
+  #loginBtn {
+    margin-left: 30%;
+  }
+}
+
+
+@media only screen and (max-width: 600px) {
+  .hiddenTitle{
+    width: 8em;
+    margin-top: 20px;
+    font-size: 7vw;
+  }
+  #location-input {
+    width: 105%;
+  }
+  #date-input {
+    width: 105%;
+  }
+  #distance-input {
+    width: 105%;
   }
 }
