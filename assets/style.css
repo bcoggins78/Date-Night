@@ -663,13 +663,13 @@ button:hover {
     font-family: 'Pacifico', cursive;
   }
   #location-input {
-    width: 95%;
+    width: 100%;
   }
   #date-input {
-    width: 95%;
+    width: 100%;
   }
   #distance-input {
-    width: 95%;
+    width: 100%;
   }
   #loginBtn {
     margin-left: 20%;
@@ -695,13 +695,13 @@ button:hover {
     padding-top: 10px;
   }
   #location-input {
-    width: 82%;
+    width: 100%;
   }
   #date-input {
-    width: 82%;
+    width: 100%;
   }
   #distance-input {
-    width: 82%;
+    width: 100%;
   }
   #loginBtn {
     margin-left: 30%;
@@ -716,12 +716,12 @@ button:hover {
     font-size: 7vw;
   }
   #location-input {
-    width: 105%;
+    width: 100%;
   }
   #date-input {
-    width: 105%;
+    width: 100%;
   }
   #distance-input {
-    width: 105%;
+    width: 100%;
   }
 }
