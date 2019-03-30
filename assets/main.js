@@ -673,6 +673,9 @@ $(document).on('mouseleave','.poster', function(){
     $(this).animate({width: 148 }, 2000)
 })
 */
+function closeBackDrop(){
+  $(".modal-backdrop").remove();
+}
 
 $(document).on('click', '#moreRestaurants',function(){
   $this = $(this)
@@ -680,6 +683,7 @@ $(document).on('click', '#moreRestaurants',function(){
   console.log('START')
   console.log(start)
   offsetZomato(start,$this)});
+  $(document).on('click', '.close', closeBackDrop)
 $(document).on('click', '#btnLogin', userlogingDis)
 $(document).on('click', '#btnSignUp', userlogingDis)
 $(document).on('click', '#selectRestaurantBtn',userResult);
