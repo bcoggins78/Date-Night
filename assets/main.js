@@ -1,4 +1,3 @@
-
 $('.message a').click(function(){
   $('form').animate({height: "toggle", opacity: "toggle"}, "slow");
 });
@@ -22,11 +21,13 @@ firebase.initializeApp(config);
     var btnSignUp = document.getElementById('btnSignUp');
     var btnLogout = document.getElementById('btnLogout');
     var loginBtn = document.getElementById('loginBtn');
+    var loginPass = document.getElementById('loginPass');
+    var loginEmail = document.getElementById('loginEmail')
     // Add login event
     btnLogin.addEventListener('click', e=> {
         // Get email and pass
-        var email = txtEmail.value;
-        var pass = txtPassword.value;
+        var email = loginEmail.value;
+        var pass = loginPass.value;
         var auth = firebase.auth();
         // Sign In
         var promise = auth.signInWithEmailAndPassword(email, pass);
@@ -68,15 +69,6 @@ firebase.initializeApp(config);
             btnLogout.classList.add('hide');
         }
     });
-    
-    firebase.auth().signOut()
-  .then(function() {
-    // Sign-out successful.
-    console.log(sssss)
-  })
-  .catch(function(error) {
-    // An error happened
-  });
     // ------------ Firebase Authentication ----------------------
 
  
