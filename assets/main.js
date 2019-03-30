@@ -28,7 +28,12 @@ var btnLogin = document.getElementById('btnLogin');
 var btnSignUp = document.getElementById('btnSignUp');
 var btnLogout = document.getElementById('btnLogout');
 var loginBtn = document.getElementById('loginBtn');
-
+function userlogingDis(){
+$('#registerPg').hide()
+$(".modal-backdrop").remove();
+$('#loginPg').hide()
+$(".modal-backdrop").remove();
+}
 // Add login event
 btnLogin.addEventListener('click', e => {
   // Get email and pass
@@ -39,7 +44,7 @@ btnLogin.addEventListener('click', e => {
   // Sign In
   var promise = auth.signInWithEmailAndPassword(email, pass);
   promise.catch(e => console.log(e.message));
-
+  //promise.catch(e => $('#firstContainer').text('<p>'+e.message+'</p>'));
 });
 
 // Add signup Event
@@ -57,10 +62,7 @@ btnSignUp.addEventListener('click', e => {
   firebase.database().ref('users/' + cleanEmail).set({
     movie: "",
     restaurant: ""
-
   });
-
-
 });
 function logOut(){
   firebase.auth().signOut().then(function() {
@@ -77,12 +79,6 @@ function logOut(){
     console.log('something wrong')
   });
 }
-// Add logout Event
-/*btnLogout.addEventListener('click', e => {
-  event.preventDefault();
-  firebase.auth().signOut();
-});*/
-
 // Add a realtime Listener
 firebase.auth().onAuthStateChanged(firebaseUser => {
   if (firebaseUser) {
@@ -98,8 +94,9 @@ firebase.auth().onAuthStateChanged(firebaseUser => {
     //btnLogout.classList.remove('hide');
 
   } else {
+    $('#user').hide()
     console.log('not logged in');
-    btnLogout.classList.add('hide');
+    //btnLogout.classList.add('hide');
   }
 });
 // ------------ Firebase Authentication ----------------------
@@ -572,10 +569,12 @@ function selectRestaurant() {
 
 
 function displayLogIn() {
-  document.getElementById('loginPg').style.display = "block";
+  document.getElementById('loginPg').style.display = "block"
+  $('<div class="modal-backdrop"></div>').appendTo(document.body);;
 }
 function displayRegisterForm() {
   document.getElementById('registerPg').style.display = "block";
+  $('<div class="modal-backdrop"></div>').appendTo(document.body);
 }
 function displayMovieTable() {
   document.getElementById('movieCard').style.display = 'block';
@@ -689,6 +688,9 @@ $(document).on('mouseleave','.poster', function(){
     $(this).animate({width: 148 }, 2000)
 })
 */
+function closeBackDrop(){
+  $(".modal-backdrop").remove();
+}
 
 $(document).on('click', '#moreRestaurants',function(){
   $this = $(this)
@@ -696,6 +698,9 @@ $(document).on('click', '#moreRestaurants',function(){
   console.log('START')
   console.log(start)
   offsetZomato(start,$this)});
+  $(document).on('click', '.close', closeBackDrop)
+$(document).on('click', '#btnLogin', userlogingDis)
+$(document).on('click', '#btnSignUp', userlogingDis)
 $(document).on('click', '#selectRestaurantBtn',userResult);
 $(document).on('click', '#signInA', signIna);
 $(document).on('click', '.restaurant', selectRestaurant);

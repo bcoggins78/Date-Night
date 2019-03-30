@@ -1,16 +1,21 @@
 @charset "UTF-8";
-@import url("//fonts.googleapis.com/css?family=Pacifico&text=Pure");
-@import url("//fonts.googleapis.com/css?family=Roboto:700&text=css");
-@import url("//fonts.googleapis.com/css?family=Kaushan+Script&text=!");
-@import "https://fonts.googleapis.com/css?family=Comfortaa:300,400,700&subset=cyrillic,cyrillic-ext,latin-ext";
 body {
   height: 940px;
-  background-image: url("../Super-Abstract-Wallpaper.jpg");
+  background-image: url("../backlit-couple-dawn-1824684.jpg");
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
   background-attachment: fixed;
   color: white; 
+}
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1040;
+  background-color: #00000047;
 }
 #btnLogout{
   margin-top: -5px;
@@ -82,6 +87,9 @@ color: white;
 #map {
   height: 425px; }
 
+  .cl text{
+    color: #000000;
+  }
 button {
   color: white;
   background: transparent;
@@ -156,7 +164,9 @@ button:hover {
     animation: ಠ_ಠ 5s infinite alternate ease-in-out -7.5s;
     animation-fill-mode: forwards;
     transform: rotateY(40deg) rotateX(33deg) translateZ(0); }
-  
+  .cl{
+    color: black;
+  }
   .layer:after {
     font: 100px/0.65 'Pacifico', 'Kaushan Script', Futura, 'Roboto', 'Trebuchet MS', Helvetica, sans-serif;
     content: 'Dinner\A and movie?';
@@ -296,7 +306,8 @@ button:hover {
   z-index: 1; }
 
 .top-tab {
-  margin-left: 30%;
+  margin-right: 15%;
+  margin-left: 15%;
   width: 150px;
   height: 60px;
   box-shadow: 3px 3px 15px rgba(0, 0, 0, 0.4);
@@ -633,4 +644,81 @@ button:hover {
   text-align: center;
   -o-text-overflow: ellipsis;
   text-overflow: ellipsis;
+}
+.hiddenTitle{
+  visibility: hidden;
+}
+@media only screen and (max-width: 1100px) {
+	.stage{
+    visibility: hidden;
+  }
+  .hiddenTitle{
+    visibility: visible;
+    font-weight: bold;
+    width: 4em;
+    margin-top: 20px;
+    font-family: 'Pacifico', cursive;
+  }
+  #location-input {
+    width: 95%;
+  }
+  #date-input {
+    width: 95%;
+  }
+  #distance-input {
+    width: 95%;
+  }
+  #loginBtn {
+    margin-left: 20%;
+  }
+}
+
+@media only screen and (max-width: 770px) {
+  .hiddenTitle{
+    width: 8em;
+    margin-top: 20px;
+    font-size: 7vw;
+  }
+  #header {
+    float: left;
+    font-size: 6vw;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    text-align: center;
+    width: 100%;
+  }
+  .zipText {
+    margin-top: 10px;
+    padding-top: 10px;
+  }
+  #location-input {
+    width: 82%;
+  }
+  #date-input {
+    width: 82%;
+  }
+  #distance-input {
+    width: 82%;
+  }
+  #loginBtn {
+    margin-left: 30%;
+  }
+}
+
+
+@media only screen and (max-width: 600px) {
+  .hiddenTitle{
+    width: 8em;
+    margin-top: 20px;
+    font-size: 7vw;
+  }
+  #location-input {
+    width: 105%;
+  }
+  #date-input {
+    width: 105%;
+  }
+  #distance-input {
+    width: 105%;
+  }
 }
