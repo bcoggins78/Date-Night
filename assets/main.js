@@ -112,26 +112,26 @@ function runToday() {
     (inputdate = today);
   }
 };
-function userResult(){
-  var queryURL = "https://developers.zomato.com/api/v2.1/search?";
-  var $movieTable = $('#movieTable');
-  $('#movieTable').empty()
-  $('#save').hide();
+// function userResult(){
+//   var queryURL = "https://developers.zomato.com/api/v2.1/search?";
+//   var $movieTable = $('#movieTable');
+//   $('#movieTable').empty()
+//   $('#save').hide();
   
-  $.ajax({
-    url: queryURL,
-    method: "GET",
-    headers: { 'user-key': '930bc5c593df51586e7bff08f89be982' }
-  }).then(function (response) {
-    console.log(response);
-    console.log(JSON.stringify(response))
-    var selectRestaurant = document.getElementById('selectRestaurantBtn')
-  var resVal = selectRestaurant.value
-  $movieTable.append($('<h1>').text('Your Choice:'))
-  //$('#movieTable').append('<p>'+ selectRestaurant + '</p>')
-  $('#movieTable').append($('<p>'+ resVal+ '</p>'))
-  })
-}
+//   $.ajax({
+//     url: queryURL,
+//     method: "GET",
+//     headers: { 'user-key': '930bc5c593df51586e7bff08f89be982' }
+//   }).then(function (response) {
+//     console.log(response);
+//     console.log(JSON.stringify(response))
+//     var selectRestaurant = document.getElementById('selectRestaurantBtn')
+//   var resVal = selectRestaurant.value
+//   $movieTable.append($('<h1>').text('Your Choice:'))
+//   //$('#movieTable').append('<p>'+ selectRestaurant + '</p>')
+//   $('#movieTable').append($('<p>'+ resVal+ '</p>'))
+//   })
+// }
 
 function runZomato(count,start,locObj,cuisines,$this) {
     
@@ -154,7 +154,8 @@ function runZomato(count,start,locObj,cuisines,$this) {
       
 
       console.log(response);
-      console.log(JSON.stringify(response))
+      console.log($this.attr('data-link'))
+
       var restaurantsArray = response.restaurants
   
       // var currentRestaurant = restaurantsArray[randNum].restaurant.name;
@@ -440,7 +441,7 @@ function findRestaurantcuisines(){
         $('<div>').attr({class:'cuisine cuisine-btn','data-id':cuisine.cuisine.cuisine_id,'data-state':'unfocus'}).text(cuisine.cuisine.cuisine_name).appendTo($('#movieTable'))
         // 'data-dismiss':'modal'
       })
-      console.log($this)
+      console.log($this.attr('data-link'))
       console.log(JSON.parse($this.attr('data-loc')))
       $('<div>').attr({class:'cuisine-btn cuisine-all','data-id':JSON.stringify(cuisinesArray),'data-state':'unfocus'}).text('Select All').appendTo($('#movieTable'))
       $('<button>').attr({
@@ -603,7 +604,7 @@ function userResult() {
   var $this = $(this)
   console.log($this)
   console.log($this.attr('data-title'))
-
+  console.log($this.attr('data-link'))
   var $movieTable = $('#movieTable');
   var $movieDesc = $('#movieDescrip').empty().append($('<h1>').text('Your Choice:'));
   $movieTable.empty()
@@ -615,7 +616,7 @@ function userResult() {
   $('<div>').html('Playing at : <strong>' + $this.attr('data-theater')+'</strong>'),
   $('<div>').html('Your restaurant is : <strong>' + restData.name+'</strong>'),
   $('<div>').html('Located at : <strong>' + restData.location.address+'</strong>'),
-  $('<button>').attr({href: $this.attr('data-link')}).text('Get Reservations'),
+  $('<a>').attr({href: $this.attr('data-link'),target: '_blank'}).append($('<button>').attr({href: $this.attr('data-link')}).text('Get Reservations')),
   $('<button>').attr({id: "saveResult"}).text('Save my Date Info')
 
 
