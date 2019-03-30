@@ -1,6 +1,10 @@
 
-$('.message a').click(function () {
-  $('form').animate({ height: "toggle", opacity: "toggle" }, "slow");
+
+
+
+var pos,radius,addMovies;
+$('.message a').click(function(){
+  $('form').animate({height: "toggle", opacity: "toggle"}, "slow");
 });
 
 
@@ -16,8 +20,10 @@ var config = {
 firebase.initializeApp(config);
 
 // ------------ Firebase Authentication ----------------------
-var txtEmail = document.getElementById('txtEmail');
-var txtPassword = document.getElementById('txtPassword');
+var txtEmailLogin = document.getElementById('txtEmail-login');
+var txtPasswordLogin = document.getElementById('txtPassword-login');
+var txtEmailReg = document.getElementById('txtEmail-reg');
+var txtPasswordReg = document.getElementById('txtPassword-reg');
 var btnLogin = document.getElementById('btnLogin');
 var btnSignUp = document.getElementById('btnSignUp');
 var btnLogout = document.getElementById('btnLogout');
@@ -27,8 +33,8 @@ var loginBtn = document.getElementById('loginBtn');
 btnLogin.addEventListener('click', e => {
   // Get email and pass
   event.preventDefault();
-  var email = txtEmail.value;
-  var pass = txtPassword.value;
+  var email = txtEmailLogin.value;
+  var pass = txtPasswordLogin.value;
   var auth = firebase.auth();
   // Sign In
   var promise = auth.signInWithEmailAndPassword(email, pass);
@@ -40,9 +46,9 @@ btnLogin.addEventListener('click', e => {
 btnSignUp.addEventListener('click', e => {
   // Get email and pass
   event.preventDefault();
-  var email = txtEmail.value;
+  var email = txtEmailReg.value;
   var cleanEmail = email.replace(/\./g, ','); // Convert email so it can be used in Firebase path
-  var pass = txtPassword.value;
+  var pass = txtPasswordReg.value;
   var auth = firebase.auth();
   // Sign In
   var promise = auth.createUserWithEmailAndPassword(email, pass);
@@ -130,130 +136,168 @@ function userResult(){
   })
 }
 
-function runZomato() {
-  event.preventDefault();
-  $('#results-view').empty();
-  var randNum = Math.floor(Math.random() * 20);
-  var latitude = "35.791470"
-  var longitude = "-78.781143";
-  var radius = "5000M"
-  var queryURL = "https://developers.zomato.com/api/v2.1/search?" + "lat=" + latitude + "&lon=" + longitude + "&radius=" + radius;
+function runZomato(count,start,locObj) {
+    $this = $(this)
+    event.preventDefault();
+    // var randNum = Math.floor(Math.random() * 20);
 
+    var latitude = locObj.lat;
+    var longitude = locObj.lng;
+    console.log(latitude)
+    console.log(longitude)
+    var radius = Math.round(radius*1609.34)
+    var queryURL = "https://developers.zomato.com/api/v2.1/search?" + "count="+count+"&start="+start+"&lat=" + latitude + "&lon=" + longitude + "&radius="+radius+"&sort=real_distance&order=asc";
+    
 
-  $.ajax({
+    $.ajax({
     url: queryURL,
     method: "GET",
-    headers: { 'user-key': '930bc5c593df51586e7bff08f89be982' }
-  }).then(function (response) {
-    console.log(response);
-    console.log(JSON.stringify(response))
-    var restaurantsArray = response.restaurants
+    headers: {'user-key' : '930bc5c593df51586e7bff08f89be982'}
+    }).then(function(response) {
+      
 
-    // var currentRestaurant = restaurantsArray[randNum].restaurant.name;
-    // var currentRestaurantLocal = restaurantsArray[randNum].restaurant.location.address;
-    // $("#restaurant-view").text("Restaurant Name: " + currentRestaurant);
-    // $("#restaurant-view").append("<br>");
-    // $("#restaurant-view").append("Address: " + currentRestaurantLocal);
-    // $("#restaurant-view").append("<br></br>");
-    // for (i=0;i<howManyResults;i++){  
-    for (var i = 0; i < restaurantsArray.length; i++) {
-      $('<div>').attr({ class: 'col col-md-8 restaurant', type: 'button', 'data-toggle': 'modal', 'data-target': '#movieShowtimeModal', 'data-restaurant': JSON.stringify(restaurantsArray[i]) }).append(
-        $('<h3>').text(restaurantsArray[i].restaurant.name),
-        $('<p>').text(restaurantsArray[i].restaurant.location.address)
-      ).appendTo($('#results-view'));
+      console.log(response);
+      console.log(JSON.stringify(response))
+      var restaurantsArray = response.restaurants
+  
+      // var currentRestaurant = restaurantsArray[randNum].restaurant.name;
+      // var currentRestaurantLocal = restaurantsArray[randNum].restaurant.location.address;
+      // $("#restaurant-view").text("Restaurant Name: " + currentRestaurant);
+      // $("#restaurant-view").append("<br>");
+      // $("#restaurant-view").append("Address: " + currentRestaurantLocal);
+      // $("#restaurant-view").append("<br></br>");
+        // for (i=0;i<howManyResults;i++){  
+      for (var i=0; i<restaurantsArray.length; i++){
+        $('<div>').attr({class:'col col-md-8 restaurant', type: 'button', 'data-toggle': 'modal', 'data-target': '#movieShowtimeModal', 'data-restaurant':JSON.stringify(restaurantsArray[i])}).append(
+          $('<h3>').text(restaurantsArray[i].restaurant.name),
+          $('<p>').text(restaurantsArray[i].restaurant.location.address)
+        ).appendTo($('#results-view'));
+      }
+      $('#results-view').append($('<button>').attr({id: 'moreRestaurants',class:'col-md-8 text-center','href':'#results-view','data-loc':JSON.stringify(locObj),'data-start':JSON.stringify(start)}).text('More Restaurants'))
+})};
+
+function offsetZomato(start,$this){
+  console.log($this)
+  var locObj = JSON.parse($this.attr('data-loc'));
+  console.log('locationObject')
+  console.log(locObj);
+  var count = 20;
+  start += count;
+  $this.remove()
+  runZomato(count,start,locObj);
+}
+function runMovies(){
+    
+    event.preventDefault();
+    radius = $("#distance-input").val().substring(0, length);
+    var length = 2;
+    if (distance === ""){
+        distance = 5;
     }
-  })
+    $("#results-view").text("");
+    // var apikey = "7byjtqn68yzm6ecsjfmcy9q3";
+     var apikey = "7byjtqn68yzm6ecsjfmcy9q3";
+    // var apikey = "sdpzqr2egk9fyp2ct7jz879v";
+    // var apikey = "dxfsm4dzuvd4wxbbwu2f4gze"; //David
+
+    var baseUrl = "https://data.tmsapi.com/v1.1";
+    var showtimesUrl = baseUrl + '/movies/showings';
+    var zipCode = $("#location-input").val();
+    var zipTest = /^\b\d{5}(-\d{4})?\b$/.test(zipCode)
+    if (!pos&&!zipTest){
+      $("#location-input").addClass('input').attr('placeholder','zipcode (required)').one('focus',function(){
+        $(this).removeClass('input').attr('placeholder','zipcode');
+      });
+      return;
+    }
+    
+    $.ajax({
+      url: 'https://maps.googleapis.com/maps/api/geocode/json?components=postal_code:'+zipCode+'&key=AIzaSyArGspblnhF4-hiENSFuiTXDuoRoxS-by8',
+      method:"GET"
+    }).then(function(resp){
+        console.log(resp)
+        if(resp.status === 'OK'){
+          pos = {lat: resp.results[0].geometry.location.lat, lng: resp.results[0].geometry.location.lng}
+        }
+      $.ajax({
+        url: showtimesUrl,
+        data: { 
+          startDate: inputdate,
+          // zip: zipCode,
+          radius: radius,
+          lat: pos.lat,
+          lng: pos.lng,
+          jsonp: "dataHandler",
+          api_key: apikey
+        },          
+        dataType: "jsonp",
+      });
+    })
 };
-
-function runMovies() {
-  event.preventDefault();
-  distance = $("#distance-input").val();
-  var length = 2;
-  var trimmedDistance = distance.substring(0, length);
-  distance = trimmedDistance;
-  if (distance === "") {
-    distance = 5;
-  }
-  $("#results-view").text("");
-  // var apikey = "7byjtqn68yzm6ecsjfmcy9q3";
-  var apikey = "7byjtqn68yzm6ecsjfmcy9q3";
-  // var apikey = "sdpzqr2egk9fyp2ct7jz879v";
-  // var apikey = "dxfsm4dzuvd4wxbbwu2f4gze"; //David
-
-  var baseUrl = "https://data.tmsapi.com/v1.1";
-  var showtimesUrl = baseUrl + '/movies/showings';
-  var zipCode = $("#location-input").val();
-  $.ajax({
-    url: showtimesUrl,
-    data: {
-      startDate: inputdate,
-      zip: zipCode,
-      radius: distance,
-      jsonp: "dataHandler",
-      api_key: apikey
-    },
-    dataType: "jsonp",
-  });
-};
-
+    
 function dataHandler(data) {
-  var zipCode = $("#location-input").val();
-  var apikey = "7byjtqn68yzm6ecsjfmcy9q3";
-  // var apikey = "sdpzqr2egk9fyp2ct7jz879v";
-  var resultsArr = []
-  var array2 = []
-  var resultsObj = {}
-  $(".card-header").text('Found ' + data.length + ' movies showing within ' + distance + ' miles of ' + zipCode + ':');
-  var movies = data.hits;
-  $.each(data, function (index, movie) {
-    console.log(movie)
-    var url = "https://www.omdbapi.com/?t=" + movie.title + "&y=&plot=short&apikey=trilogy"
-    $.ajax({ url: url, method: 'GET' }).then(function (resp) {
-      console.log(resp)
-      if (resp.Response) {
-        if (resp.Poster && resp.Poster != "N/A") {
-          var tile = $('<div>').addClass('col-lg-2 tile').append($('<img>').attr({ src: resp.Poster, alt: movie.title, class: 'poster', type: 'button', 'data-toggle': 'modal', 'data-target': '#movieShowtimeModal', 'data-movie': JSON.stringify(movie) }))
-          $("#results-view").append(tile);
-          array2.push(movie.title)
+    var zipCode = $("#location-input").val();
+    var apikey = "7byjtqn68yzm6ecsjfmcy9q3";
+    // var apikey = "sdpzqr2egk9fyp2ct7jz879v";
+    var resultsArr = []
+    var array2 = []
+    var resultsObj = {}
+    $(".card-header").text('Found ' + data.length + ' movies showing within ' + distance + ' miles of ' + zipCode+':');
+    var movies = data.hits;
+    $.each(data, function(index, movie) {
+      console.log(movie)
+      var url =  "https://www.omdbapi.com/?t=" + movie.title + "&y=&plot=short&apikey=trilogy"
+      $.ajax({url: url, method: 'GET'} ).then(function(resp){
+        console.log(resp)
+        if (resp.Response){
+          if (resp.Poster && resp.Poster != "N/A" && resp.Title === movie.title){
+            var tile = $('<div>').addClass('col-lg-2 tile').append($('<img>').attr({src: resp.Poster, alt: movie.title, class: 'poster', type: 'button', 'data-toggle': 'modal', 'data-target': '#movieShowtimeModal','data-movie': JSON.stringify(movie)}))
+            $("#results-view").append(tile);
+            array2.push(movie.title)
+          }
+          else{
+            resultsObj[movie.title] = movie;
+            resultsArr.push(movie.title)
+          }
         }
         else {
           resultsObj[movie.title] = movie;
           resultsArr.push(movie.title)
         }
-      }
-      else {
-        resultsObj[movie.title] = movie;
-        resultsArr.push(movie.title)
-      }
-    })
-  });
-  setTimeout(function () {
-    i = 0
-    loopObj();
-    function loopObj() {
-      setTimeout(function () {
-        var key = resultsArr[i]
-        var tile = $('<div>').addClass('col-lg-2 tile').append($('<img>').attr({ src: "http://developer.tmsimg.com/" + resultsObj[key].preferredImage.uri + '?api_key=' + apikey, alt: resultsObj[key].title, class: 'poster', type: 'button', 'data-toggle': 'modal', 'data-target': '#movieShowtimeModal', 'data-movie': JSON.stringify(resultsObj[key]) }))
-        if (resultsObj[key].preferredImage.uri.includes('generic'))
-          tile.append($('<h6>').attr({ class: 'movie-title' }).text(resultsObj[key].title))
-        $("#results-view").append(tile);
-        i++;
-        if (i < Object.keys(resultsObj).length)
-          loopObj();
-      }, 750)
-    }
-  }, 750)
+      })
+    });
+    setTimeout(function(){
+      i=0
+      loopObj();
+      function loopObj(){
+        addMovies = setTimeout(function(){
+          var key = resultsArr[i]
+          var tile = $('<div>').addClass('col-lg-2 tile').append($('<img>').attr({src: "http://developer.tmsimg.com/" + resultsObj[key].preferredImage.uri + '?api_key='+apikey, alt: resultsObj[key].title, class: 'poster', type: 'button', 'data-toggle': 'modal', 'data-target': '#movieShowtimeModal','data-movie': JSON.stringify(resultsObj[key])}))
+          if(resultsObj[key].preferredImage.uri.includes('generic'))
+            tile.append($('<h6>').attr({class:'movie-title'}).text(resultsObj[key].title))
+          $("#results-view").append(tile);
+          i++;
+          if (i <Object.keys(resultsObj).length)
+            loopObj();
+        },750)
+      } 
+    },750)
 };
-
-
-$(document).ready(function () {
-  $('.poster').hover(function () {
-    $(this).siblings('.poster').css('z-index', 10);
+    
+    
+$(document).ready(function() {
+    getNavigatorLocation();
+    $('.poster').hover(function() {	    
+    $(this).siblings('.poster').css({'z-index':10, transform: scale(1.5)});
     $(this).css('z-index', 99);
   })
 })
 
-function fillModal() {
+function fillModal(){
+  $("body").css("cursor", "progress")
+  var letters = ['A','B','C','D','E','F','G','H']
+  var lettersU = ['&#9398;','&#9399;','&#9400;','&#9401;','&#9402;','&#9403;','&#9404;','&#9405;']
+  var labelIndex = 0
   var theaters = [];
   var data = JSON.parse($(this).attr('data-movie'));
   console.log(data);
@@ -262,33 +306,96 @@ function fillModal() {
   $('#movieDescrip').empty().append($('<h3>').text(data.title), $('<p>').text(data.longDescription));
   var row1 = $('<div>').addClass('row text-center').append($('<h6>').text('Showtimes for ' + resultsSearchDay), $('<br><br>'));
   var row2 = $('<div>').addClass('row');
-  for (var i = 0; i < data.showtimes.length; i++) {
+  //create list of theaters showing the selected movie
+  for (var i=0;i<data.showtimes.length;i++){
     if (theaters.indexOf(data.showtimes[i].theatre.name) == -1)
       theaters.push(data.showtimes[i].theatre.name);
   }
-  for (var i = 0; i < theaters.length; i++) {
-    $('<table>').attr({ 'id': 'id' + i, class: 'tableFloat table table-striped' }).append($('<tr>').append($('<th>').text(theaters[i]))).appendTo(row2);
+  
+  
+  $('#movieTable').append(row1,row2,$('<div>').attr({id:'map'}));
+  
+  initMap();
+  //use google places to get lat/long of each theater and pin on map
+  var i=0; 
+  pinAddress()
+  function  pinAddress(){
+    console.log(theaters[i])
+    var request = {
+      query: theaters[i],
+      fields: ['name', 'geometry'],
+    };
+    var service = new google.maps.places.PlacesService(map);
+    service.findPlaceFromQuery(request, function(results, status) {
+      if (status === google.maps.places.PlacesServiceStatus.OK) {
+        console.log(status)
+        console.log(results[0].geometry.location)
+        createMarker(results[0]);
+      }
+      function createMarker(place) {
+        
+
+        
+        infoWindow = new google.maps.InfoWindow;
+        var marker = new google.maps.Marker({
+          map: map,
+          position: place.geometry.location,
+          // title: place.name,
+          label: letters[labelIndex++ % letters.length]
+        });
+
+        google.maps.event.addListener(marker, 'click', function() {
+          infoWindow.setContent(place.name)
+          infoWindow.setZIndex(2);
+
+          console.log(this)
+          infoWindow.open(map, this);
+
+        });
+      }
+      var center = map.getCenter();
+      var distanceMeters = google.maps.geometry.spherical.computeDistanceBetween(center, results[0].geometry.location);
+      var distance = Math.round(distanceMeters*0.000621371)
+      console.log(results[0].geometry.location.lat())
+      var loc = {lat: results[0].geometry.location.lat(),lng: results[0].geometry.location.lng()};
+      $('<table>').attr({'id':'id'+i, class: 'tableFloat table table-striped','data-loc': JSON.stringify(loc)}).append($('<tr>').append($('<th>').html(lettersU[i]+' <small>('+distance+'mi)</small> '+theaters[i]))).appendTo(row2); 
+      if (i< theaters.length-1){
+        i++;
+        pinAddress();
+      }
+      else{
+        for (var x=0;x<data.showtimes.length;x++) {
+          var displayDate = moment(data.showtimes[x].dateTime, 'YYYY-MM-DDThh:mm').format('h:mm a')
+          var id = "#id"+theaters.indexOf(data.showtimes[x].theatre.name)
+          $(id).append($('<tr>').append($('<td>').append($('<div>').text(displayDate).attr({class:'showtime', 'data-link':data.showtimes[x].ticketURI, 'data-loc': $(id).attr('data-loc'), 'data-time':displayDate, 'data-title':data.title, 'data-theater':data.showtimes[x].theatre.name}))))
+        }
+        $("body").css("cursor", "default") 
+      }
+      
+       
+    });
   }
-  $('#movieTable').append(row1, row2, $('<div>').attr({ id: 'map' }));
-  for (var i = 0; i < data.showtimes.length; i++) {
-    var displayDate = moment(data.showtimes[i].dateTime, 'YYYY-MM-DDThh:mm').format('h:mm a')
-    var id = "#id" + theaters.indexOf(data.showtimes[i].theatre.name)
-    $(id).append($('<tr>').append($('<td>').append($('<div>').text(displayDate).attr({ class: 'showtime', 'data-link': data.showtimes[i].ticketURI, 'data-time': displayDate, 'data-title': data.title, 'data-theater': data.showtimes[i].theatre.name }))))
-  }
+ 
+    
+   
+  
+  
+  
 }
 
 function selectShowtime() {
   var $movieTable = $('#movieTable');
-  $this = $(this)
+  var $this = $(this)
+  console.log($this.attr('data-loc'))
   var $movieDescrip = $('#movieDescrip');
   $movieDescrip.empty().append(
-    $('<h4>').text($this.attr('data-title') + " playing at " + $this.attr('data-time') + " " + $this.attr('data-theater')),
+    $('<h4>').html('<strong>"'+$this.attr('data-title')+'"</strong> playing at <strong>'+$this.attr('data-time')+"</strong> "+$this.attr('data-theater')),
     $('<br>'),
     $('<h4>').text('Would you like to find a restaurant near the movie theater you selected?'),
-    $('<div>').attr({ class: 'select-button', id: 'find-restaurant', 'data-dismiss': 'modal' }).text('Search Restaurants'),
-    $('<a>').attr({ href: $this.attr('data-link'), target: '_blank' }).append($('<div>').addClass('select-button').text('Get Movie Ticket Now'))
-
-  );
+    $('<div>').attr({class:'select-button',id:'find-restaurant','data-dismiss':'modal','data-loc': $this.attr('data-loc')}).text('Search Restaurants'),
+    $('<a>').attr({href:$this.attr('data-link'),target:'_blank'}).append($('<div>').addClass('select-button').text('Get Movie Ticket Now'))
+    
+    );
   $movieTable.empty().append($('<small>').text('* We will also make the link available for you to get movie tickets after you search restaurants *'))
 
 
@@ -307,7 +414,7 @@ function selectRestaurant() {
   var tableBooking = (data.has_table_booking) ? 'Yes' : 'No';
   $movieTable.empty().append(
     $('<p>').html('<strong>Cuisines: </strong>' + data.cuisines),
-    $('<p>').html('<strong>Average Cost for two: </strong>' + data.average_cost_for_two),
+    $('<p>').html('<strong>Average Cost for two: </strong>$' + data.average_cost_for_two),
     $('<p>').html('<strong>Has Table Booking: </strong>' + tableBooking),
     $('<p>').html('<strong>User Rating: </strong>' + data.user_rating.aggregate_rating + " ").append($('<span>').text(data.user_rating.rating_text).attr('style', 'color:#' + data.user_rating.rating_color)),
     $('<div>').append(
@@ -358,48 +465,59 @@ function signIna() {
   var selectRestaurant = document.getElementById('selectRestaurantBtn')
   var resVal = selectRestaurant.value
   $movieTable.append($('<h1>').text('Your Choice:'))
-  //$('#movieTable').append('<p>'+ selectRestaurant + '</p>')
-  $('#movieTable').append($('<p>'+ resVal+ '</p>'))
+  $('#movieTable').val($(this).attr("value"))
+  
+  }*/
 
-}*/
-
-loginRegisterVisibility()
-
-var map, infoWindow;
-function initMap() {
-  map = new google.maps.Map(document.getElementById('map'), {
-    center: { lat: -34.397, lng: 150.644 },
-    zoom: 8
-  });
-  infoWindow = new google.maps.InfoWindow;
-
-  // Try HTML5 geolocation.
+function getNavigatorLocation(){
   if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(function (position) {
-      var pos = {
+    navigator.geolocation.getCurrentPosition(function(position) {
+      pos = {
         lat: position.coords.latitude,
         lng: position.coords.longitude
       };
-
-      infoWindow.setPosition(pos);
-      infoWindow.setContent('Location found.');
-      infoWindow.open(map);
-      map.setCenter(pos);
-    }, function () {
-      handleLocationError(true, infoWindow, map.getCenter());
-    });
-  } else {
-    // Browser doesn't support Geolocation
-    handleLocationError(false, infoWindow, map.getCenter());
+    },function(){
+      if (!pos)
+      $("#location-input").attr('placeholder','zipcode (required)')
+    })
+   
   }
+  else{
+    $("#location-input").attr('placeholder','zipcode (required)')
+  }
+
 }
 
-function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-  infoWindow.setPosition(pos);
-  infoWindow.setContent(browserHasGeolocation ?
-    'Error: The Geolocation service failed.' :
-    'Error: Your browser doesn\'t support geolocation.');
-  infoWindow.open(map);
+loginRegisterVisibility()
+
+var map,infoWindow;
+function initMap() {
+  var lat = (pos) ? pos.lat : '';
+  var long = (pos) ? pos.lng: '';
+  map = new google.maps.Map(document.getElementById('map'), {
+    center: {lat: lat, lng: long},
+    zoom: 11
+  });
+ 
+  var pinColor = "568cfd";
+  var pinImage = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + pinColor,
+      new google.maps.Size(21, 34),
+      new google.maps.Point(0,0),
+      new google.maps.Point(10, 34));
+  var marker = new google.maps.Marker({
+    position: {lat: lat, lng: long}, 
+    map: map,
+    icon: pinImage,
+   
+  });
+  // infoWindow = new google.maps.InfoWindow;
+  // infoWindow.setPosition(pos);
+  // infoWindow.setContent('You are Here');
+  // infoWindow.open(map);
+  // map.setCenter(pos);
+  
+
+
 }
 
 /////// still working on this animation //////////         
@@ -413,7 +531,13 @@ $(document).on('mouseleave','.poster', function(){
 })
 */
 
-$(document).on('click', '#selectRestaurantBtn', userResult);
+$(document).on('click', '#moreRestaurants',function(){
+  $this = $(this)
+  var start = JSON.parse($(this).attr('data-start'));
+  console.log('START')
+  console.log(start)
+  offsetZomato(start,$this)});
+$(document).on('click', '#selectRestaurantBtn',userResult);
 $(document).on('click', '#signInA', signIna);
 $(document).on('click', '.restaurant', selectRestaurant);
 $(document).on('click', '.showtime', selectShowtime);
@@ -424,4 +548,8 @@ $(document).on('click', '#loginBtn', displayLogIn)
 $(document).on("click", ".poster", fillModal);
 $(document).on("click", "#find-theater", runToday);
 $(document).on("click", "#find-theater", runMovies);
-$(document).on("click", "#find-restaurant", runZomato);
+$(document).on("click", "#find-restaurant", function(){
+  $('#results-view').empty();
+  clearTimeout(addMovies);
+  var locObj = JSON.parse($(this).attr('data-loc'))
+  runZomato(20,0,locObj) });

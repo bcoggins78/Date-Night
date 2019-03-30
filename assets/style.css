@@ -484,6 +484,9 @@ button:hover {
 #movieCard{
   margin-top: 20px;
 }
+.input::placeholder {
+  color: red;
+}
 .form-control {
   display: block;
   width: 100%;
