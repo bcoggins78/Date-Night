@@ -62,12 +62,26 @@ btnSignUp.addEventListener('click', e => {
 
 
 });
-
+function logOut(){
+  firebase.auth().signOut().then(function() {
+    // Sign-out successful.
+    $('#loginBtn').show()
+    $('#registerBtn').show()
+    $('#user').hide()
+    $('#userText').remove()
+    $('#btnLogout').remove()
+    
+    console.log("user out")
+  }).catch(function(error) {
+    // An error happened.
+    console.log('something wrong')
+  });
+}
 // Add logout Event
-btnLogout.addEventListener('click', e => {
+/*btnLogout.addEventListener('click', e => {
   event.preventDefault();
   firebase.auth().signOut();
-});
+});*/
 
 // Add a realtime Listener
 firebase.auth().onAuthStateChanged(firebaseUser => {
@@ -76,10 +90,12 @@ firebase.auth().onAuthStateChanged(firebaseUser => {
     console.log(firebaseUser.email + " is signed in");
     $('#loginBtn').hide()
     $('#registerBtn').hide()
-    $('#firstContainer').append('<div id="user">');
-    $('#user').append('<p>Hi' + ' ' + firebaseUser.email + '</p>')
-    $('#user').append('<button class="btnLogout">LogOut</button>')
-    btnLogout.classList.remove('hide');
+    //$('#firstContainer').append('<div id="user">');
+    $('#user').show()
+    $('#user').append('<p id="userText">Hi' + ' ' + firebaseUser.email + '</p>')
+    $('#user').append('<button onclick="logOut()" id="btnLogout">LogOut</button>')
+   
+    //btnLogout.classList.remove('hide');
 
   } else {
     console.log('not logged in');
@@ -99,6 +115,26 @@ function runToday() {
     (inputdate = today);
   }
 };
+function userResult(){
+  var queryURL = "https://developers.zomato.com/api/v2.1/search?";
+  var $movieTable = $('#movieTable');
+  $('#movieTable').empty()
+  $('#save').hide();
+  
+  $.ajax({
+    url: queryURL,
+    method: "GET",
+    headers: { 'user-key': '930bc5c593df51586e7bff08f89be982' }
+  }).then(function (response) {
+    console.log(response);
+    console.log(JSON.stringify(response))
+    var selectRestaurant = document.getElementById('selectRestaurantBtn')
+  var resVal = selectRestaurant.value
+  $movieTable.append($('<h1>').text('Your Choice:'))
+  //$('#movieTable').append('<p>'+ selectRestaurant + '</p>')
+  $('#movieTable').append($('<p>'+ resVal+ '</p>'))
+  })
+}
 
 function runZomato(count,start,locObj) {
     $this = $(this)
@@ -422,15 +458,16 @@ function signIna() {
 
 //var nameR = $('#selectRestaurantBtn').val()
 //var nameRs = $('#movieDescrip').val()
-function userResult() {
+/*function userResult() {
   var $movieTable = $('#movieTable');
   $('#movieTable').empty()
   $('#save').hide();
-
+  var selectRestaurant = document.getElementById('selectRestaurantBtn')
+  var resVal = selectRestaurant.value
   $movieTable.append($('<h1>').text('Your Choice:'))
   $('#movieTable').val($(this).attr("value"))
   
-  }
+  }*/
 
 function getNavigatorLocation(){
   if (navigator.geolocation) {
