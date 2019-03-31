@@ -1,3 +1,4 @@
+
 @charset "UTF-8";
 @import url("//fonts.googleapis.com/css?family=Pacifico&text=Pure");
 @import url("//fonts.googleapis.com/css?family=Roboto:700&text=css");
@@ -300,7 +301,7 @@ button:hover {
     font-size: 40px;
     text-align: center;
     margin-top: 5%;
-    font-family: 'Pacifico', cursive;
+    font-family: 'Lobster', cursive;
   }
 
 @keyframes ಠ_ಠ {
@@ -327,6 +328,7 @@ button:hover {
     background: linear-gradient(to top right, #5C6BC0, #1A237E);
     left: 54%; }
   .top-tab-content {
+    font-family: 'Lobster', cursive;
     color: white;
     padding-top: 30px;
     padding-left: 5px;
@@ -655,6 +657,15 @@ button:hover {
 .hiddenTitle{
   visibility: hidden;
 }
+                                /*MEDIA*/
+@media only screen and (min-width: 1100px) {
+  #loginBtn{
+      margin-left: 20%;
+  }
+  #registerBtn{
+    margin-left: 20%;
+  }
+}
 @media only screen and (max-width: 1100px) {
 	.stage{
     visibility: hidden;
@@ -681,10 +692,28 @@ button:hover {
 }
 
 @media only screen and (max-width: 770px) {
+  .modal-content{
+    overflow-y:scroll;
+  }
+  .cuisine-btn{
+    margin: 5px;
+  }
+  #registerPg{
+    padding-top: 20%;
+  }
+  #loginPg{
+    padding-top: 20%;
+  }
   .hiddenTitle{
     width: 8em;
     margin-top: 20px;
     font-size: 7vw;
+  }
+  .poster{
+    width: 150px;
+  }
+  .tile{
+    width: 180px;
   }
   #header {
     float: left;
@@ -708,12 +737,43 @@ button:hover {
     width: 100%;
   }
   #loginBtn {
-    margin-left: 30%;
+    margin-left: 20%;
   }
+}
+@media only screen and (max-width: 375px){
+
 }
 
 
 @media only screen and (max-width: 600px) {
+  #results-view{
+    width: 400px;
+    margin-left: 10%;
+  }
+  .tile{
+    width: 115px;
+  }
+  .poster{
+    width: 80px;
+  }
+  #loginPg{
+    margin-left: 75px;
+  }
+  #registerPg{
+    margin-left: 75px;
+  }
+  .hiddenTitle{
+    font-size: 30px;
+  }
+  #header{
+    font-size: 30px;
+  }
+  .top-tab-3{
+    margin-left: 27%;
+  }
+  #loginBtn{
+    margin-left: 43%;
+  }
   .hiddenTitle{
     width: 8em;
     margin-top: 20px;
@@ -728,4 +788,28 @@ button:hover {
   #distance-input {
     width: 100%;
   }
+  #location-form{
+    margin-left: 20%;
+  }
+}
+#getReservation{
+  color: black;
+      font-size: 20px;
+    margin-right: 40px;
+    font-family: 'Courgette', cursive;
+
+}
+#saveResult{
+  color: black;
+    font-size: 20px;
+    font-family: 'Courgette', cursive;
+
+}
+.resText{
+  font-size: 24px;
+  padding: 15px;
+  font-family: 'Courgette', cursive;
+}
+#labelText{
+  font-family: 'Lobster Two', cursive;
 }
