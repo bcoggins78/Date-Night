@@ -61,7 +61,11 @@ btnSignUp.addEventListener('click', e => {
 
   firebase.database().ref('users/' + cleanEmail).set({
     movie: "",
-    restaurant: ""
+    showtime: "",
+    theater: "",
+    restaurant: "",
+    address: "",
+    url: ""
   });
 });
 function logOut(){
@@ -617,16 +621,75 @@ function userResult() {
   $('<div>').addClass('resText').html('Your restaurant is : <strong>' + restData.name+'</strong>'),
   $('<div>').addClass('resText').html('Located at : <strong>' + restData.location.address+'</strong>'),
   $('<a>').attr({href: $this.attr('data-link'),target: '_blank'}).append($('<button>').attr({href: $this.attr('data-link')}).text('Get Reservations')),
-  $('<button>').attr({id: "saveResult"}).text('Save my Date Info')
+  $('<button>').attr({id: "saveResult"}).text('Save my Date Info').attr('data-dismiss', 'modal')
 
 
   )
 
-  
-  
+  $("#saveResult").on("click", function (event) {
+    event.preventDefault();
 
-  
+    function writeUserData() {
+
+      var email = firebase.auth().currentUser.email;
+      var cleanEmail = email.replace(/\./g, ',');
+      var saveMovie = $this.attr('data-title');
+      var saveShowTime = $this.attr('data-time');
+      var saveTheater = $this.attr('data-theater');
+      var saveRestaurant = restData.name;
+      var saveRestAddress = restData.location.address;
+      var saveURL = $this.attr('data-link');
+
+      firebase.database().ref('users/' + cleanEmail).set({
+        movie: saveMovie,
+        showtime: saveShowTime,
+        theater: saveTheater,
+        restaurant: saveRestaurant,
+        address: saveRestAddress,
+        url: saveURL
+      });
+    }
+
+    writeUserData()
+
+
+  });
+    
   }
+
+  function displaySaved() {
+
+    var email = firebase.auth().currentUser.email;
+    var cleanEmail = email.replace(/\./g, ',');
+    var user = firebase.database().ref('users/' + cleanEmail);
+
+
+    user.on('value', function (snapshot) {
+        console.log(snapshot.val());
+
+        var saveMovie = snapshot.val().movie;
+        var saveShowTime = snapshot.val().showtime;
+        var saveTheater = snapshot.val().theater;
+        var saveRestaurant = snapshot.val().restaurant;
+        var saveRestAddress = snapshot.val().address;
+        var saveUrl = snapshot.val().url;
+
+        var $movieTable = $('#movieTable');
+        var $movieDesc = $('#movieDescrip').empty().append($('<h1>').text('Your Choice:'));
+        $movieTable.empty()
+        
+        $('#movieTable').empty().attr('data-toggle', 'modal').append(
+
+        $('<div>').addClass('resText').html('Your movie is : <strong>' + saveMovie + '</strong>'),
+        $('<div>').addClass('resText').html('The showtime is : <strong>' + saveShowTime + '</strong>'),
+        $('<div>').addClass('resText').html('Playing at : <strong>' + saveTheater + '</strong>'),
+        $('<div>').addClass('resText').html('Your restaurant is : <strong>' + saveRestaurant + '</strong>'),
+        $('<div>').addClass('resText').html('Located at : <strong>' + saveRestAddress + '</strong>'),
+        $('<a>').attr({ href: saveUrl, target: '_blank' }).append($('<button>').attr({ href: (saveUrl) }).text('Get Reservations')));
+    });
+};
+
+
 
 function getNavigatorLocation(){
   if (navigator.geolocation) {
@@ -716,6 +779,7 @@ $(document).on("click", "#find-theater", runMovies);
 $(document).on("click", "#find-restaurant-category", findRestaurantcuisines);
 $(document).on("click", ".cuisine", selectCuisine);
 $(document).on("click", ".cuisine-all", selectCuisineAll);
+$(document).on("click", "#display-saved", displaySaved);
 $(document).on("click", "#find-restaurant", function(){
   $('#results-view').empty();
   console.log($(this))
