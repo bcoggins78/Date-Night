@@ -25,13 +25,17 @@ body {
 #btnLogout{
   margin-top: -5px;
   margin-left: 45%;
+  font-size: 15px;
 }
 #user{
-  border: 1px black solid;
+  border: 1px #00000026 solid;
+  padding: 10px;
+  box-shadow: 5px 2px 8px 7px #0d0c0c59;
   float: right;
-    background-color: #00000069;
-    height: 120px;
-    width: 300px;
+  background-color: #0000001f;
+  height: 120px;
+  width: 300px;
+
 }
 #user p{
   text-align: center;
@@ -42,6 +46,8 @@ body {
   color: white;
   margin-top: 15%;
   font-size: 50px;
+  text-shadow: 4px 3px 0px #080808;
+
 }
 table{
   display: inline;
@@ -80,6 +86,7 @@ h1 {
   text-align: center;
   font-size: 20px;
 color: white;
+text-shadow: 4px 3px 4px #080808;
 }
 .movie-title{
   position: absolute;
@@ -173,8 +180,13 @@ button:hover {
   .cl{
     color: black;
   }
+  #registerBtn{
+    font-size: 23px;
+    padding-top: 21px;
+    text-shadow: 4px 1px 13px #1c1b1b;
+  }
   .layer:after {
-    font: 100px/0.65 'Pacifico', 'Kaushan Script', Futura, 'Roboto', 'Trebuchet MS', Helvetica, sans-serif;
+    font: 100px/0.65 'Lobster', 'Kaushan Script', Futura, 'Roboto', 'Trebuchet MS', Helvetica, sans-serif;
     content: 'Dinner\A and movie?';
     white-space: pre;
     text-align: center;
@@ -277,19 +289,22 @@ button:hover {
     transform: scale(1.5); 
     opacity: 1; 
     z-index: 99;
+    box-shadow: none;
   }
  
  
   .poster { 
+    border: 1px #b4a9a954 solid;
+    /* padding: 10px; */
+    box-shadow: 5px 10px 8px 10px #938f8f;
     opacity: 1;
-    transform: scale(1.0); 
-    transition: all 500ms linear; 
+    transform: scale(1.0);
+    transition: all 500ms linear;
     position: relative;
     float: left;
     z-index: 1;
     margin: 1em 0;
     width: 100%;
-    box-shadow: aliceblue .5em .5em 10em .01em
   }
   .card-body{
     display: flex;
@@ -345,24 +360,25 @@ button:hover {
   width: 360px;
   padding: 8% 0 0;
   position: fixed;
-  margin-left: 30%;
+  margin-left: 35%;
 }
 #registerPg {
   width: 360px;
-  padding: 8% 0 0;
-  position: fixed;
-  margin-left: 30%;
+    padding: 8% 0 0;
+    position: fixed;
+    margin-left: 35%;
 }
 .form {
-  border: 1px black solid;
-  position: relative;
-  z-index: 1;
-  background: #030511bd;
-  max-width: 360px;
-  margin: 0 auto 100px;
-  padding: 45px;
-  text-align: center;
-  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+  border: 1px solid; 
+    padding: 10px;
+    box-shadow: 13px 5px 20px 3px #191818;
+    position: relative;
+    z-index: 1;
+    background: #030511bd;
+    max-width: 360px;
+    margin: 0 auto 100px;
+    padding: 45px;
+    text-align: center;
 }
 .form input {
   font-family: "Roboto", sans-serif;
@@ -505,12 +521,19 @@ button:hover {
   
 }
 #find-restaurant:hover{
-  color: white;
-  background: green;
+  color: black;
+  background: white;
   width: + 18px;
   height: + 18px;
   border: double .9em  white ;
   
+}
+#movieDescrip h1{
+  text-shadow: 4px 3px 4px #0808084d;
+}
+#movieDescrip h4{
+  font-size: 1.5rem;
+    text-shadow: 4px 3px 4px #0808084d;
 }
 #movieDescrip a{
   color: black;
@@ -520,6 +543,7 @@ button:hover {
 }
 #movieDescrip h3{
   margin: auto;
+  text-shadow: 4px 3px 4px #0808084d;
 }
 #movieDescrip button{
   color: blue;
@@ -537,6 +561,7 @@ button:hover {
   margin-top: 5px;
   font-family: 'Lobster', cursive;
   cursor: pointer;
+  text-shadow: 4px 3px 4px #0808084d;
 }
 
 #movieCard{
@@ -559,24 +584,28 @@ button:hover {
 }
 /*CLOSE BUTTON*/
 .close {
-  display: inline-block;
-  -webkit-box-sizing: content-box;
-  -moz-box-sizing: content-box;
-  box-sizing: content-box;
-  width: 0.75em;
-  height: 0.75em;
-  position: relative;
-  border: none;
-  -webkit-border-radius: 1em;
-  border-radius: 1em;
-  font: normal 8em/normal Arial, Helvetica, sans-serif;
-  color: rgba(0,0,0,1);
-  -o-text-overflow: clip;
-  text-overflow: clip;
-  background: #1abc9c;
-  -webkit-transform: rotateZ(471.54426539266757deg)   ;
-  transform: rotateZ(471.54426539266757deg)   ;
-  font-size: 40px;
+  margin: 10px;
+    margin-top: 0px;
+    left: 50px;
+    bottom: 40px;
+    display: inline-block;
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+    width: 0.75em;
+    height: 0.75em;
+    position: relative;
+    border: none;
+    -webkit-border-radius: 1em;
+    border-radius: 1em;
+    font: normal 8em/normal Arial, Helvetica, sans-serif;
+    color: rgba(0,0,0,1);
+    -o-text-overflow: clip;
+    text-overflow: clip;
+    background: #1abc9c;
+    -webkit-transform: rotateZ(471.54426539266757deg);
+    transform: rotateZ(471.54426539266757deg);
+    font-size: 40px;
 }
 
 .close:hover {
@@ -644,6 +673,13 @@ button:hover {
   -webkit-transform: rotateZ(-66.46310423517549deg)   ;
   transform: rotateZ(-66.46310423517549deg)   ;
 }
+#id0{
+  font-family: 'Lemonada', cursive;
+
+}
+#movieDescrip{
+  font-family: 'Lemonada', cursive;
+}
 .text {
   -webkit-box-sizing: content-box;
   -moz-box-sizing: content-box;
@@ -658,39 +694,99 @@ button:hover {
 .hiddenTitle{
   visibility: hidden;
 }
+#userText{
+  text-shadow: 4px 3px 4px #080808;
+  font-family: 'Lemonada', cursive;
+}
                                 /*MEDIA*/
-@media only screen and (min-width: 768px){
+@media only screen and (min-width: 1200px){
+  .layer:after {
+    font: 90px/0.65 'Lobster', 'Kaushan Script', Futura, 'Roboto', 'Trebuchet MS', Helvetica, sans-serif;
+    content: 'Dinner\A and movie?';
+    white-space: pre;
+    text-align: center;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 30px;
+    color: whitesmoke;
+    letter-spacing: -2px;
+    text-shadow: 4px 0 10px rgba(0, 0, 0, 0.13);
+}
+#btnLogout {
+  margin-left: 60%;
+}
+}                        
+@media only screen and (max-width: 768px) {
+  #problemText {
+    padding-top: 20%;
+    }
+}                          
+@media only screen and (min-width: 1100px) {
+  #loginBtn{
+    font-size: 20px;
+    padding-top: 10px;
+    margin-left: 17%;
+  }
+  
+    #registerBtn {
+      font-size: 19px;
+      padding-top: 10px;
+      margin-left: 17%;
+  }
+  
+}
+@media only screen and (min-width: 770px){
   .hiddenTitle{
     margin-right: 0;
   }
   #userText {
     font-size: 25px;
   }
-}
-@media only screen and (min-width: 1100px) {
-  #loginBtn{
-      margin-left: 20%;
+  #problemText{
+    padding-top: 20px;
   }
-  #registerBtn{
-    margin-left: 20%;
-  }
+  /*.layer:after {
+    font: 50px/0.65 'Lobster', 'Kaushan Script', Futura, 'Roboto', 'Trebuchet MS', Helvetica, sans-serif;
+    content: 'Dinner\A and movie?';
+    white-space: pre;
+    text-align: center;
+    height: 100%;
+    width: 30%;
+    position: absolute;
+    top: 10px;
+    color: whitesmoke;
+    letter-spacing: -2px;
+    text-shadow: 4px 0 10px rgba(0, 0, 0, 0.13);
+}*/
 }
+
 @media only screen and (max-width: 1100px) {
   #user p {
     text-align: center;
     margin-top: 15px;
-    font-size: 21px;
+    font-size: 19px;
 }
-	.stage{
-    visibility: hidden;
-  }
+.layer:after {
+  font: 80px/0.65 'Lobster', 'Kaushan Script', Futura, 'Roboto', 'Trebuchet MS', Helvetica, sans-serif;
+  content: 'Dinner\A and movie?';
+  white-space: pre;
+  text-align: center;
+  height: 100%;
+  width: 70%;
+  position: absolute;
+  top: 15px;
+  color: whitesmoke;
+  letter-spacing: -2px;
+  text-shadow: 4px 0 10px rgba(0, 0, 0, 0.13);
+}
   .hiddenTitle{
-    visibility: visible;
+    visibility: hidden;
     font-weight: bold;
     width: 450px;
     font-size: 60px;
     margin-top: 20px;
-    font-family: 'Pacifico', cursive;
+    font-family: 'Lobster', cursive;
   }
   #location-input {
     width: 100%;
@@ -701,8 +797,16 @@ button:hover {
   #distance-input {
     width: 100%;
   }
-  #loginBtn {
-    margin-left: 20%;
+  #registerBtn{
+    font-size: 19px;
+    padding-top: 10px;
+    margin-left: 15%;
+  }
+    #loginBtn {
+      margin-left: 20%;
+      font-size: 23px;
+      padding-top: 10px;
+      text-shadow: 4px 1px 13px #1c1b1b;
   }
   #btnLogout{
     margin-left: 53%;
@@ -723,10 +827,11 @@ button:hover {
   #loginPg{
     padding-top: 20%;
   }
-  .hiddenTitle{
-    width: 8em;
-    margin-top: 20px;
-    font-size: 7vw;
+    .hiddenTitle {
+      width: 350px;
+    margin-top: 10px;
+    font-size: 60px;
+    transform: rotate(-20deg);
   }
   .poster{
     width: 150px;
@@ -765,6 +870,28 @@ button:hover {
 
 
 @media only screen and (max-width: 600px) {
+  .stage {
+    height: 200px;
+    width: 200px;
+    top: 0;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    perspective: 9999px;
+    transform-style: preserve-3d;
+}
+  #btnLogout{
+    font-size: 12px;
+    margin-left: 60%;
+  }
+  #map {
+    height: 425px;
+    width: 445px;
+}
+  #problemText{
+    padding-top: 20%;
+  }
   body{
     width: 500px;
   }
@@ -791,8 +918,9 @@ button:hover {
   .hiddenTitle{
     margin-top: 20px;
     float: left;
-    font-size: 45px;
+    font-size: 40px;
     width: 200px;
+    transform: rotate(-20deg);
   }
   #header{
     font-size: 30px;
@@ -803,11 +931,7 @@ button:hover {
   #loginBtn{
     margin-left: 43%;
   }
-  .hiddenTitle{
-    width: 8em;
-    margin-top: 20px;
-    font-size: 7vw;
-  }
+  
   #location-input {
     width: 100%;
   }
@@ -823,6 +947,24 @@ button:hover {
   #movieCard{
     width: 400px;
   }
+  #userText{
+    margin-bottom: 5px;
+    font-size: 19px;
+  }
+  .layer:after {
+    font: 50px/0.65 'Lobster', 'Kaushan Script', Futura, 'Roboto', 'Trebuchet MS', Helvetica, sans-serif;
+    content: 'Dinner\A and movie?';
+    white-space: pre;
+    text-align: center;
+    height: 100%;
+    width: 30%;
+    position: absolute;
+    top: 20px;
+    color: whitesmoke;
+    letter-spacing: -2px;
+    text-shadow: 4px 0 10px rgba(0, 0, 0, 0.13);
+    left: 15px;
+}
 }
 #getReservation{
   color: black;
@@ -841,6 +983,7 @@ button:hover {
   font-size: 24px;
   padding: 15px;
   font-family: 'Courgette', cursive;
+  text-shadow: 4px 3px 4px #0808084d;
 }
 #labelText{
   font-family: 'Lobster Two', cursive;

@@ -621,7 +621,7 @@ function userResult() {
   $('<div>').addClass('resText').html('Playing at : <strong>' + $this.attr('data-theater')+'</strong>'),
   $('<div>').addClass('resText').html('Your restaurant is : <strong>' + restData.name+'</strong>'),
   $('<div>').addClass('resText').html('Located at : <strong>' + restData.location.address+'</strong>'),
-  $('<a>').attr({href: $this.attr('data-link'),target: '_blank'}).append($('<button>').attr({href: $this.attr('data-link')}).text('Get Reservations')),
+  //$('<a>').attr({href: $this.attr('data-link'),target: '_blank'}).append($('<button>').attr({href: $this.attr('data-link')}).text('Get Reservations')),
   $('<button>').attr({id: "saveResult"}).text('Save my Date Info').attr('data-dismiss', 'modal')
 
 
