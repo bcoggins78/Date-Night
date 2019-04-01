@@ -109,7 +109,8 @@ firebase.auth().onAuthStateChanged(firebaseUser => {
 
 // var howManyResults = 50;
 var inputdate = "";
-var today = moment().format("YYYY-MM-DD");
+var today =  new moment().format("YYYY-MM-DD");
+console.log(today)
 var distance = "";
 function runToday() {
   inputdate = $("#date-input").val();
@@ -139,7 +140,7 @@ function runToday() {
 // }
 
 function runZomato(count,start,locObj,cuisines,$this) {
-    
+    cuisines = (cuisines = "") ? JSON.stringify($this.attr('data-fullList')) : cuisines
     event.preventDefault();
     // var randNum = Math.floor(Math.random() * 20);
 
@@ -159,7 +160,7 @@ function runZomato(count,start,locObj,cuisines,$this) {
       
 
       console.log(response);
-      console.log($this.attr('data-link'))
+      // console.log($this.attr('data'))
 
       var restaurantsArray = response.restaurants
   
@@ -188,7 +189,7 @@ function runZomato(count,start,locObj,cuisines,$this) {
           $('<p>').text(restaurantsArray[i].restaurant.location.address)
         ).appendTo($('#results-view'));
       }
-      $('#results-view').append($('<button>').attr({id: 'moreRestaurants','data-title': $this.attr('data-title'),'data-time' : $this.attr('data-time'),'data-theater' : $this.attr('data-theater'),class:'col-md-8 text-center','data-loc':JSON.stringify(locObj),'data-cuisines': cuisines,'data-start':JSON.stringify(start)}).text('More Restaurants'))
+      $('#results-view').append($('<button>').attr({id: 'moreRestaurants','data-title': $this.attr('data-title'),'data-time' : $this.attr('data-time'),'data-theater' : $this.attr('data-theater'),class:'col-md-8 text-center','data-fullList':$this.attr('data-fullList'),'data-loc':JSON.stringify(locObj),'data-cuisines': cuisines,'data-start':JSON.stringify(start)}).text('More Restaurants'))
 })};
 
 function offsetZomato(start,$this){
@@ -203,16 +204,27 @@ function offsetZomato(start,$this){
   runZomato(count,start,locObj,cuisines);
 }
 function runMovies(){
-    
+    clearTimeout(addMovies);
     event.preventDefault();
-    radius = $("#distance-input").val().substring(0, length);
     var length = 2;
-    if (distance === ""){
-        distance = 5;
+    radius = $("#distance-input").val()
+    console.log(radius)
+    // .splice($('#distance-input').val().indexOf(match(/^\d{1,2}$/))[0]).substring(0, length);
+    if (radius.match(/\d{1,3}/g) !== null){
+      radius = parseInt(radius.match(/\d{1,3}/g)[0])
+      if (radius > 100){
+        $('#distance-input').val('').attr({placeholder: 'Max: 100 miles',style:'color:red'}).one('focus',function(){
+          $this.attr({placeholder: '5 miles (optional)', style:'color:black'})   
+        $('#find-theater').one('click',function(){
+          $('distance-input').attr({placeholder: '5 miles (optional)', style:'color:black'})
+          })
+        })
+      }
     }
-    $("#results-view").text("");
-    // var apikey = "7byjtqn68yzm6ecsjfmcy9q3";
-     var apikey = "7byjtqn68yzm6ecsjfmcy9q3";
+    else
+      radius = 5
+    var apikey = "7byjtqn68yzm6ecsjfmcy9q3";
+    //  var apikey = "7byjtqn68yzm6ecsjfmcy9q3";
     // var apikey = "sdpzqr2egk9fyp2ct7jz879v";
     // var apikey = "dxfsm4dzuvd4wxbbwu2f4gze"; //David
 
@@ -221,20 +233,55 @@ function runMovies(){
     var zipCode = $("#location-input").val();
     var zipTest = /^\b\d{5}(-\d{4})?\b$/.test(zipCode)
     if (!pos&&!zipTest){
+      if ($('#location-input').val() != ''){
+        displayMovieTable();
+        $('#results-view').append($('<h3>').attr({id: 'zipError', style: 'color: red; margin: auto; display:block',class: 'text-center'}).text('Zip Code Invalid'));
+        $('#location-input').one('focus', function(){
+          $('#zipError').remove();
+          $('#movieCard').attr('style','display:none');
+        })
+      }
       $("#location-input").addClass('input').attr('placeholder','zipcode (required)').one('focus',function(){
-        $(this).removeClass('input').attr('placeholder','zipcode');
+        $(this).removeClass('input');
+        $('#zipError').remove();
+
       });
+      $('#find-theater').one('click', function(){
+        $("#location-input").removeClass('input')
+
+      })
       return;
     }
-    
-    $.ajax({
-      url: 'https://maps.googleapis.com/maps/api/geocode/json?components=postal_code:'+zipCode+'&key=AIzaSyArGspblnhF4-hiENSFuiTXDuoRoxS-by8',
-      method:"GET"
-    }).then(function(resp){
-        console.log(resp)
-        if(resp.status === 'OK'){
-          pos = {lat: resp.results[0].geometry.location.lat, lng: resp.results[0].geometry.location.lng}
-        }
+    if(!pos){
+      $.ajax({
+        url: 'https://maps.googleapis.com/maps/api/geocode/json?components=postal_code:'+zipCode+'&key=AIzaSyArGspblnhF4-hiENSFuiTXDuoRoxS-by8',
+        method:"GET"
+      }).then(function(resp){
+          console.log(resp)
+          if(resp.status === 'OK'){
+            pos = {lat: resp.results[0].geometry.location.lat, lng: resp.results[0].geometry.location.lng}
+          }
+          else{
+            $('#results-view').append(
+              $('<h3>').attr({style: 'color: red; margin: auto; display:block',class: 'text-center'}).text('Zip Code Invalid')
+            )
+          }
+        $.ajax({
+          url: showtimesUrl,
+          data: { 
+            startDate: inputdate,
+            // zip: zipCode,
+            radius: radius,
+            lat: pos.lat,
+            lng: pos.lng,
+            jsonp: "dataHandler",
+            api_key: apikey
+          },          
+          dataType: "jsonp",
+        });
+      })
+    }
+    else{
       $.ajax({
         url: showtimesUrl,
         data: { 
@@ -243,66 +290,87 @@ function runMovies(){
           radius: radius,
           lat: pos.lat,
           lng: pos.lng,
+          imageText: true,
           jsonp: "dataHandler",
           api_key: apikey
         },          
         dataType: "jsonp",
       });
-    })
+    }
 };
-    
+
 function dataHandler(data) {
-    var zipCode = $("#location-input").val();
-    var apikey = "7byjtqn68yzm6ecsjfmcy9q3";
-    // var apikey = "sdpzqr2egk9fyp2ct7jz879v";
-    var resultsArr = []
-    var array2 = []
-    var resultsObj = {}
-    console.log('Found ' + data.length + ' movies showing within ' + distance + ' miles of ' + zipCode+':');
-    var movies = data.hits;
-    $.each(data, function(index, movie) {
-      console.log(movie)
-      var url =  "https://www.omdbapi.com/?t=" + movie.title + "&y=&plot=short&apikey=trilogy"
-      $.ajax({url: url, method: 'GET'} ).then(function(resp){
-        console.log(resp)
-        if (resp.Response){
-          if (resp.Poster && resp.Poster != "N/A" && resp.Title === movie.title){
-            var tile = $('<div>').addClass('col-lg-2 tile').append($('<img>').attr({src: resp.Poster, alt: movie.title, class: 'poster', type: 'button', 'data-toggle': 'modal', 'data-target': '#movieShowtimeModal','data-movie': JSON.stringify(movie)}))
-            $("#results-view").append(tile);
-            array2.push(movie.title)
-          }
-          else{
-            resultsObj[movie.title] = movie;
-            resultsArr.push(movie.title)
-          }
+  displayMovieTable();
+  $('#results-view').empty()
+  console.log(data)
+  if (data === undefined){
+
+      $('#results-view').append(
+      $('<h3>').attr({style: 'color: red; margin: auto',class: 'text-center'}).text('Sorry, your search did not return any results.'),
+      $('<br>'),
+      $('<h5>').attr({style: 'width: 100%; text-align: center'}).text('Hint: try adjusting the distance or date')
+    );
+    return;
+  }
+  var zipCode = $("#location-input").val();
+  var apikey = "7byjtqn68yzm6ecsjfmcy9q3";
+  // var apikey = "sdpzqr2egk9fyp2ct7jz879v";
+  var resultsArr = []
+  var array2 = []
+  var resultsObj = {}
+  // console.log('Found ' + data.length + ' movies showing within ' + distance + ' miles of ' + zipCode+':');
+  $.each(data, function(index, movie) {
+    console.log(movie)
+    console.log(this)
+    console.log(index)
+
+  
+    var url =  "https://www.omdbapi.com/?t=" + movie.title + "&y=&plot=short&apikey=trilogy"
+    $.ajax({url: url, method: 'GET'} ).then(function(resp){
+      console.log(resp)
+      if (resp.Response){
+        if (resp.Poster && resp.Poster != "N/A" && resp.Title === movie.title){
+          var tile = $('<div>').addClass('col-lg-2 tile col-md-4 col-sm-6 col-xs-12').append($('<img>').attr({src: resp.Poster, alt: movie.title, class: 'poster', type: 'button', 'data-toggle': 'modal', 'data-target': '#movieShowtimeModal','data-movie': JSON.stringify(movie)}))
+          $("#results-view").append(tile);
+          array2.push(movie.title)
         }
-        else {
+        else{
+          //set key for timeout iteration of array
           resultsObj[movie.title] = movie;
           resultsArr.push(movie.title)
         }
-      })
-    });
-    setTimeout(function(){
-      i=0
-      loopObj();
-      function loopObj(){
-        addMovies = setTimeout(function(){
-          var key = resultsArr[i]
-          var tile = $('<div>').addClass('col-lg-2 tile').append($('<img>').attr({src: "http://developer.tmsimg.com/" + resultsObj[key].preferredImage.uri + '?api_key='+apikey, alt: resultsObj[key].title, class: 'poster', type: 'button', 'data-toggle': 'modal', 'data-target': '#movieShowtimeModal','data-movie': JSON.stringify(resultsObj[key])}))
-          if(resultsObj[key].preferredImage.uri.includes('generic'))
-            tile.append($('<h6>').attr({class:'movie-title'}).text(resultsObj[key].title))
-          $("#results-view").append(tile);
-          i++;
-          if (i <Object.keys(resultsObj).length)
-            loopObj();
-        },750)
-      } 
-    },750)
+      }
+      else {
+        //set key for timeout iteration of array
+        resultsObj[movie.title] = movie;
+        resultsArr.push(movie.title)
+      }
+    })
+  });
+  setTimeout(function(){
+    i=0
+    loopObj();
+    function loopObj(){
+      //timeout iteration of array
+      addMovies = setTimeout(function(){
+        var key = resultsArr[i]
+        var tile = $('<div>').addClass('col-lg-2 tile col-md-4 col-sm-6 col-xs-12').append($('<img>').attr({src: "http://developer.tmsimg.com/" + resultsObj[key].preferredImage.uri + '?api_key='+apikey, alt: resultsObj[key].title, class: 'poster', type: 'button', 'data-toggle': 'modal', 'data-target': '#movieShowtimeModal','data-movie': JSON.stringify(resultsObj[key])}))
+        if(resultsObj[key].preferredImage.uri.includes('generic'))
+          tile.append($('<h6>').attr({class:'movie-title'}).text(resultsObj[key].title))
+        $("#results-view").append(tile);
+        i++;
+        if (i <Object.keys(resultsObj).length)
+          loopObj();
+      },750)
+    } 
+  },750)
+
 };
     
     
 $(document).ready(function() {
-    getNavigatorLocation();
+    var today = new moment().format('YYYY-MM-DD')
+    $('#date-input').attr({type: "date",value:today})
     $('.poster').hover(function() {	    
     $(this).siblings('.poster').css({'z-index':10, transform: scale(1.5)});
     $(this).css('z-index', 99);
@@ -311,8 +379,8 @@ $(document).ready(function() {
 
 function fillModal(){
   $("body").css("cursor", "progress")
-  var letters = ['A','B','C','D','E','F','G','H']
-  var lettersU = ['&#9398;','&#9399;','&#9400;','&#9401;','&#9402;','&#9403;','&#9404;','&#9405;']
+  var lettersU = ['&#9398;','&#9399;','&#9400;','&#9401;','&#9402;','&#9403;','&#9404;','&#9405;','&#9406','&#9407','&#9408','&#9409','&#9410','&#9411','&#9412','&#9413','&#9414','&#9415','&#9416']
+  var letters = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S',]
   var labelIndex = 0
   var theaters = [];
   var data = JSON.parse($(this).attr('data-movie'));
@@ -343,21 +411,31 @@ function fillModal(){
     };
     var service = new google.maps.places.PlacesService(map);
     service.findPlaceFromQuery(request, function(results, status) {
-      if (status === google.maps.places.PlacesServiceStatus.OK) {
+      if (status === "OK") {
         console.log(status)
         console.log(results[0].geometry.location)
         createMarker(results[0]);
-      }
+      
       function createMarker(place) {
         
-
+        var center = map.getCenter();
+        var distanceMeters = google.maps.geometry.spherical.computeDistanceBetween(center, results[0].geometry.location);
+        var distance = Math.round(distanceMeters*0.000621371)
+        
+        console.log(results[0].geometry.location.lat())
+        var loc = {lat: results[0].geometry.location.lat(),lng: results[0].geometry.location.lng()};
+        $('<table>').attr({'id':'id'+i, class: 'tableFloat table table-striped','data-loc': JSON.stringify(loc)}).append($('<tr>').append($('<th>').html(lettersU[i]+' '+theaters[i]))).appendTo(row2); 
+        // if (distance > radius){
+        //   i++;
+        //   pinAddress();
+        // }
         
         infoWindow = new google.maps.InfoWindow;
         var marker = new google.maps.Marker({
           map: map,
           position: place.geometry.location,
           // title: place.name,
-          label: letters[labelIndex++ % letters.length]
+          label: letters[i]
         });
 
         google.maps.event.addListener(marker, 'click', function() {
@@ -369,16 +447,12 @@ function fillModal(){
 
         });
       }
-      var center = map.getCenter();
-      var distanceMeters = google.maps.geometry.spherical.computeDistanceBetween(center, results[0].geometry.location);
-      var distance = Math.round(distanceMeters*0.000621371)
-      console.log(results[0].geometry.location.lat())
-      var loc = {lat: results[0].geometry.location.lat(),lng: results[0].geometry.location.lng()};
-      $('<table>').attr({'id':'id'+i, class: 'tableFloat table table-striped','data-loc': JSON.stringify(loc)}).append($('<tr>').append($('<th>').html(lettersU[i]+' <small>('+distance+'mi)</small> '+theaters[i]))).appendTo(row2); 
+      
+     
       if (i< theaters.length-1){
         i++;
         pinAddress();
-      }
+      }        
       else{
         for (var x=0;x<data.showtimes.length;x++) {
           var displayDate = moment(data.showtimes[x].dateTime, 'YYYY-MM-DDThh:mm').format('h:mm a')
@@ -386,10 +460,22 @@ function fillModal(){
           $(id).append($('<tr>').append($('<td>').append($('<div>').text(displayDate).attr({class:'showtime', 'data-link':data.showtimes[x].ticketURI, 'data-loc': $(id).attr('data-loc'), 'data-time':displayDate, 'data-title':data.title, 'data-theater':data.showtimes[x].theatre.name}))))
         }
         $("body").css("cursor", "default") 
-      }
-      
-       
+        }  
+      } 
+      else if (i< theaters.length-1){
+        i++;
+        pinAddress();
+      }        
+      else{
+        for (var x=0;x<data.showtimes.length;x++) {
+          var displayDate = moment(data.showtimes[x].dateTime, 'YYYY-MM-DDThh:mm').format('h:mm a')
+          var id = "#id"+theaters.indexOf(data.showtimes[x].theatre.name)
+          $(id).append($('<tr>').append($('<td>').append($('<div>').text(displayDate).attr({class:'showtime', 'data-link':data.showtimes[x].ticketURI, 'data-loc': $(id).attr('data-loc'), 'data-time':displayDate, 'data-title':data.title, 'data-theater':data.showtimes[x].theatre.name}))))
+        }
+        $("body").css("cursor", "default") 
+        }  
     });
+    
   }
  
     
@@ -399,7 +485,43 @@ function fillModal(){
   
 }
 
+      // function getGracenoteTheaterLocation(theatreId){
+      //   // var movieData = JSON.parse($(this).attr('data-movie'))
+      
+      //     // var apikey = "7byjtqn68yzm6ecsjfmcy9q3";
+      //     //  var apikey = "7byjtqn68yzm6ecsjfmcy9q3";
+      //     // var apikey = "sdpzqr2egk9fyp2ct7jz879v";
+      //     var apikey = "dxfsm4dzuvd4wxbbwu2f4gze"; //David
+      
+      //   var baseUrl = "https://data.tmsapi.com/v1.1";
+      //   var theaterInfoUrl = baseUrl +  '/theatres/'+theatreId+'?api_key'+apikey
+      //   $.ajax({
+      //     url: theaterInfoUrl,
+      //     data: { 
+      //       jsonp: "theaterLocDataHandle",
+      //     },          
+      //     dataType: "jsonp",
+      //   });
+      // }
+      
+      // function theaterLocDataHandle(data){
+      //   console.log(data)
+      // }
+      
+   
+ 
+
+
+      
+
+
+ 
+  
+  
+
+
 function selectShowtime() {
+  $("body").css("cursor", "default") 
   var $movieTable = $('#movieTable');
   var $this = $(this)
   console.log($this.attr('data-loc'))
@@ -423,7 +545,6 @@ function selectShowtime() {
   $movieTable.empty().append($('<small>').text('* We will also make the link available for you to get movie tickets after you search restaurants *'))
 
 
-
 }
 
 function findRestaurantcuisines(){
@@ -436,7 +557,7 @@ function findRestaurantcuisines(){
     headers: {'user-key' : '97fb60393f28e5322acdc4d8ff93b8a2'}
     }).then(function(response) {
       var cuisinesArray = []
-      $('#movieDescrip').empty().addClass('text-center').html('<h3>Select all types of cuisine Desired</h3>')
+      $('#movieDescrip').empty().addClass('text-center').html('<h2>Select all types of cuisine Desired</h2>')
       $('#movieTable').empty()
       console.log(response)
 
@@ -456,7 +577,10 @@ function findRestaurantcuisines(){
         'data-title': $this.attr('data-title'),
         'data-time' : $this.attr('data-time'),
         'data-theater' : $this.attr('data-theater'),
-        'data-link' : $this.attr('data-link')
+        'data-link' : $this.attr('data-link'),
+        'data-fullList' : JSON.stringify(cuisinesArray)
+        
+
       }).text('Find Restaurants').appendTo($('#movieTable'))
       console.log(cuisinesArray)
     })
@@ -699,14 +823,27 @@ function getNavigatorLocation(){
         lat: position.coords.latitude,
         lng: position.coords.longitude
       };
-    },function(){
-      if (!pos)
-      $("#location-input").attr('placeholder','zipcode (required)')
+    },function(position){
+      
+      if (position.code == 2){
+        $('#movieCard').attr({style:'display:block'})
+        $('#results-view').append(
+          $('<h3>').attr({class:'text-center locError',style:'color:red'}).text('There was an error retrieving your current location'),
+          $('<div>').attr({class: 'text-center locError',style:'margin:auto'}).text('Re-load the page or enter a zip code')
+
+        )
+        $('#location-input').one('focus',function(){
+          $('#movieCard').attr({style:'display: none'});
+          $('.locError').remove();
+        })
+      }  
+      $("#location-input").attr('placeholder','zip code (required)')
+
     })
    
   }
   else{
-    $("#location-input").attr('placeholder','zipcode (required)')
+    $("#location-input").attr('placeholder','zip code (required)')
   }
 
 }
@@ -733,30 +870,15 @@ function initMap() {
     icon: pinImage,
    
   });
-  // infoWindow = new google.maps.InfoWindow;
-  // infoWindow.setPosition(pos);
-  // infoWindow.setContent('You are Here');
-  // infoWindow.open(map);
-  // map.setCenter(pos);
   
-
 
 }
 
-/////// still working on this animation //////////         
-/*$(document).on('mouseover','.poster',function(){
-  console.log("animate")
-  console.log($(this))
-  $(this).animate({width: 300}, 2000)
-})
-$(document).on('mouseleave','.poster', function(){
-    $(this).animate({width: 148 }, 2000)
-})
-*/
+
 function closeBackDrop(){
   $(".modal-backdrop").remove();
 }
-
+$(document).one('mousemove',getNavigatorLocation);
 $(document).on('click', '#moreRestaurants',function(){
   $this = $(this)
   var start = JSON.parse($(this).attr('data-start'));
@@ -769,10 +891,9 @@ $(document).on('click', '#btnSignUp', userlogingDis)
 $(document).on('click', '#selectRestaurantBtn',userResult);
 $(document).on('click', '#signInA', signIna);
 $(document).on('click', '.restaurant', selectRestaurant);
-$(document).on('click', '.showtime', selectShowtime);
+$(document).on('click', '.showtime', selectShowtime); 
 $(document).on('click', '.close', loginRegisterClose)
 $(document).on('click', '#registerBtn', displayRegisterForm)
-$(document).on("click", "#find-theater", displayMovieTable);
 $(document).on('click', '#loginBtn', displayLogIn)
 $(document).on("click", ".poster", fillModal);
 $(document).on("click", "#find-theater", runToday);
@@ -782,9 +903,12 @@ $(document).on("click", ".cuisine", selectCuisine);
 $(document).on("click", ".cuisine-all", selectCuisineAll);
 $(document).on("click", "#display-saved", displaySaved);
 $(document).on("click", "#find-restaurant", function(){
-  $('#results-view').empty();
   console.log($(this))
   clearTimeout(addMovies);
+  $('#results-view').empty();
   var locObj = JSON.parse($(this).attr('data-loc'))
-  var cuisines = JSON.parse($(this).attr('data')).toString()
+  if (typeof $(this).attr('data') !== typeof undefined && $(this).attr('data') !== false) 
+    var cuisines = JSON.parse($(this).attr('data')).toString()
+  else
+    var cuisines = ''
   runZomato(20,0,locObj,cuisines,$(this)) });
