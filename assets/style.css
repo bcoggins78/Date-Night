@@ -734,7 +734,7 @@ button:hover {
   #loginBtn{
     font-size: 20px;
     padding-top: 10px;
-    margin-left: 17%;
+    margin-left: 25%;
   }
   
     #registerBtn {
@@ -869,11 +869,7 @@ button:hover {
     width: 100%;
   }
   #loginBtn {
-<<<<<<< HEAD
     margin-left: 23%;
-=======
-    margin-left: 20%;
->>>>>>> master
   }
 }
 @media only screen and (max-width: 375px){
