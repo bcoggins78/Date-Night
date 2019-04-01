@@ -153,9 +153,13 @@ button:hover {
 
 .panel {
   max-width: 960px;
-  text-align: center;
-  position: relative;
-  margin: auto; }
+    text-align: center;
+    position: relative;
+    margin: auto;
+    border: 1px solid;
+    padding: 10px;
+    box-shadow: 12px 4px 20px 5px #0a0a0a85; 
+  }
 
   .stage {
     height: 200px;
@@ -581,6 +585,9 @@ button:hover {
   background-clip: padding-box;
   border: 3px solid #30567b;
   transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+  border: 1px solid;
+  padding: 10px;
+  box-shadow: 5px 5px 13px 3px #08070757;
 }
 /*CLOSE BUTTON*/
 .close {
