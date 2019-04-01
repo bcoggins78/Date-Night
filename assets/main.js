@@ -218,9 +218,9 @@ function runMovies(){
     }
     else
       radius = 5
-    // var apikey = "7byjtqn68yzm6ecsjfmcy9q3";
+    var apikey = "7byjtqn68yzm6ecsjfmcy9q3";
     //  var apikey = "7byjtqn68yzm6ecsjfmcy9q3";
-    var apikey = "sdpzqr2egk9fyp2ct7jz879v";
+    // var apikey = "sdpzqr2egk9fyp2ct7jz879v";
     // var apikey = "dxfsm4dzuvd4wxbbwu2f4gze"; //David
 
     var baseUrl = "https://data.tmsapi.com/v1.1";
@@ -373,14 +373,11 @@ $(document).ready(function() {
 })
 
 function fillModal(){
-  
   $("body").css("cursor", "progress")
   var lettersU = ['&#9398;','&#9399;','&#9400;','&#9401;','&#9402;','&#9403;','&#9404;','&#9405;','&#9406','&#9407','&#9408','&#9409','&#9410','&#9411','&#9412','&#9413','&#9414','&#9415','&#9416']
   var letters = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S',]
-  var labelIndex = 0;
-
+  var labelIndex = 0
   var theaters = [];
-  var theaterIds = [];
   var data = JSON.parse($(this).attr('data-movie'));
   console.log(data);
   var resultsSearchDay = moment(data.showtimes[0].dateTime, 'YYYY-MM-DDThh:mm').format('dddd, MMMM Do YYYY');
@@ -389,18 +386,15 @@ function fillModal(){
   var row1 = $('<div>').addClass('row text-center').append($('<h6>').text('Showtimes for ' + resultsSearchDay), $('<br><br>'));
   var row2 = $('<div>').addClass('row');
   //create list of theaters showing the selected movie
-
   for (var i=0;i<data.showtimes.length;i++){
     if (theaters.indexOf(data.showtimes[i].theatre.name) == -1)
       theaters.push(data.showtimes[i].theatre.name);
-      theaterIds.push(data.showtimes[i].theatre.id)
   }
+  
   
   $('#movieTable').append(row1,row2,$('<div>').attr({id:'map'}));
   
-  
   initMap();
-  var center = map.getCenter();
   //use google places to get lat/long of each theater and pin on map
   var i=0; 
   pinAddress()
@@ -408,108 +402,108 @@ function fillModal(){
     console.log(theaters[i])
     var request = {
       query: theaters[i],
-      fields: ['name', 'geometry','id'],
+      fields: ['name', 'geometry'],
     };
     var service = new google.maps.places.PlacesService(map);
     service.findPlaceFromQuery(request, function(results, status) {
-      console.log(status)
-
-      if (status === 'OK') {
-        
-        console.log(results)
+      if (status === "OK") {
         console.log(status)
+        console.log(results[0].geometry.location)
+        createMarker(results[0]);
+      
+      function createMarker(place) {
+        
+        var center = map.getCenter();
         var distanceMeters = google.maps.geometry.spherical.computeDistanceBetween(center, results[0].geometry.location);
         var distance = Math.round(distanceMeters*0.000621371)
-        if (distance < radius){
-          $('<table>').attr({'id':'id'+i, class: 'tableFloat table table-striped'}).append($('<tr>').append($('<th>').html(lettersU[i]+' '+theaters[i]))).appendTo(row2); 
-
-        var place = results[0].name
+        
         console.log(results[0].geometry.location.lat())
         var loc = {lat: results[0].geometry.location.lat(),lng: results[0].geometry.location.lng()};
-        $('#id'+i).attr({'data-loc':JSON.stringify(loc)})
-        createMarker(loc,distance,place)
-       
-        }
-        i++;
-        if (i <= theaters.length){
-          pinAddress()
-        }
-        // else{
-        //   // getGracenoteTheaterLocation(theaterIds[i])
-        //   $("body").css("cursor", "default")
-        //   $(document).one('click', '.showtime', selectShowtime); 
+        $('<table>').attr({'id':'id'+i, class: 'tableFloat table table-striped','data-loc': JSON.stringify(loc)}).append($('<tr>').append($('<th>').html(lettersU[i]+' '+theaters[i]))).appendTo(row2); 
+        // if (distance > radius){
+        //   i++;
+        //   pinAddress();
         // }
-      } 
-      else{
-        // getGracenoteTheaterLocation(theaterIds[i])
-        i++
-        if (i < theaters.length)
-          pinAddress()
-        $("body").css("cursor", "default")
-        for (var i=0;i<theaters.length;i++){
-        }
         
+        infoWindow = new google.maps.InfoWindow;
+        var marker = new google.maps.Marker({
+          map: map,
+          position: place.geometry.location,
+          // title: place.name,
+          label: letters[i]
+        });
+
+        google.maps.event.addListener(marker, 'click', function() {
+          infoWindow.setContent(place.name)
+          infoWindow.setZIndex(2);
+
+          console.log(this)
+          infoWindow.open(map, this);
+
+        });
+      }
+      
+     
+      if (i< theaters.length-1){
+        i++;
+        pinAddress();
+      }        
+      else{
         for (var x=0;x<data.showtimes.length;x++) {
           var displayDate = moment(data.showtimes[x].dateTime, 'YYYY-MM-DDThh:mm').format('h:mm a')
           var id = "#id"+theaters.indexOf(data.showtimes[x].theatre.name)
           $(id).append($('<tr>').append($('<td>').append($('<div>').text(displayDate).attr({class:'showtime', 'data-link':data.showtimes[x].ticketURI, 'data-loc': $(id).attr('data-loc'), 'data-time':displayDate, 'data-title':data.title, 'data-theater':data.showtimes[x].theatre.name}))))
         }
-        $(document).one('click', '.showtime', selectShowtime); 
-      }
-      function createMarker(place,distance,name) {
-
-        
-      
-      
-        
-        infoWindow = new google.maps.InfoWindow;
-        var marker = new google.maps.Marker({
-          map: map,
-          position: place,
-          // title: place.name,
-          label: letters[i]
-        });
-      
-        google.maps.event.addListener(marker, 'click', function() {
-          infoWindow.setContent(name+'<br></br>'+'<small>('+distance+'mi)</small>')
-          infoWindow.setZIndex(2);
-      
-          console.log(this)
-          infoWindow.open(map, this);
-      
-        });
-      }   
-      function getGracenoteTheaterLocation(theatreId){
-        // var movieData = JSON.parse($(this).attr('data-movie'))
-      
-          // var apikey = "7byjtqn68yzm6ecsjfmcy9q3";
-          //  var apikey = "7byjtqn68yzm6ecsjfmcy9q3";
-          // var apikey = "sdpzqr2egk9fyp2ct7jz879v";
-          var apikey = "dxfsm4dzuvd4wxbbwu2f4gze"; //David
-      
-        var baseUrl = "https://data.tmsapi.com/v1.1";
-        var theaterInfoUrl = baseUrl +  '/theatres/'+theatreId+'?api_key'+apikey
-        $.ajax({
-          url: theaterInfoUrl,
-          data: { 
-            jsonp: "theaterLocDataHandle",
-          },          
-          dataType: "jsonp",
-        });
-      }
-      
-      function theaterLocDataHandle(data){
-        console.log(data)
-      }
-      
-      
+        $("body").css("cursor", "default") 
+        }  
+      } 
+      else if (i< theaters.length-1){
+        i++;
+        pinAddress();
+      }        
+      else{
+        for (var x=0;x<data.showtimes.length;x++) {
+          var displayDate = moment(data.showtimes[x].dateTime, 'YYYY-MM-DDThh:mm').format('h:mm a')
+          var id = "#id"+theaters.indexOf(data.showtimes[x].theatre.name)
+          $(id).append($('<tr>').append($('<td>').append($('<div>').text(displayDate).attr({class:'showtime', 'data-link':data.showtimes[x].ticketURI, 'data-loc': $(id).attr('data-loc'), 'data-time':displayDate, 'data-title':data.title, 'data-theater':data.showtimes[x].theatre.name}))))
+        }
+        $("body").css("cursor", "default") 
+        }  
     });
     
-     
-   
   }
  
-}   
+    
+   
+  
+  
+  
+}
+
+      // function getGracenoteTheaterLocation(theatreId){
+      //   // var movieData = JSON.parse($(this).attr('data-movie'))
+      
+      //     // var apikey = "7byjtqn68yzm6ecsjfmcy9q3";
+      //     //  var apikey = "7byjtqn68yzm6ecsjfmcy9q3";
+      //     // var apikey = "sdpzqr2egk9fyp2ct7jz879v";
+      //     var apikey = "dxfsm4dzuvd4wxbbwu2f4gze"; //David
+      
+      //   var baseUrl = "https://data.tmsapi.com/v1.1";
+      //   var theaterInfoUrl = baseUrl +  '/theatres/'+theatreId+'?api_key'+apikey
+      //   $.ajax({
+      //     url: theaterInfoUrl,
+      //     data: { 
+      //       jsonp: "theaterLocDataHandle",
+      //     },          
+      //     dataType: "jsonp",
+      //   });
+      // }
+      
+      // function theaterLocDataHandle(data){
+      //   console.log(data)
+      // }
+      
+   
  
 
 
@@ -826,7 +820,7 @@ $(document).on('click', '#btnSignUp', userlogingDis)
 $(document).on('click', '#selectRestaurantBtn',userResult);
 $(document).on('click', '#signInA', signIna);
 $(document).on('click', '.restaurant', selectRestaurant);
-
+$(document).on('click', '.showtime', selectShowtime); 
 $(document).on('click', '.close', loginRegisterClose)
 $(document).on('click', '#registerBtn', displayRegisterForm)
 $(document).on('click', '#loginBtn', displayLogIn)
@@ -837,9 +831,9 @@ $(document).on("click", "#find-restaurant-category", findRestaurantcuisines);
 $(document).on("click", ".cuisine", selectCuisine);
 $(document).on("click", ".cuisine-all", selectCuisineAll);
 $(document).on("click", "#find-restaurant", function(){
-  $('results-view').empty();
   console.log($(this))
   clearTimeout(addMovies);
+  $('#results-view').empty();
   var locObj = JSON.parse($(this).attr('data-loc'))
   if (typeof $(this).attr('data') !== typeof undefined && $(this).attr('data') !== false) 
     var cuisines = JSON.parse($(this).attr('data')).toString()
