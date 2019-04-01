@@ -24,9 +24,10 @@ body {
 }
 #btnLogout{
   margin-top: -5px;
-    /* margin-left: 60%; */
+  margin-left: 45%;
 }
 #user{
+  border: 1px black solid;
   float: right;
     background-color: #00000069;
     height: 120px;
@@ -658,6 +659,14 @@ button:hover {
   visibility: hidden;
 }
                                 /*MEDIA*/
+@media only screen and (min-width: 768px){
+  .hiddenTitle{
+    margin-right: 0;
+  }
+  #userText {
+    font-size: 25px;
+  }
+}
 @media only screen and (min-width: 1100px) {
   #loginBtn{
       margin-left: 20%;
@@ -667,13 +676,19 @@ button:hover {
   }
 }
 @media only screen and (max-width: 1100px) {
+  #user p {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 21px;
+}
 	.stage{
     visibility: hidden;
   }
   .hiddenTitle{
     visibility: visible;
     font-weight: bold;
-    width: 4em;
+    width: 450px;
+    font-size: 60px;
     margin-top: 20px;
     font-family: 'Pacifico', cursive;
   }
@@ -689,11 +704,15 @@ button:hover {
   #loginBtn {
     margin-left: 20%;
   }
+  #btnLogout{
+    margin-left: 53%;
+  }
 }
 
 @media only screen and (max-width: 770px) {
   .modal-content{
     overflow-y:scroll;
+    width: 480px;
   }
   .cuisine-btn{
     margin: 5px;
@@ -724,7 +743,7 @@ button:hover {
     width: 100%;
   }
   .zipText {
-    margin-top: 10px;
+   
     padding-top: 10px;
   }
   #location-input {
@@ -746,6 +765,13 @@ button:hover {
 
 
 @media only screen and (max-width: 600px) {
+  body{
+    width: 500px;
+  }
+  #user{
+    width: 200px;
+    font-size: 15px;
+  }
   #results-view{
     width: 400px;
     margin-left: 10%;
@@ -763,7 +789,10 @@ button:hover {
     margin-left: 75px;
   }
   .hiddenTitle{
-    font-size: 30px;
+    margin-top: 20px;
+    float: left;
+    font-size: 45px;
+    width: 200px;
   }
   #header{
     font-size: 30px;
@@ -789,7 +818,10 @@ button:hover {
     width: 100%;
   }
   #location-form{
-    margin-left: 20%;
+    
+  }
+  #movieCard{
+    width: 400px;
   }
 }
 #getReservation{
@@ -813,3 +845,12 @@ button:hover {
 #labelText{
   font-family: 'Lobster Two', cursive;
 }
+.cl{
+  width: 30px;
+    background: #70809094;
+    height: 26px;
+    cursor: pointer;
+
+}
+
+/*TEXT*/

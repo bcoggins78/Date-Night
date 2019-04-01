@@ -1,7 +1,8 @@
 
 
+/*TEXT ANIMATION PLEASE DONT MOVE */
 
-
+/////////////////////////////////////////////////////////////////////
 var pos,radius,addMovies;
 $('.message a').click(function(){
   $('form').animate({height: "toggle", opacity: "toggle"}, "slow");
