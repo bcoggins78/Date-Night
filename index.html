@@ -14,6 +14,10 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
   <link href='https://fonts.googleapis.com/css?family=Cookie' rel='stylesheet' type='text/css'>
+  <link href="https://fonts.googleapis.com/css?family=Satisfy" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Courgette" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Courgette|Lobster+Two|Merienda|Pattaya" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Courgette|Lobster+Two|Merienda" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Carter+One|Fugaz+One|Lobster|Pacifico" rel="stylesheet">
   <link async href="https://fonts.googleapis.com/css?family=Cabin%20Condensed" rel="stylesheet" type="text/css"/>
   <!-- Firebase Reference -->
@@ -122,10 +126,13 @@
         <input type="text" class="form-control" id="distance-input" placeholder="5 miles (optional)">
       </div>
       <button class="panel" id="find-theater" type="submit" value="Movie Search">Movie Search</button>
+      <!-- Hidden until the displaySaved() function can be fixed -->
+      <button class="panel" id="display-saved" type="submit" value="Saved Results" style=display:none>Saved Results</button> 
     </form>
     <!-- The Modal -->
     <div class="modal" id="movieShowtimeModal">
       <div class="modal-dialog">
+        
         <div class="modal-content">
           <!-- Modal Header -->
           <div class="modal-header">
