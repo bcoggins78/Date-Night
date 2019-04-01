@@ -23,9 +23,11 @@ body {
   background-color: #00000047;
 }
 #btnLogout{
-  margin-top: -5px;
-  margin-left: 45%;
+  margin-top: 1em;
+  /* margin-left: 45%; */
   font-size: 15px;
+  display: block;
+  margin: auto;
 }
 #user{
   border: 1px #00000026 solid;
@@ -33,9 +35,8 @@ body {
   box-shadow: 5px 2px 8px 7px #0d0c0c59;
   float: right;
   background-color: #0000001f;
-  height: 120px;
-  width: 300px;
-
+  height: auto;
+  width: auto;
 }
 #user p{
   text-align: center;
@@ -178,7 +179,7 @@ button:hover {
     height: 100%;
     position: absolute;
     transform-style: preserve-3d;
-    animation: ಠ_ಠ 5s infinite alternate ease-in-out -7.5s;
+    animation: à² _à²  5s infinite alternate ease-in-out -7.5s;
     animation-fill-mode: forwards;
     transform: rotateY(40deg) rotateX(33deg) translateZ(0); }
   .cl{
@@ -279,7 +280,7 @@ button:hover {
     color: #fff;
     text-shadow: none; }
   
-  @keyframes ಠ_ಠ {
+  @keyframes à² _à²  {
     100% {
       transform: rotateY(-40deg) rotateX(-43deg); } }
   
@@ -324,7 +325,7 @@ button:hover {
     font-family: 'Lobster', cursive;
   }
 
-@keyframes ಠ_ಠ {
+@keyframes à² _à²  {
   100% {
     transform: rotateY(-40deg) rotateX(-43deg); } }
 .tab:hover {
@@ -817,7 +818,7 @@ button:hover {
       text-shadow: 4px 1px 13px #1c1b1b;
   }
   #btnLogout{
-    margin-left: 53%;
+    /* margin-left: 53%; */
   }
 }
 
