@@ -72,6 +72,8 @@ table{
   margin: auto;
 }
 .tableFloat{
+  font-family: 'Lobster', cursive;
+  font-size: 25px;
   float: left;
   margin: auto;
   display: flex;
@@ -547,6 +549,7 @@ button:hover {
 #movieDescrip{
   width: 100%
 }
+
 #movieDescrip h3{
   margin: auto;
   text-shadow: 4px 3px 4px #0808084d;
@@ -682,10 +685,7 @@ button:hover {
   -webkit-transform: rotateZ(-66.46310423517549deg)   ;
   transform: rotateZ(-66.46310423517549deg)   ;
 }
-#id0{
-  font-family: 'Lemonada', cursive;
 
-}
 #movieDescrip{
   font-family: 'Lemonada', cursive;
 }
