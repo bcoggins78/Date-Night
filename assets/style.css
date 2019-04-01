@@ -322,7 +322,8 @@ button:hover {
 
   .top-tab-3 {
     background: linear-gradient(to top right, #26C6DA, #006064);
-    left: 46%; }
+    left: 55%;
+    }
   .top-tab-4 {
     background: linear-gradient(to top right, #5C6BC0, #1A237E);
     left: 54%; }
@@ -708,7 +709,7 @@ button:hover {
     width: 100%;
   }
   #loginBtn {
-    margin-left: 30%;
+    margin-left: 23%;
   }
 }
 
