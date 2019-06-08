@@ -3,7 +3,7 @@
 /*TEXT ANIMATION PLEASE DONT MOVE */
 
 /////////////////////////////////////////////////////////////////////
-var pos,radius,addMovies;
+var pos, newpos, radius, addMovies;
 $('.message a').click(function(){
   $('form').animate({height: "toggle", opacity: "toggle"}, "slow");
 });
@@ -74,25 +74,30 @@ btnLogin.addEventListener('click', e => {
 
 function cleanDatabase(cleanEmail){
   var user = firebase.database().ref('users/' + cleanEmail +'/dates');
+  
+  user.once('value', function (snapshot) {
+    console.log(snapshot.val())
+    for (item in snapshot.val()){
+      console.log(snapshot.val()[item])
+      dateObj = snapshot.val()[item]
+      console.log(dateObj.showtime)
+      console.log(moment(dateObj.showtime, 'YYYY-MM-DDThh:mm').format('lll'))
+      console.log(moment(dateObj.showtime, 'YYYY-MM-DDThh:mm').format('X') + "   " + moment().unix())
+      if(moment(dateObj.showtime, 'YYYY-MM-DDThh:mm').format('X') < moment().unix()){
+        firebase.database().ref('users/' + cleanEmail +'/dates/'+item).remove();
+      }
+    };
+  });
   user.on('value',function(snapshot){
     if(snapshot.val())
       $('#display-saved').show();
+    else
+      $('#display-saved').hide();
+
   })
-  user.once('value', function (snapshot) {
-  snapshot.forEach((item)=>{
-    console.log(item)
-    console.log(moment(item.showtime,'h:mm a').fromNow().includes('ago'))
-      if(moment(item.showtime,'h:mm a').fromNow().includes('ago')){
-        firebase.database().ref('users/' + cleanEmail +'/dates/'+item.ref_.key).remove();
-      }
-    });
-    if(snapshot.val()){
-      $('#display-saved').show();
-    }
-  });
 }
 
-const sendResetEmail = (e) =>{
+const sendResetEmail = (e) => {
   e.preventDefault();
   $('resetPassEmailSent').show()
   let email = $('#txtEmail-reset').val().trim();
@@ -194,7 +199,7 @@ firebase.auth().onAuthStateChanged(firebaseUser => {
 // ------------ Firebase Authentication ----------------------
 
 
-// var howManyResults = 50;
+
 var inputdate = "";
 var today =  new moment().format("YYYY-MM-DD");
 console.log(today)
@@ -302,14 +307,15 @@ function runMovies(){
       if (radius > 100){
         $('#distance-input').val('').attr({placeholder: 'Max: 100 miles',style:'color:red'}).one('focus',function(){
           $this.attr({placeholder: '5 miles (optional)', style:'color:black'})   
-        $('#find-theater').one('click',function(){
-          $('distance-input').attr({placeholder: '5 miles (optional)', style:'color:black'})
+          $('#find-theater').one('click',function(){
+            $('distance-input').attr({placeholder: '5 miles (optional)', style:'color:black'})
           })
         })
       }
     }
     else
-      radius = 5
+    radius = 5
+    console.log('radius: ' + radius)
     var apikey = "7byjtqn68yzm6ecsjfmcy9q3";
     //  var apikey = "7byjtqn68yzm6ecsjfmcy9q3";
     // var apikey = "sdpzqr2egk9fyp2ct7jz879v";
@@ -318,6 +324,8 @@ function runMovies(){
     var baseUrl = "https://data.tmsapi.com/v1.1";
     var showtimesUrl = baseUrl + '/movies/showings';
     var zipCode = $("#location-input").val();
+    console.log('zipcode: ' + zipCode)
+    // console.log('pos: ' + pos.lat)
     var zipTest = /^\b\d{5}(-\d{4})?\b$/.test(zipCode)
     // zipTest = (!zipTest && zipCode == '') ? true : false;
     if(!pos && zipCode == '')
@@ -331,7 +339,8 @@ function runMovies(){
       }).then(function(resp){
           console.log(resp)
           if(resp.status === 'OK'){
-            pos = {lat: resp.results[0].geometry.location.lat, lng: resp.results[0].geometry.location.lng}
+            newpos = {lat: resp.results[0].geometry.location.lat, lng: resp.results[0].geometry.location.lng}
+            console.log('zipPos')
           }
           else{
             $('#results-view').append(
@@ -344,8 +353,8 @@ function runMovies(){
             startDate: inputdate,
             // zip: zipCode,
             radius: radius,
-            lat: pos.lat,
-            lng: pos.lng,
+            lat: newpos.lat,
+            lng: newpos.lng,
             jsonp: "dataHandler",
             api_key: apikey
           },          
@@ -354,6 +363,7 @@ function runMovies(){
       })
     }
     else{
+      newpos = null;
       $.ajax({
         url: showtimesUrl,
         data: { 
@@ -550,7 +560,7 @@ function fillModal(){
         for (var x=0;x<data.showtimes.length;x++) {
           var displayDate = moment(data.showtimes[x].dateTime, 'YYYY-MM-DDThh:mm').format('h:mm a')
           var id = "#id"+theaters.indexOf(data.showtimes[x].theatre.name)
-          $(id).append($('<tr>').append($('<td>').append($('<div>').text(displayDate).attr({class:'showtime', 'data-link':data.showtimes[x].ticketURI, 'data-loc': $(id).attr('data-loc'), 'data-time':displayDate, 'data-title':data.title, 'data-theater':data.showtimes[x].theatre.name}))))
+          $(id).append($('<tr>').append($('<td>').append($('<div>').text(displayDate).attr({class:'showtime', 'data-link':data.showtimes[x].ticketURI, 'data-loc': $(id).attr('data-loc'), 'data-time':data.showtimes[x].dateTime, 'data-title':data.title, 'data-theater':data.showtimes[x].theatre.name}))))
         }
         $("*").css("cursor", "default") 
         }  
@@ -563,7 +573,7 @@ function fillModal(){
         for (var x=0;x<data.showtimes.length;x++) {
           var displayDate = moment(data.showtimes[x].dateTime, 'YYYY-MM-DDThh:mm').format('h:mm a')
           var id = "#id"+theaters.indexOf(data.showtimes[x].theatre.name)
-          $(id).append($('<tr>').append($('<td>').append($('<div>').text(displayDate).attr({class:'showtime', 'data-link':data.showtimes[x].ticketURI, 'data-loc': $(id).attr('data-loc'), 'data-time':displayDate, 'data-title':data.title, 'data-theater':data.showtimes[x].theatre.name}))))
+          $(id).append($('<tr>').append($('<td>').append($('<div>').text(displayDate).attr({class:'showtime', 'data-link':data.showtimes[x].ticketURI, 'data-loc': $(id).attr('data-loc'), 'data-time':data.showtimes[x].dateTime, 'data-title':data.title, 'data-theater':data.showtimes[x].theatre.name}))))
         }
         $("*").css("cursor", "default") 
         }  
@@ -624,7 +634,7 @@ function selectShowtime() {
     var linkMessage = $('<small>').text('* We will also make the link available for you to get movie tickets after you search restaurants *')
   };
   $movieDescrip.empty().append(
-    $('<h4>').html('<strong>"'+$this.attr('data-title')+'"</strong> playing at <strong>'+$this.attr('data-time')+"</strong> "+$this.attr('data-theater')),
+    $('<h4>').html('<strong>"'+$this.attr('data-title')+'"</strong> playing at <strong>'+moment($this.attr('data-time'), 'YYYY-MM-DDThh:mm').format('h:mm a')+"</strong> "+$this.attr('data-theater')),
     $('<br>'),
     $('<h4>').text('Would you like to find a restaurant near the movie theater you selected?'),
     $('<div>').attr({
@@ -742,7 +752,6 @@ function selectRestaurant() {
       $('<a>').attr({ 'href': data.events_url, target: '_blank', class: 'select-button' }).text('Events'),
       $('<button>').attr({ 
         id: 'selectRestaurantBtn', 
-       
         'data-theater' : $this.attr('data-theater'),
         'data-restaurant':JSON.stringify(data),
         'data-loc': $this.attr('data-loc'),
@@ -775,10 +784,9 @@ function selectRestaurant() {
     map: map,
     label: 'R',
     zIndex: 3
-   
   });
   google.maps.event.addListener(theater, 'click', function() {
-    infoWindow.setContent('Theater')
+    infoWindow.setContent($this.attr('data-theater'))
     infoWindow.setZIndex(2);
 
     console.log(this)
@@ -827,8 +835,6 @@ function showResetPassword(){
 //var nameR = $('#selectRestaurantBtn').val()
 //var nameRs = $('#movieDescrip').val()
 function userResult() {
-  
-
   var $this = $(this)
   console.log($this)
   console.log($this.attr('data-title'))
@@ -837,20 +843,21 @@ function userResult() {
   var $movieDesc = $('#movieDescrip').empty().append($('<h1>').text('Your Choice:'));
   $movieTable.empty()
   var restData = JSON.parse($this.attr('data-restaurant'))
-  $('#save').hide();
+  // $('#save').hide();
   $('#movieTable').empty().append(
   $('<div>').addClass('resText').html('Your movie is : <strong>' + $this.attr('data-title')+'</strong>'),
-  $('<div>').addClass('resText').html('The showtime is : <strong>' + $this.attr('data-time')+'</strong>'),
+  $('<div>').addClass('resText').html('The showtime is : <strong>' + moment($this.attr('data-time'), 'YYYY-MM-DDThh:mm').format('h:mm a dddd MMMM Do')+'</strong>'),
   $('<div>').addClass('resText').html('Playing at : <strong>' + $this.attr('data-theater')+'</strong>'),
   $('<div>').addClass('resText').html('Your restaurant is : <strong>' + restData.name+'</strong>'),
   $('<div>').addClass('resText').html('Located at : <strong>' + restData.location.address+'</strong>')
   );
   if($this.attr('data-link'))
-    $movieTable.append($('<a>').attr({href: $this.attr('data-link'),target: '_blank'}).append($('<button>').attr({href: $this.attr('data-link'),id: 'getRes'}).text('Get Reservations')));
+    $movieTable.append($('<a>').attr({href: $this.attr('data-link'),target: '_blank'}).append($('<button>').attr({href: $this.attr('data-link'),id: 'getRes'}).text('Get Movie Tickets')));
   $movieTable.append($('<button>').attr({id: "saveResult"}).text('Save my Date Info'));
   console.log(!firebase.auth().currentUser)
   if(!firebase.auth().currentUser)
     $('#saveResult').remove();
+  $('#movieCard').attr('style','display: none');
 
   $("#saveResult").on("click", function (event) {
 
@@ -864,20 +871,19 @@ function userResult() {
       var saveRestaurant = restData.name;
       var saveRestAddress = restData.location.address;
       var saveURL = $this.attr('data-link');
-
-      firebase.database().ref('users/' + cleanEmail +'/dates').push().set(JSON.stringify({
+      var dataObject = {
         movie: saveMovie,
         showtime: saveShowTime,
         theater: saveTheater,
         restaurant: saveRestaurant,
         address: saveRestAddress,
         url: saveURL
-      }));
+      }
+      firebase.database().ref('users/' + cleanEmail +'/dates').push(dataObject)
     }
     
     writeUserData()
     displaySaved();
-    $('#movieCard').attr('style','display: none');
 
 
   });
@@ -897,10 +903,10 @@ function userResult() {
       var $movieTable = $('#movieTable');
         $('#movieDescrip').empty().append($('<h1>').text('Saved Results:'));
         $movieTable.empty()
-        
-      snapshot.forEach(item =>{
+      console.log(snapshot.val().address)  
+      for (item in snapshot.val()){
         console.log(item)
-        let object = JSON.parse(snapshot.val()[item.key]);
+        let object = snapshot.val()[item];
         console.log(object)
         var saveMovie = object.movie;
         var saveShowTime = object.showtime;
@@ -908,12 +914,13 @@ function userResult() {
         var saveRestaurant = object.restaurant;
         var saveRestAddress = object.address;
         var saveUrl = object.url;
-        var dayofMovie = moment(saveShowTime, 'h:mm a').format('dddd MMMM Do')
-       
+        console.log('log '+saveShowTime)
+        var dayofMovie = moment(saveShowTime, 'YYYY-MM-DDThh:mm').format('h:mm a dddd MMMM Do')
+        console.log(dayofMovie)
         let block = $('<div>').append(
 
         $('<div>').addClass('resText').html('Your movie is : <strong>' + saveMovie + '</strong>'),
-        $('<div>').addClass('resText').html('The showtime is : <strong>' + saveShowTime +" " + dayofMovie + '</strong>'),
+        $('<div>').addClass('resText').html('The showtime is : <strong>' + dayofMovie + '</strong>'),
         $('<div>').addClass('resText').html('Playing at : <strong>' + saveTheater + '</strong>'),
         $('<div>').addClass('resText').html('Your restaurant is : <strong>' + saveRestaurant + '</strong>'),
         $('<div>').addClass('resText').html('Located at : <strong>' + saveRestAddress + '</strong>'),
@@ -924,7 +931,7 @@ function userResult() {
         else
           block.append($('<hr>').attr('style','background: aliceblue'));
         $movieTable.prepend(block)
-      })
+      }
 
     });
 };
@@ -942,11 +949,12 @@ function getNavigatorLocation(){
         lat: position.coords.latitude,
         lng: position.coords.longitude
       };
-    
+      turnOnMovieButton()
       $("#location-input").attr('placeholder','zip code (optional)')
       }
       ,function(error){
         $("*").css("cursor", "default")
+        turnOnMovieButton()
         if (error.code == 2){
         $('#movieCard').attr({style:'display:block'})
         $('#results-view').append(
@@ -968,6 +976,7 @@ function getNavigatorLocation(){
   else{
     $("#location-input").attr('placeholder','zip code (required)')
     $("*").css("cursor", "default")
+    turnOnMovieButton()
 
   }
     
@@ -979,13 +988,14 @@ function getNavigatorLocation(){
 
 var map,infoWindow;
 function initMap() {
-  var lat = (pos) ? pos.lat : '';
-  var long = (pos) ? pos.lng: '';
+  
+  var lat = (!newpos) ? pos.lat : newpos.lat;
+  var long = (!newpos) ? pos.lng: newpos.lng;
   map = new google.maps.Map(document.getElementById('map'), {
     center: {lat: lat, lng: long},
     zoom: 11
   });
- 
+  
   var pinColor = "568cfd";
   var pinImage = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + pinColor,
       new google.maps.Size(21, 34),
@@ -995,12 +1005,14 @@ function initMap() {
     position: {lat: lat, lng: long}, 
     map: map,
     icon: pinImage,
-   
+    
   });
-  
-
 }
 
+function turnOnMovieButton(){
+  $(document).on("click", "#find-theater", runToday);
+  $(document).on("click", "#find-theater", runMovies);
+}
 
 function closeBackDrop(){
   $(".modal-backdrop").remove();
@@ -1014,16 +1026,17 @@ $(document).on('click', '#moreRestaurants',function(){
   offsetZomato(start,$this)
 });
 $(document).on('click', '.close', closeBackDrop)
+$(document).on("click", "#find-theater", (e) => {e.preventDefault()});
 $(document).on('click', '#btnPasswordReset', sendResetEmail)
 $(document).on('click', '#selectRestaurantBtn',userResult);
 $(document).on('click', '.restaurant', selectRestaurant);
 $(document).on('click', '.showtime', selectShowtime); 
 $(document).on('click', '.close', loginRegisterClose)
 $(document).on('click', '#registerBtn', displayRegisterForm)
+$(document).on('touchend', '#registerBtn', displayRegisterForm)
 $(document).on('click', '#loginBtn', displayLogIn)
+$(document).on('touchend', '#loginBtn', displayLogIn)
 $(document).on("click", ".poster", fillModal);
-$(document).on("click", "#find-theater", runToday);
-$(document).on("click", "#find-theater", runMovies);
 $(document).on("click", "#find-restaurant-category", findRestaurantcuisines);
 $(document).on("click", ".cuisine", selectCuisine);
 $(document).on("click", ".cuisine-all", selectCuisineAll);
