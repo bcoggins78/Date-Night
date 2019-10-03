@@ -5,7 +5,7 @@
 
 
 
-**[Click here to open the site](https://dscarlin.github.io/group-project-1/)**.
+**[Click here to open the site](https://dscarlin.github.io/Date-Night/)**.
 
 
 ### Team Members
